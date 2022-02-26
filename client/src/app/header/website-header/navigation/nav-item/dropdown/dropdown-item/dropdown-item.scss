@@ -1,0 +1,28 @@
+@import "./src/assets/styles/colors.scss";
+
+.dropdown-item-container {
+    width: fit-content;
+    display: flex;
+    background-color: $gray_color_08;
+    > a {
+        width: 200px;
+        padding: 0 1rem;
+        text-decoration: none;
+        > p {
+            padding: 1rem 0;
+            color: $gray_color_02;
+        }
+        &:hover {
+            cursor: pointer;
+            background-color: $gray_color_02;
+            > p {
+                color: $gray_color_08;
+
+            }
+        }
+        &:active {
+            background-color: $gray_color_04;
+
+        }
+    }
+}

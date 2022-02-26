@@ -1,0 +1,37 @@
+@import "./src/assets/styles/colors.scss";
+
+.side-menu-nav-item {
+    width: auto;
+    margin: 0 1rem 1rem 1rem;
+    background-color: $gray_color_03;
+    border-radius: 2px;
+    > a {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 1rem;
+        height: 40px;
+        color: $gray_color_07;
+        position: relative;
+        &.children {
+            &:after {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-right: 2px solid $gray_color_05;
+                border-bottom: 2px solid $gray_color_05;
+                position: absolute;
+                right: 1rem;
+                transform: rotate(45deg);
+                transition: transform .2s;
+
+            }
+            &.open {
+                &:after {
+                    transform: rotate(225deg);
+
+                }
+            }
+        }
+    }
+}

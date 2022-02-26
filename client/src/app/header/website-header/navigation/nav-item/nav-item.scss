@@ -1,0 +1,23 @@
+@import "./src/assets/styles/colors.scss";
+
+.nav-item-container {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    > a {
+        height: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 1rem;
+        text-decoration: none;
+        color: $gray_color_05;
+        font-weight: 500;
+        &:hover {
+            cursor: pointer;
+            color: $gray_color_02;
+
+        }
+    }
+}

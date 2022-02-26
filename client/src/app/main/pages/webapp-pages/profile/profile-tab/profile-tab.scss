@@ -1,0 +1,13 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .profile-tab-container {
+            width: calc(100% - 350px);
+            height: fit-content;
+            background-color: $gray_color_08;
+            margin-left: auto;
+
+        }
+    }
+}

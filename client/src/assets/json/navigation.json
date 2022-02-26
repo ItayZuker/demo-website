@@ -1,0 +1,114 @@
+{
+  "website": {
+    "header": [
+      {
+        "title": "Company",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "Mission"
+          }
+        ]
+      },
+      {
+        "title": "Careers",
+        "disableLink": false,
+        "subPages": [
+        ]
+      },
+      {
+        "title": "Support",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "FAQ"
+          },
+          {
+            "title": "Contact"
+          }
+        ]
+      },
+      {
+        "title": "Download",
+        "disableLink": false,
+        "subPages": [
+        ]
+      }
+    ],
+    "footer": [
+      {
+        "title": "Legal",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "Privacy"
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "Mission"
+          },
+          {
+            "title": "Careers"
+          }
+        ]
+      },
+      {
+        "title": "Support",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "FAQ"
+          },
+          {
+            "title": "Contact"
+          }
+        ]
+      }
+    ]
+  },
+  "webapp": {
+    "header": [
+
+    ],
+    "footer": [
+      {
+        "title": "Legal",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "Privacy"
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "Mission"
+          },
+          {
+            "title": "Careers"
+          }
+        ]
+      },
+      {
+        "title": "Support",
+        "disableLink": false,
+        "subPages": [
+          {
+            "title": "FAQ"
+          },
+          {
+            "title": "Contact"
+          }
+        ]
+      }
+    ]
+  }
+}

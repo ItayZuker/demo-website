@@ -1,0 +1,47 @@
+@import "./src/assets/styles/colors.scss";
+
+@keyframes loading {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.submit-button {
+    pointer-events: none;
+    height: 3rem;
+    margin: auto 0 5rem 0;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.5rem;
+    background-color: $gray-color-07;
+    transition: all .1s ease-in-out;
+    > p {
+        color: $gray_color_06;
+
+    }
+    &.active {
+        pointer-events: unset;
+        background-color: $gray-color-02;
+        > p {
+            color: $gray_color_07;
+
+        }
+        &:hover {
+            cursor: pointer;
+            background-color: $gray-color-04;
+
+        }
+        &:active {
+            background-color: $gray-color-02;
+
+        }
+        &.loading {
+            animation: loading 1s ease-in-out infinite;
+        }
+    }
+}

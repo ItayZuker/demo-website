@@ -1,0 +1,17 @@
+@import "./src/assets/styles/colors.scss";
+
+.hamburger-container {
+    width: fit-content;
+    height: inherit;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    > img {
+        height: 30px;
+        &:active {
+            opacity: 0.5;
+
+        }
+    }
+}

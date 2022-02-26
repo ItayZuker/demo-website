@@ -1,0 +1,29 @@
+@import "./src/assets/styles/colors.scss";
+
+.footer-nav-item-container {
+    height: inherit;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 2rem 2rem 0;
+    > a {
+        text-decoration: none;
+        color: $gray_color_05;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        &:hover {
+            color: $gray_color_02;
+
+        }
+        &:nth-child(1) {
+            margin-bottom: 1rem;
+
+        }
+        &.has-children {
+            color: $gray_color_07;
+            pointer-events: none;
+
+        }
+    }
+}

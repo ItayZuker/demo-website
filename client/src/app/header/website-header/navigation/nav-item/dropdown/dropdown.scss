@@ -1,0 +1,8 @@
+.dropdown-container {
+    position: absolute;
+    top: 100%;
+    &.hide {
+        display: none;
+
+    }
+}

@@ -1,0 +1,22 @@
+@import "./src/assets/styles/colors.scss";
+
+.footer-sub-pages-item-container {
+    width: fit-content;
+    height: fit-content;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(4, auto);
+    > a {
+        min-width: 140px;
+        max-width: 200px;
+        text-decoration: none;
+        margin: 0 0.5rem 0.3rem 0;
+        color: $gray_color_05;
+        font-weight: 500;
+        &:hover {
+            cursor: pointer;
+            color: $gray_color_06;
+
+        }
+    }
+}

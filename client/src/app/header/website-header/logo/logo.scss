@@ -1,0 +1,16 @@
+@import "./src/assets/styles/colors.scss";
+
+.logo-container {
+    width: fit-content;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    > a {
+        display: flex;
+        > img {
+            margin: 0.5rem;
+            height: 40px;
+
+        }
+    }
+}

@@ -1,0 +1,30 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .app-container {
+            .create-user-popup-button-container {
+                padding: 1.5rem 4rem;
+                border-radius: 2.2rem;
+                background-color: $gray_color_03;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                > p {
+                    font-size: 1.4rem;
+                    color: $gray_color_08;
+
+                }
+                &:hover {
+                    cursor: pointer;
+                    background-color: $gray_color_04;
+
+                }
+                &:active {
+                    background-color: $gray_color_03;
+
+                }
+            }
+        }
+    }
+}

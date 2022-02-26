@@ -1,0 +1,9 @@
+@import "./src/assets/styles/colors.scss";
+
+.side-menu-dropdown-container {
+    height: fit-content;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease-out;
+
+}
