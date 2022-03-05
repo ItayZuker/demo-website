@@ -10,7 +10,7 @@ html {
             position: fixed;
             left: 0;
             right: 0;
-            box-shadow: 0 0 15px rgb(200 200 200 / 80%);
+            box-shadow: 0 0 15px $gray_color_07_opacity;
 
         }
         &.mobile {

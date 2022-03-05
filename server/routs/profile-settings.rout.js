@@ -11,6 +11,7 @@ require('dotenv').config();
 /* Router functions */
 
 /* Profile Settings Routs */
+
 router.delete('/delete-account', async ( req, res ) => {
     try {
 

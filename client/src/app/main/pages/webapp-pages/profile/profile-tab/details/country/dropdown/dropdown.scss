@@ -1,0 +1,34 @@
+@import "./src/assets/styles/colors.scss";
+
+.dropdown-container {
+    width: 200px;
+    border-radius: 3px;
+    background-color: $gray_color_08;
+    max-height: 0;
+    overflow-y: scroll;
+    box-shadow: 0 0 10px $gray_color_07_opacity;
+    display: none;
+    > ul {
+        margin: 0;
+        padding: 0;
+        li {
+            list-style: none;
+            min-height: 2rem;
+            &.highlight {
+                background-color: $gray_color_02;
+                > p {
+                    color: $gray_color_07;
+                }
+            }
+            > p {
+                height: 100%;
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+                color: $gray_color_06;
+            }
+        }
+    }
+    &.active {
+        display: block;
+    }
+}
