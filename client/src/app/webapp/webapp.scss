@@ -1,0 +1,19 @@
+@import "./src/assets/styles/media.scss";
+@import "./src/assets/styles/typography.scss";
+
+html {
+    body {
+        margin: 0;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+}
+
+.webapp-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: blue;
+
+}

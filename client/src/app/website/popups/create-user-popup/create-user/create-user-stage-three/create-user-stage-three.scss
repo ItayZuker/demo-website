@@ -1,0 +1,58 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .create-user-stage-three-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: inherit;
+            > .legal-container {
+                width: 80%;
+                max-height: 200px;
+                padding: 1rem 1rem 1rem 0;
+                border-radius: 3px;
+                overflow-y: scroll;
+                &.loading {
+                    pointer-events: none;
+                    > p {
+                        color: $gray_color_05;
+                    }
+
+                    /*  Scrollbar Start  */
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: $gray_color_05;
+                    }
+
+                    /*  Scrollbar End  */
+
+                }
+                > p {
+                    pointer-events: none;
+                    color: $gray_color_04;
+                    font-size: 0.9rem;
+                }
+
+                /*  Scrollbar Start  */
+
+                &::-webkit-scrollbar {
+                    width: 0.6em;
+                    border-radius: 0 3px 3px 0;
+                }
+                &::-webkit-scrollbar-track {
+                    margin: 0.5em;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background-color: $gray_color_05;
+                    border-radius: 0.2em;
+                    border: 2px solid $gray_color_08;
+                }
+
+                /*  Scrollbar End  */
+
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import {GlobalContext} from "../../context/global-context";
 import './create-user-popup-button.scss';
 

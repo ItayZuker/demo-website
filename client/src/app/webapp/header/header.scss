@@ -1,0 +1,24 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .header-container {
+            z-index: 2;
+            padding: 0 100px;
+            height: 60px;
+            display: flex;
+            background-color: $gray_color_08;
+            position: fixed;
+            left: 0;
+            right: 0;
+            box-shadow: 0 0 15px $gray_color_07_opacity;
+
+        }
+        &.mobile {
+            .header-container {
+                padding: 0 10px;
+
+            }
+        }
+    }
+}

@@ -1,66 +1,66 @@
 @import "./src/assets/styles/colors.scss";
 
-.check-box-container {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    margin: 1rem 0;
-    > .check-box {
-        width: 1rem;
-        height: 1rem;
-        border: 3px solid $gray_color_02;
-        border-radius: 2px;
-        margin-right: 0.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        transition: .1s ease-in-out;
-        &:after {
-            content: '';
-            position: absolute;
-            width: 0.5rem;
-            height: 0.5rem;
-            border-radius: 50%;
-            background-color: transparent;
-            transition: .1s ease-in-out;
-
-        }
-    }
-    > p.check-box-text {
-        color: $gray_color_02;
-        font-weight: 500;
-        transition: .1s ease-in-out;
-    }
-    &.check {
-        > p {
-            color: $gray_color_05;
-        }
-        > .check-box {
-            border-color: $gray_color_05;
-            &:after {
-                background-color: $gray_color_05;
-
-            }
-        }
-    }
-    &:hover {
-        cursor: pointer;
-        > p {
-            color: $gray_color_02;
-        }
-        > .check-box {
-            border-color: $gray_color_02;
-            &:after {
-                background-color: $gray_color_05;
-
-            }
-        }
-        &.check {
+html {
+    body {
+        .check-box-container {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            margin: 1rem 0;
             > .check-box {
+                width: 1rem;
+                height: 1rem;
+                border: 3px solid $gray_color_02;
+                border-radius: 2px;
+                margin-right: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                transition: .1s ease-in-out;
                 &:after {
-                    background-color: $gray_color_02;
-
+                    content: '';
+                    position: absolute;
+                    width: 0.5rem;
+                    height: 0.5rem;
+                    border-radius: 50%;
+                    background-color: transparent;
+                    transition: .1s ease-in-out;
+                }
+            }
+            > p.check-box-text {
+                color: $gray_color_02;
+                font-weight: 500;
+                transition: .1s ease-in-out;
+            }
+            &.check {
+                > p {
+                    color: $gray_color_05;
+                }
+                > .check-box {
+                    border-color: $gray_color_05;
+                    &:after {
+                        background-color: $gray_color_05;
+                    }
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                > p {
+                    color: $gray_color_02;
+                }
+                > .check-box {
+                    border-color: $gray_color_02;
+                    &:after {
+                        background-color: $gray_color_05;
+                    }
+                }
+                &.check {
+                    > .check-box {
+                        &:after {
+                            background-color: $gray_color_02;
+                        }
+                    }
                 }
             }
         }

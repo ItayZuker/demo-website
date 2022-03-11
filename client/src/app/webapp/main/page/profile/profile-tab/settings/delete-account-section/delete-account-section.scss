@@ -1,0 +1,22 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .delete-account-section-container {
+            width: 100%;
+            margin-top: 1rem;
+            background-color: $gray_color_08;
+            box-shadow: 0 0 5px $gray_color_07_opacity;
+            > .text-container {
+                > p {
+                    width: 100%;
+                    margin: 1rem;
+                    color: $gray_color_06;
+                }
+            }
+            > .button-container {
+                margin: 0 2rem 1rem 2rem;
+            }
+        }
+    }
+}

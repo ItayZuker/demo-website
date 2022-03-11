@@ -72,11 +72,13 @@ const GlobalContextComponent = (props) => {
 
     const updateGeoData = async () => {
         const geoData = await getGeoData();
-        setGeoData({
-            countryCode: geoData.country_code,
-            countryName: geoData.country_name
-        });
-    }
+        if (!!geoData) {
+            setGeoData({
+                countryCode: geoData.country_code,
+                countryName: geoData.country_name
+            });
+        }
+    };
 
     const getGeoData = async () => {
         try {

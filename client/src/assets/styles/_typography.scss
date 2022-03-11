@@ -3,49 +3,47 @@
 
 html {
     body {
-        .app-container {
+        color: $gray_color-02;
+        font-family: 'Roboto', sans-serif;
+        h1, h2, h3, h4, h5, h6 {
             color: $gray_color-02;
-            font-family: 'Roboto', sans-serif;
-            h1, h2, h3, h4, h5, h6 {
-                color: $gray_color-02;
-                margin: 0;
-                text-align: left;
+            margin: 0;
+            text-align: left;
 
-            }
-            h1 {
-                font-size: 2.5rem;
-                line-height: 3rem;
-                font-weight: 400;
+        }
+        h1 {
+            font-size: 2.5rem;
+            line-height: 3rem;
+            font-weight: 400;
 
-            }
-            h2 {
-                font-size: 2rem;
-                line-height: 2.4rem;
-                font-weight: 400;
+        }
+        h2 {
+            font-size: 2rem;
+            line-height: 2.4rem;
+            font-weight: 400;
 
-            }
-            h3 {
-                font-size: 1.5rem;
-                line-height: 1.8rem;
-                font-weight: 500;
-                margin: 1rem 0 0 0;
-                text-align: center;
+        }
+        h3 {
+            font-size: 1.5rem;
+            line-height: 1.8rem;
+            font-weight: 500;
+            margin: 1rem 0 0 0;
+            text-align: center;
 
-            }
-            h4 {
-                font-size: 1rem;
-                line-height: 1.3rem;
-                font-weight: 400;
+        }
+        h4 {
+            font-size: 1rem;
+            line-height: 1.3rem;
+            font-weight: 400;
 
-            }
-            p {
-                font-size: 1rem;
-                line-height: 1.3rem;
-                font-weight: 400;
-                margin: 0;
-                text-align: left;
+        }
+        p {
+            font-size: 1rem;
+            line-height: 1.3rem;
+            font-weight: 400;
+            margin: 0;
+            text-align: left;
 
-            }
         }
     }
 }

@@ -1,0 +1,25 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .create-user-error-container {
+            height: inherit;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            > p {
+                transition: .1s ease-in-out;
+                &:hover {
+                    cursor: pointer;
+                    color: $gray_color_04;
+
+                }
+                &:active {
+                    color: $gray_color_02;
+
+                }
+            }
+        }
+    }
+}

@@ -2,27 +2,25 @@
 
 html {
     body {
-        .app-container {
-            .character-counter-container {
-                width: fit-content;
-                height: fit-content;
-                display: flex;
-                > p {
-                    color: transparent;
-                    &.current-count {
+        .character-counter-container {
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            > p {
+                color: transparent;
+                &.current-count {
 
-                    }
-                    &.separator {
-                        margin: 0 0.2rem;
-                    }
-                    &.limit-count {
-                        margin-right: 1rem;
-                    }
                 }
-                &.active {
-                    > p {
-                        color: $gray_color_06;
-                    }
+                &.separator {
+                    margin: 0 0.2rem;
+                }
+                &.limit-count {
+                    margin-right: 1rem;
+                }
+            }
+            &.active {
+                > p {
+                    color: $gray_color_06;
                 }
             }
         }

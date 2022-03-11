@@ -1,0 +1,11 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .main-container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: $gray_color_07;
+        }
+    }
+}

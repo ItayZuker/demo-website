@@ -1,0 +1,28 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .footer-container {
+            width: auto;
+            min-height: 300px;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            background-color: $gray_color_03;
+            padding: 2rem 100px 0 100px;
+            > .bottom-container {
+                width: auto;
+                margin: auto 0 0 0;
+                border-top: 1px solid $gray_color_04;
+                padding: 1rem 0 1rem 0;
+                display: flex;
+                justify-content: center;
+                > p {
+                    color: $gray_color_05;
+                    font-weight: 400;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
