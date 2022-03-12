@@ -1,3 +1,5 @@
+@import "./src/assets/styles/colors.scss";
+
 html {
     body {
         .details-container {
@@ -5,6 +7,9 @@ html {
             padding: 50px;
             display: flex;
             flex-direction: column;
+            > p {
+                color: $gray_color_06;
+            }
         }
     }
 }

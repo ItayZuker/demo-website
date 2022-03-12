@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../../../../../../context/global-context";
 import {ProfileContext} from "../../../../../../../context/profile-context";
-import NameSection from "./name-section/name-section";
-import Country from "./country/country";
+import EditName from "./edit-name/edit-name";
+import EditCountry from "./edit-country/edit-country";
 import "./details.scss";
 
 const Details = () => {
 
-    /* Import Global Variables */
+    /* Global Variables */
     const {
         login,
     } = useContext(GlobalContext);
@@ -17,7 +17,7 @@ const Details = () => {
         setCountries,
     } = useContext(ProfileContext);
 
-    /* Component Variables */
+    /* Locale Variables */
     const [loading, setLoading] = useState(true);
     const [profileDetailsReady, setProfileDetailsReady] = useState(false);
     const [countriesReady, setCountriesReady] = useState(false);
@@ -38,7 +38,7 @@ const Details = () => {
         }
     }, []);
 
-    /* Component Functions */
+    /* Functions */
     const getCountries = async () => {
         const token = window.localStorage.getItem('token');
         try {
@@ -87,8 +87,8 @@ const Details = () => {
         return (
             <div className='details-container'>
                 <p>Your details are complete. If you want to update something, click the save button when you are done.</p>
-                <NameSection />
-                <Country />
+                <EditName />
+                <EditCountry />
             </div>
         )
     }

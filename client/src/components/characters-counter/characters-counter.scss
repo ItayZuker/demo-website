@@ -3,9 +3,12 @@
 html {
     body {
         .character-counter-container {
+            position: absolute;
+            right: 0;
             width: fit-content;
             height: fit-content;
             display: flex;
+            pointer-events: none;
             > p {
                 color: transparent;
                 &.current-count {

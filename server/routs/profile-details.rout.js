@@ -28,6 +28,52 @@ const verifyToken = (req, res, next) => {
 };
 
 /* Profile Details Routs */
+router.put('/update-country', verifyToken, async (req, res) => {
+    try {
+        User_Model
+            .findOneAndUpdate(
+                {email: req.email},
+                {geoData: req.body.geoData},
+                {},
+                (err)=> {
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.status(200).json(
+                            {
+                                success: true,
+                                message: 'GeoData updated successfully',
+                                geoData: req.body.geoData,
+                            });
+                    }});
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+router.put('/update-name', verifyToken, async (req, res) => {
+    try {
+        User_Model
+            .findOneAndUpdate(
+                {email: req.email},
+                {name: req.body.name},
+                {},
+                (err)=> {
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.status(200).json(
+                            {
+                                success: true,
+                                message: 'User name updated successfully',
+                                name: req.body.name,
+                            });
+                    }});
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 router.post('/', verifyToken, async ( req, res) => {
     try {
         User_Model
@@ -64,24 +110,5 @@ router.post('/get-countries', verifyToken, async ( req, res) => {
         res.status(500).send(err);
     }
 });
-
-// router.post('/create-countries', async ( req, res) => {
-//     console.log(req.body)
-//     try {
-//         Country_Model
-//             .create({
-//                 countryName: req.body.name,
-//                 countryCode: req.body.code,
-//
-//             }, (err, user) => {
-//
-//
-//             });
-//         res.status(200).send({});
-//     } catch (err) {
-//         res.status(500).send(err);
-//     }
-// });
-
 
 module.exports = router;

@@ -1,0 +1,18 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .success-indicator-container {
+            transform: rotate(45deg);
+            height: 1rem;
+            width: 6px;
+            margin-left: 1rem;
+            border-bottom: 2px solid transparent;
+            border-right: 2px solid transparent;
+            transition: border-color .1s ease-in-out;
+            &.active {
+                border-color: $success_color_01;
+            }
+        }
+    }
+}

@@ -10,12 +10,16 @@
 }
 
 .button-container {
-    //margin: 1rem 2rem;
-    background-color: $gray_color_02;
+    background-color: $gray_color_06;
     width: fit-content;
     padding: 0.5rem 2rem;
     border-radius: 3px;
     transition: .1s ease-in-out;
+    pointer-events: none;
+    &.active {
+        background-color: $gray_color_02;
+        pointer-events: unset;
+    }
     &.loading {
         animation: loading 1s ease-in-out infinite;
         pointer-events: none;

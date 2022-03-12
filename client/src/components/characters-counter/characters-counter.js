@@ -12,7 +12,7 @@ const CharactersCounter = (props) => {
     }, [props.value]);
 
     return (
-        <div className={'character-counter-container ' + (props.active ? 'active' : '')}>
+        <div className={'character-counter-container ' + (props.isActive ? 'active' : '')}>
             <p className='current-count'>{props.value}</p>
             <p className='separator'>/</p>
             <p className='limit-count'>{props.topLimit}</p>

@@ -1,0 +1,62 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .dropdown-container {
+            max-height: 0;
+            overflow-y: scroll;
+            width: 100%;
+            background-color: $gray_color_09;
+            position: absolute;
+            z-index: 1;
+            border-radius: 3px;
+            top: 110%;
+            &.active {
+                height: 200px;
+            }
+            > ul {
+                padding: 0;
+                margin: 0;
+                > li {
+                    list-style: none;
+                    height: 2rem;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    &.highlight {
+                        &:before {
+                            content: '';
+                            width: 4px;
+                            height: 100%;
+                            background-color: $gray_color_02;
+                            position: absolute;
+                        }
+                        > p {
+                            color: $gray_color_02;
+                        }
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        > p {
+                            color: $gray_color_02;
+                        }
+                    }
+                    &:active {
+                        &:before {
+                            content: '';
+                            width: 4px;
+                            height: 100%;
+                            background-color: $gray_color_02;
+                            position: absolute;
+                        }
+
+                    }
+                    > p {
+                        color: $gray_color_06;
+                        padding: 0 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
