@@ -3,21 +3,22 @@
 html {
     body {
         .input-dropdown-container {
-            width: 100%;
-            display: flex;
             justify-content: flex-start;
             align-items: center;
             position: relative;
+            margin-bottom: 1rem;
+            transition: opacity .1s ease-in-out;
             &.loading {
+                opacity: 0.5;
                 pointer-events: none;
             }
             > p.input-dropdown {
+                text-transform: capitalize;
                 border-radius: 3px;
                 background-color: $gray_color_09;
                 color: $gray_color_06;
                 height: 1rem;
                 font-size: 1rem;
-                width: 100%;
                 display: flex;
                 align-items: center;
                 padding: 1rem;
@@ -26,6 +27,43 @@ html {
                     outline: none;
                     color: $gray_color_04;
                 }
+            }
+            > p.placeholder {
+                position: absolute;
+                top: 0;
+                pointer-events: none;
+                color: $gray_color_06;
+                border-radius: 3px;
+                background-color: $gray_color_09;
+                height: 1rem;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                padding: 1rem;
+                transition: color .1s ease-in-out;
+                &.hide {
+                    display: none;
+                }
+            }
+            > .indicator-container {
+                width: 5px;
+                height: 5px;
+                border-right: 2px solid $gray_color_06;
+                border-bottom: 2px solid $gray_color_06;
+                transform: rotate(45deg);
+                position: absolute;
+                top: 1.2rem;
+                right: 1rem;
+                transition: .2s ease-in-out;
+            }
+            &.active {
+                > .indicator-container {
+                    transform: rotate(225deg);
+                }
+            }
+            &.lock {
+                opacity: 0.5;
+                pointer-events: none;
             }
         }
     }

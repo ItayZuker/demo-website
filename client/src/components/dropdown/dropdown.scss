@@ -12,7 +12,7 @@ html {
             border-radius: 3px;
             top: 110%;
             &.active {
-                height: 200px;
+                box-shadow: 0 0 15px $gray_color_07_opacity;
             }
             > ul {
                 padding: 0;
@@ -52,6 +52,7 @@ html {
 
                     }
                     > p {
+                        text-transform: capitalize;
                         color: $gray_color_06;
                         padding: 0 1rem;
                     }

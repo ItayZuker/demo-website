@@ -1,0 +1,57 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .edit-birthday-container {
+            margin: 2rem 0;
+            width: 100%;
+            max-width: 500px;
+            > .title-container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                > h2 {
+                    font-size: 1rem;
+                    line-height: 1;
+                    font-weight: 400;
+                    color: $gray_color_06;
+                }
+            }
+            > .birthday-container {
+                margin: 1rem 0;
+                border-radius: 3px;
+                background-color: $gray_color_09;
+                color: $gray_color_06;
+                height: 1rem;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                padding: 1rem;
+                opacity: 0.5;
+                pointer-events: none;
+                > p {
+                    text-transform: capitalize;
+                }
+            }
+            > .edit-container {
+                > p {
+                    font-weight: 400;
+                    color: $gray_color_06;
+                    > span.support-button {
+                        text-transform: capitalize;
+                        font-weight: 500;
+                        color: $gray_color_04;
+                        transition: color .1s ease-in-out;
+                        &:hover {
+                            color: $gray_color_06;
+                            cursor: pointer;
+                        }
+                        &:active {
+                            color: $gray_color_04;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

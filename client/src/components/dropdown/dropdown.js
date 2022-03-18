@@ -13,6 +13,9 @@ const Dropdown = (props) => {
     /* Triggers */
     useEffect(() => {
         updateActive();
+    }, [array]);
+
+    useEffect(() => {
         setArray(props.array);
     }, [props.array]);
 
@@ -152,7 +155,7 @@ const Dropdown = (props) => {
     return (
         <div
             ref={dropdownContainerRef}
-            className={'dropdown-container '}>
+            className={'dropdown-container ' + (props.isActive ? 'active' : '')}>
             <ul ref={dropdownUlRef}>
                 {array.map((country, index) => {
                     return <li

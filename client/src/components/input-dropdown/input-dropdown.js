@@ -5,16 +5,18 @@ import "./input-dropdown.scss";
 const InputDropdown = (props) => {
 
     /* Locale Variables */
+    const [placeholder] = useState( props.placeholder || '');
     const [value, setValue] = useState(props.value || '');
     const [string, setString] = useState(props.value || '');
     const [array, setArray] = useState(props.array || []);
     const [active, setActive] = useState(false);
     const [keyDownEvent, setKeyDownEvent] = useState({});
     const inputDropdownRef = useRef();
+    const inputDropdownContainerRef = useRef();
 
     /* Triggers */
     useEffect(() => {
-        setArray(props.array);
+        reset();
     }, [props.array]);
 
     useEffect(() => {
@@ -27,6 +29,15 @@ const InputDropdown = (props) => {
     }, [string]);
 
     /* Functions */
+    const reset = () => {
+        setArray(props.array);
+        inputDropdownRef.current.innerText = props.value || '';
+        props.valueCallback(props.value || '');
+        setValue(props.value || '');
+        setString(props.value || '');
+        setActive(false);
+    };
+
     const getNewArray = (string) => {
         return new Promise(resolve => {
             if (!string) {
@@ -59,25 +70,44 @@ const InputDropdown = (props) => {
         setString(e.target.innerText);
     };
 
-    const handleFocus = () => {
+    const handleFocus = (e) => {
         setActive(true);
     };
 
     const handleBlur = () => {
         setActive(false);
+        inputDropdownRef.current.innerText = value;
     };
 
     const handlePaste = (e) => {
         e.preventDefault();
     };
 
-    const handleKeyDown = (e) => {
+    const tryString = (string) => {
+        return new Promise(resolve => {
+            const selectedValue = props.array.find(item => item.toLowerCase() === string.toLocaleString());
+            if(!!selectedValue) {
+                resolve(selectedValue);
+            } else {
+                resolve(false);
+            }
+        });
+    };
+
+    const handleKeyDown = async (e) => {
         switch (e.key) {
             case 'Enter':
                 e.preventDefault();
+                const selectedValue = await tryString(string);
+                if (!!selectedValue) {
+                    updateValue(selectedValue)
+                } else {
+                    setKeyDownEvent(e);
+                }
                 break;
+            default:
+                setKeyDownEvent(e);
         }
-        setKeyDownEvent(e);
     };
 
     const updateValue = (callBackValue) => {
@@ -97,26 +127,29 @@ const InputDropdown = (props) => {
     return (
         <div
             tabIndex={-1}
-            onFocus={() => handleFocus()}
+            ref={inputDropdownContainerRef}
+            onFocus={(e) => handleFocus(e)}
             onBlur={() => handleBlur()}
-            className='input-dropdown-container'>
+            className={'input-dropdown-container ' + (active ? 'active ' : '') + (props.isActive ? '' : 'lock ') + (props.loading ? 'loading ' : '')}>
             <p
                 ref={inputDropdownRef}
                 className='input-dropdown'
-                contentEditable={props.loading ? 'false' : 'true'}
+                contentEditable={props.loading || !props.isActive ? 'false' : 'true'}
                 suppressContentEditableWarning={true}
                 onInput={(e) => handleInput(e)}
                 onKeyDown={(e) => handleKeyDown(e)}
                 onPaste={(e) => handlePaste(e)}
-            >{value}</p>
+                >{value}</p>
+            <p className={'placeholder ' + (active || value ? 'hide' : '')}>{placeholder}</p>
+            <div className={'indicator-container'}>
+            </div>
             <Dropdown
                 currentString={string}
                 inView={5}
                 isActive={active}
                 keyDownEvent={keyDownEvent}
                 array={array}
-                valueCallback={updateValue}
-            />
+                valueCallback={updateValue}/>
         </div>
     )
 };

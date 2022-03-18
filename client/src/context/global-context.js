@@ -74,21 +74,43 @@ const GlobalContextComponent = (props) => {
         const geoData = await getGeoData();
         if (!!geoData) {
             setGeoData({
-                countryCode: geoData.country_code,
-                countryName: geoData.country_name
+                countryCode: geoData.countryCode,
+                countryName: geoData.countryName,
+                ageLimit: geoData.ageLimit,
             });
+        }
+    };
+
+    const getCountryData = async (countryName) => {
+        try {
+            const res = await fetch('/website/get-country-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    countryName: countryName,
+
+                }),
+            })
+            return await res.json();
+        } catch (err) {
+            console.log(err);
         }
     };
 
     const getGeoData = async () => {
         try {
-            const data = await fetch(`https://geolocation-db.com/json/`);
-            return data.json();
+            const res = await fetch(`https://geolocation-db.com/json/`);
+            const data = await res.json();
+            const countryData = await getCountryData(data.country_name);
+            return countryData;
         } catch (err) {
             console.log(err);
             setGeoData({
-                countryCode: '',
-                countryName: ''
+                countryCode: undefined,
+                countryName: undefined,
+                ageLimit: null,
             });
         }
     };

@@ -9,9 +9,11 @@ const CreateUserError = () => {
         setStage,
         setError,
         setMessage,
+        setSubStage,
     } = useContext(CreateUserContext);
 
     useEffect(() => {
+        setSubStage('legal');
         setMessage(prevState => {
             return {...prevState,
                 one: {
@@ -27,7 +29,7 @@ const CreateUserError = () => {
 
     /* Component Functions */
     const tryAgain = () =>{
-        setStage('email');
+        setStage('age-limit');
         setError(false);
     };
 

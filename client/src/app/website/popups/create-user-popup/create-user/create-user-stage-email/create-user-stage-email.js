@@ -2,9 +2,9 @@ import React, {useContext, useEffect, useState} from "react";
 import {CreateUserContext} from "../../../../../../context/create-user-context";
 import EmailInput from './input-email/input-email';
 import SubmitButton from "../../../../../../components/submit-button/submit-button";
-import './create-user-stage-one.scss';
+import './create-user-stage-email.scss';
 
-const CreateUserStageOne = () => {
+const CreateUserStageEmail = () => {
 
     /* Import global state variables */
     const {
@@ -13,6 +13,7 @@ const CreateUserStageOne = () => {
         setStage,
         setMessage,
         stage,
+        setTitle,
     } = useContext(CreateUserContext);
 
     /* Locale state variables */
@@ -20,6 +21,7 @@ const CreateUserStageOne = () => {
 
     /* Variable triggers */
     useEffect(() => {
+        setTitle('Creat User');
         setMessage({
             one: {
                 string: 'Please verify your email:',
@@ -67,7 +69,7 @@ const CreateUserStageOne = () => {
                         highlight: true,
                     },
                     two: {
-                        string: 'Go to login page',
+                        string: '',
                         highlight: true,
                     }}
             });
@@ -115,7 +117,7 @@ const CreateUserStageOne = () => {
         return <></>
     } else {
         return (
-            <div className='create-user-stage-one-container'>
+            <div className='create-user-stage-email-container'>
                 <EmailInput
                     isActive={true}
                     placeholder='example@email.com'
@@ -131,4 +133,4 @@ const CreateUserStageOne = () => {
     }
 }
 
-export default CreateUserStageOne;
+export default CreateUserStageEmail;

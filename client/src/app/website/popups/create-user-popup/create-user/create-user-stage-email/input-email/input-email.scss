@@ -17,10 +17,10 @@ html {
                     display: flex;
                     align-items: center;
                     padding: 1rem;
-                    background-color: $gray-color-07;
+                    background-color: $gray-color-09;
                     color: $gray_color_06;
                     &:focus {
-                        background-color: $gray_color_07;
+                        background-color: $gray_color_09;
                         outline: none;
                         color: $gray_color_04;
                     }

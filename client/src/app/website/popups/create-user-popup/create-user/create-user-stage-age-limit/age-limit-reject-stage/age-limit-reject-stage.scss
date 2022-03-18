@@ -1,0 +1,16 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .age-limit-reject-stage-container {
+            margin: 1rem 0;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            > .button-container {
+                margin-top: 2rem;
+            }
+        }
+    }
+}

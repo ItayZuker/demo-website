@@ -3,9 +3,9 @@ import {CreateUserContext} from "../../../../../../context/create-user-context";
 import {GlobalContext} from "../../../../../../context/global-context";
 import SubmitButton from "../../../../../../components/submit-button/submit-button";
 import CheckBox from "../../../../../../components/check-box/check-box";
-import './create-user-stage-three.scss';
+import './create-user-stage-create-user.scss';
 
-const CreateUserStageThree = () => {
+const CreateUserStageCreateUser = () => {
 
     /* Import global state variables */
     const {
@@ -15,6 +15,7 @@ const CreateUserStageThree = () => {
         setMessage,
         stage,
         setError,
+        birthday,
     } = useContext(CreateUserContext);
 
     const {
@@ -92,11 +93,9 @@ const CreateUserStageThree = () => {
 
         const data = {
             email: email.string,
+            birthday: birthday,
             legal: legal,
-            geoData: {
-                countryCode: geoData.countryCode,
-                countryName: geoData.countryName,
-            },
+            geoData: geoData,
         };
 
         try {
@@ -108,6 +107,7 @@ const CreateUserStageThree = () => {
                 },
                 body: JSON.stringify({
                     email: data.email,
+                    birthday: data.birthday,
                     legal: data.legal,
                     geoData: data.geoData,
                 }),
@@ -131,7 +131,7 @@ const CreateUserStageThree = () => {
         return <></>
     } else {
         return (
-            <div className='create-user-stage-three-container'>
+            <div className='create-user-stage-create-user-container'>
                 <div
                     className={'legal-container '  + (loading ? 'loading' : '')}
                     ref={legalContainerRef}>
@@ -151,4 +151,4 @@ const CreateUserStageThree = () => {
     }
 }
 
-export default CreateUserStageThree
+export default CreateUserStageCreateUser

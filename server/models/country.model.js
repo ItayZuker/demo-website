@@ -7,6 +7,10 @@ const Country_Schema = mongoose.Schema({
     countryCode: {
         type: String,
         require: true
+    },
+    ageLimit: {
+        type: Number,
+        require: true
     }
 });
 

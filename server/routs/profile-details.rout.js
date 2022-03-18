@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User_Model = require('../models/user.model.js');
 const Country_Model = require('../models/country.model.js');
+const Global_Model = require('../models/global.model');
 const jwt = require('jsonwebtoken');
 const generator = require('generate-password');
 const bcrypt = require('bcrypt');
@@ -28,6 +29,49 @@ const verifyToken = (req, res, next) => {
 };
 
 /* Profile Details Routs */
+router.post('/globals', verifyToken, async (req, res) => {
+    const type = req.body.type;
+    try {
+        Global_Model
+            .findOne({type: type}, (err, data) => {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    const payload = {
+                        type: data.type,
+                        list: data.list
+                    }
+                    res.status(200).json(payload);
+                }
+            });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+router.put('/update-gender', verifyToken, async (req, res) => {
+    try {
+        User_Model
+            .findOneAndUpdate(
+                {email: req.email},
+                {gender: req.body.gender},
+                {},
+                (err)=> {
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.status(200).json(
+                            {
+                                success: true,
+                                message: 'Gender updated successfully',
+                                gender: req.body.gender,
+                            });
+                    }});
+    } catch (err) {
+        res.status(500).send(err);
+    }
+})
+
 router.put('/update-country', verifyToken, async (req, res) => {
     try {
         User_Model
@@ -50,6 +94,28 @@ router.put('/update-country', verifyToken, async (req, res) => {
         res.status(500).send(err);
     }
 });
+
+// router.put('/update-countries', async (req, res) => {
+//     // console.log(123)
+//     try {
+//         Country_Model
+//             .updateMany(
+//                 {},
+//                 {ageLimit: 18},
+//                 {},
+//                 (err)=> {
+//                     if (err) {
+//                         res.status(500).send(err);
+//                     } else {
+//                         res.status(200).json(
+//                             {
+//                                 success: true
+//                             });
+//                     }});
+//     } catch (err) {
+//         res.status(500).send(err);
+//     }
+// });
 
 router.put('/update-name', verifyToken, async (req, res) => {
     try {
@@ -85,7 +151,7 @@ router.post('/', verifyToken, async ( req, res) => {
                         name: user.name,
                         geoData: user.geoData,
                         email: user.email,
-                        birth: user.birth,
+                        birthday: user.birthday,
                         gender: user.gender
                     }
                     res.status(200).json(userDetails);

@@ -1,0 +1,18 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .age-limit-legal-stage-container {
+            margin: 1rem 0;
+            width: 80%;
+            display: flex;
+            justify-content: space-evenly;
+            > .button-container {
+                min-width: 10%;
+                display: flex;
+                justify-content: center;
+
+            }
+        }
+    }
+}

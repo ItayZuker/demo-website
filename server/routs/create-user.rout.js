@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Temporary_User_Model = require('../models/TemporaryUser.model.js');
 const User_Model = require('../models/user.model.js');
+const Country_Model = require('../models/country.model');
 const jwt = require('jsonwebtoken');
 const generator = require('generate-password');
 const bcrypt = require('bcrypt');
@@ -126,22 +127,9 @@ const createUser = (data) => {
             .create({
                 iat: new Date(),
                 email: data.email,
-                name: 'Name',
-                gender: 'none',
-                birth: {
-                    day: {
-                        string: '',
-                        number: null,
-                    },
-                    month: {
-                        string: '',
-                        number: null,
-                    },
-                    year: {
-                        string: '',
-                        number: null,
-                    },
-                },
+                name: 'userName',
+                gender: '',
+                birthday: data.birthday,
                 geoData: data.geoData,
                 legal: data.legal,
                 login: true,
@@ -200,7 +188,6 @@ const deleteTemporaryUser = (user) => {
             });
 };
 
-/* Create User Routs */
 router.post('/email-verification', async ( req, res ) => {
     try {
 
@@ -382,6 +369,7 @@ router.post('/submit', async ( req, res ) => {
         /* Build a new data item */
         const data = {
             email: req.body.email,
+            birthday: req.body.birthday,
             legal: req.body.legal,
             geoData: req.body.geoData,
         };

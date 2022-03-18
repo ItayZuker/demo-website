@@ -1,0 +1,11 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .edit-email-container {
+            width: 300px;
+            height: 100px;
+            background-color: red;
+        }
+    }
+}

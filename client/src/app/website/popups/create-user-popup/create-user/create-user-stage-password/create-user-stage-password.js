@@ -2,9 +2,9 @@ import React, {useContext, useEffect, useState} from "react";
 import {CreateUserContext} from "../../../../../../context/create-user-context";
 import InputPassword from './input-password/input-password';
 import SubmitButton from "../../../../../../components/submit-button/submit-button";
-import './create-user-stage-two.scss';
+import './create-user-stage-password.scss';
 
-const CreateUserStageTwo = () => {
+const CreateUserStagePassword = () => {
 
     /* Import global state variables */
     const {
@@ -148,7 +148,7 @@ const CreateUserStageTwo = () => {
         return <></>
     } else {
         return (
-            <div className='create-user-stage-two-container'>
+            <div className='create-user-stage-password-container'>
                 {passwordActive ?
                     <InputPassword
                         isActive={passwordActive}
@@ -169,4 +169,4 @@ const CreateUserStageTwo = () => {
     }
 }
 
-export default CreateUserStageTwo;
+export default CreateUserStagePassword;

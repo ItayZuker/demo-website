@@ -1,59 +1,47 @@
 import React, {useContext, useEffect, useState} from "react";
-import {ProfileContext} from "../../../../../../../../context/profile-context";
+import "./edit-gender.scss";
 import SuccessIndicator from "../../../../../../../../components/success-indicator/success-indicator";
-import Button from "../../../../../../../../components/button/button";
 import InputDropdown from "../../../../../../../../components/input-dropdown/input-dropdown";
-import "./edit-country.scss";
+import Button from "../../../../../../../../components/button/button";
+import {ProfileContext} from "../../../../../../../../context/profile-context";
 
-
-const EditCountry = () => {
+const EditGender = () => {
 
     /* Global Variables */
     const {
+        globals,
         details,
         setDetails,
-        countries,
     } = useContext(ProfileContext);
 
-    /* Locale Variables */
-    const [save, setSave] = useState(false);
+    /* Local Variables */
     const [indicateSuccess, setIndicateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [country, setCountry] = useState(details.geoData.countryName || '');
+    const [gender, setGender] = useState(details.gender || '');
+    const [gendersArray, setGendersArray] = useState(globals.gender || []);
     const [edit, setEdit] = useState(false);
-    const [countriesArray, setCountriesArray] = useState([]);
+    const [save, setSave] = useState(false);
 
     /* Triggers */
     useEffect(() => {
-        if (!!country && country !== details.geoData.countryName) {
+        setGendersArray(globals.gender);
+    }, [globals.gender]);
+
+    useEffect(() => {
+        if (!!gender && gender !== details.gender) {
             setEdit(true);
         } else {
             setEdit(false);
         }
-    }, [country, details.geoData.countryName]);
+    }, [gender, details.geoData.countryName]);
 
-    useEffect(() => {
+    useEffect(async () => {
         if (save) {
-            saveNewValue();
+            await saveNewValue();
         }
     }, [save]);
 
-    useEffect(() => {
-        updateCountriesArray();
-    }, [countries]);
-
     /* Functions */
-    const getGeoData = (country) => {
-        return new Promise((resolve, reject) => {
-            const geoData = countries.find(item => item.countryName === country);
-            if (!!geoData) {
-                resolve(geoData);
-            } else {
-                reject('No such country in database');
-            }
-        });
-    };
-
     const successIndicator = () => {
         setIndicateSuccess(true);
         setTimeout(() => {
@@ -63,14 +51,14 @@ const EditCountry = () => {
 
     const handleData = (data) => {
         setDetails(prevState => {
-            return {...prevState, geoData: data.geoData}
+            return {...prevState, gender: data.gender}
         })
         setLoading(false);
         setSave(false);
         successIndicator();
     };
 
-    const handleErr = (err) => {
+    const handleErr = () => {
         setLoading(false);
         setSave(false);
     };
@@ -79,15 +67,14 @@ const EditCountry = () => {
         setLoading(true);
         try {
             const token = window.localStorage.getItem('token');
-            const geoData = await getGeoData(country);
-            const res = await fetch('/profile-details/update-country', {
+            const res = await fetch('/profile-details/update-gender', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     token: token,
-                    geoData: geoData,
+                    gender: gender,
                 }),
             });
             const data = await res.json();
@@ -97,16 +84,11 @@ const EditCountry = () => {
         }
     }
 
-    const updateCountriesArray = async () => {
-        const array = await countries.map(country => country.countryName)
-        setCountriesArray(array);
-    };
-
     /* JSX Output */
     return (
-        <div className={'edit-country-container ' + (details.geoData.countryName ? '' : 'missing-value')}>
+        <div className={'edit-gender-container ' + (details.gender ? '' : 'missing-value')}>
             <div className='title-container'>
-                <h2>Country</h2>
+                <h2>Gender</h2>
                 <SuccessIndicator
                     isActive={indicateSuccess}/>
             </div>
@@ -114,13 +96,14 @@ const EditCountry = () => {
                 <InputDropdown
                     isActive={true}
                     loading={loading}
-                    value={country}
-                    array={countriesArray}
-                    valueCallback={setCountry}/>
+                    placeholder={'Not selected'}
+                    value={gender}
+                    array={gendersArray}
+                    valueCallback={setGender}/>
             </div>
             <div className='confirmation-container'>
                 <Button
-                    isActive={edit && !!country}
+                    isActive={edit && !!gender}
                     loading={loading}
                     unique={'save'}
                     value={'Save'}
@@ -130,4 +113,4 @@ const EditCountry = () => {
     )
 };
 
-export default EditCountry;
+export default EditGender;

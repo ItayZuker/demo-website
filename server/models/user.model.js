@@ -16,7 +16,7 @@ const User_Schema = mongoose.Schema({
         type: String,
         require: true,
     },
-    birth: {
+    birthday: {
         type: Object,
         require: true,
     },

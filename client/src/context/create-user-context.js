@@ -1,10 +1,21 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
+import {GlobalContext} from "./global-context";
 const CreateUserContext = React.createContext();
 
 const CreateUserContextComponent = (props) => {
 
-    /* Local State */
-    const [stage, setStage] = useState('email');
+    /* Global Variables */
+    const {
+        geoData,
+    } = useContext(GlobalContext);
+
+    /* Local Variables */
+    const [yearList, setYearList] = useState([]);
+    const [monthList] = useState(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+    const [today, satToday] = useState({});
+    const [title, setTitle] = useState('');
+    const [stage, setStage] = useState('age-limit');
+    const [subStage, setSubStage] = useState('legal');
     const [error, setError] = useState(false);
     const [password, setPassword] = useState({
         array: [],
@@ -25,6 +36,26 @@ const CreateUserContextComponent = (props) => {
             highlight: false
         }
     });
+    const [birthday, setBirthday] = useState({
+        confirmation: {
+            age: null,
+            limit: null,
+            isLegal: false,
+        },
+        month: {
+            string: '',
+            short: '',
+            decimal: null,
+        },
+        day: {
+            string: '',
+            short: '',
+            decimal: null,
+        },
+        year: {
+            decimal: null,
+        }
+    })
     const [legal, setLegal] = useState({
         content: 'appName will always be free, and all data stored is for optimization purpose only. ' +
             'We will never share your information with any third party. ' +
@@ -33,12 +64,53 @@ const CreateUserContextComponent = (props) => {
         agree: false,
     })
 
+    useEffect(() => {
+        if (!!today.year) {
+            updateYearList(today.year - geoData.ageLimit);
+        }
+    }, [today]);
+
+    useEffect(() => {
+        updateToday();
+        updateAgeLimit();
+    }, []);
+
+    const updateAgeLimit = () => {
+        setBirthday(prevState => {
+            return {...prevState,
+                confirmation: {...prevState.confirmation,
+                    limit: geoData.ageLimit
+            }};
+        });
+    };
+
+    const updateYearList = (minimumYear) => {
+        let array = [];
+        const limit = minimumYear + geoData.ageLimit - 120;
+        for (let year = minimumYear; year >= limit; year--) {
+            const yearString = String(year)
+            array.push(yearString);
+        }
+        setYearList(array);
+    };
+
+    const updateToday = async () => {
+        const date = new Date();
+        satToday({
+            month: date.getMonth(),
+            day:date.getDate(),
+            year: date.getFullYear(),
+        })
+    };
+
     /* Context Payload */
     const contextValue = {
         email,
         setEmail,
         stage,
         setStage,
+        subStage,
+        setSubStage,
         password,
         setPassword,
         message,
@@ -47,6 +119,13 @@ const CreateUserContextComponent = (props) => {
         setLegal,
         error,
         setError,
+        title,
+        setTitle,
+        birthday,
+        setBirthday,
+        monthList,
+        today,
+        yearList
     };
 
     /* JSX Output */
