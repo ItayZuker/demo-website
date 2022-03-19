@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useRef} from "react";
 import {ProfileContext} from "../../../../../../context/profile-context";
 import ProfilePicture from "./profile-picture/profile-picture";
+import ProfileInvitations from "./profile-invitations/profile-invitations";
 import ProfileNavigationButton from "./profile-navigation-button/profile-navigation-button";
 import "./profile-navigation.scss";
 
@@ -50,8 +51,8 @@ const ProfileNavigation = () => {
             ref={profileNavigationContainerRef}
             className='profile-navigation-container'>
             <ProfilePicture />
+            <ProfileInvitations />
             <ProfileNavigationButton title='details'/>
-            <ProfileNavigationButton title='schedule'/>
             <ProfileNavigationButton title='settings'/>
             <ProfileNavigationButton title='help'/>
         </div>

@@ -24,6 +24,10 @@ const User_Schema = mongoose.Schema({
         type: String,
         require: true,
     },
+    invitations: {
+        type: Object,
+        require: true,
+    },
     legal: {
         type: Object,
         require: true,

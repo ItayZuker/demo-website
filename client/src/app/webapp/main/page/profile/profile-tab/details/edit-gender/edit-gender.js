@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
-import "./edit-gender.scss";
+import {ProfileContext} from "../../../../../../../../context/profile-context";
 import SuccessIndicator from "../../../../../../../../components/success-indicator/success-indicator";
 import InputDropdown from "../../../../../../../../components/input-dropdown/input-dropdown";
 import Button from "../../../../../../../../components/button/button";
-import {ProfileContext} from "../../../../../../../../context/profile-context";
+import "./edit-gender.scss";
 
 const EditGender = () => {
 

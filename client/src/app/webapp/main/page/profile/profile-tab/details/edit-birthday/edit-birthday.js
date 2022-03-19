@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-import "./edit-birthday.scss";
-import Button from "../../../../../../../../components/button/button";
-import ContactSupport from "./contact-support/contact-support";
 import {ProfileContext} from "../../../../../../../../context/profile-context";
+import "./edit-birthday.scss";
 
 const EditBirthday = () => {
 

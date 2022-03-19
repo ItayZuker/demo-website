@@ -152,7 +152,8 @@ router.post('/', verifyToken, async ( req, res) => {
                         geoData: user.geoData,
                         email: user.email,
                         birthday: user.birthday,
-                        gender: user.gender
+                        gender: user.gender,
+                        invitations: user.invitations,
                     }
                     res.status(200).json(userDetails);
                 }
