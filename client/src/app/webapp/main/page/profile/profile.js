@@ -16,6 +16,7 @@ const Profile = () => {
         setDetails,
         setCountries,
         setGlobals,
+        setTab,
     } = useContext(ProfileContext);
 
     /* Locale Variables */
@@ -25,6 +26,10 @@ const Profile = () => {
     const [globalsReady, setGlobalsReady] = useState(false);
 
     /* Triggers */
+    useEffect(() => {
+        setTab('profile-view');
+    }, []);
+
     useEffect(() => {
         if (profileDetailsReady && countriesReady && globalsReady) {
             setLoading(false);
@@ -117,6 +122,6 @@ const Profile = () => {
             </div>
         )
     }
-}
+};
 
 export default Profile;

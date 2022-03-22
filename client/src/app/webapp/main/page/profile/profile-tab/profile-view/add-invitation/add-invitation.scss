@@ -1,0 +1,15 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .add-invitation-container {
+            margin: 2rem 0;
+            padding: 2rem 0;
+            border-radius: 3px;
+            background-color: $gray_color_07;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

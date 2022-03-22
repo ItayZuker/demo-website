@@ -1,0 +1,31 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .daily-invitations-container {
+            width: 100%;
+            margin-bottom: 1rem;
+            > .title-container {
+                display: flex;
+                align-items: center;
+                > p {
+                    text-transform: capitalize;
+                    margin: 0 0.5rem;
+                    color: $gray_color_07_opacity;
+                }
+                &:before {
+                    content: '';
+                    width: 100%;
+                    height: 2px;
+                    background-color: $gray_color_07_opacity;
+                }
+                &:after {
+                    content: '';
+                    width: 100%;
+                    height: 2px;
+                    background-color: $gray_color_07_opacity;
+                }
+            }
+        }
+    }
+}

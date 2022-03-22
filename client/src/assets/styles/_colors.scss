@@ -1,7 +1,21 @@
 /* Theme Start */
 
-$theme_color_01: rgb(59, 141, 238);
-$theme_color_01_dark: rgb(30, 101, 185);
+/* Theme Palette Start */
+
+$theme_color_01: rgba(71, 171, 216, 1);
+$theme_color_01_opacity: rgba(71, 171, 216, 0.5);
+$theme_color_02: rgba(149, 210, 236, 1);
+$theme_color_02_opacity: rgba(149, 210, 236, 0.5);
+$theme_color_03: rgba(231, 249, 255, 1);
+$theme_color_03_opacity: rgba(231, 249, 255, 0.5);
+$theme_color_04: rgba(255, 255, 255, 1);
+$theme_color_04_opacity: rgba(255, 255, 255, 0.5);
+$theme_color_05: rgba(255, 66, 66, 1);
+$theme_color_05_opacity: rgba(255, 66, 66, 0.5);
+$theme_color_06: rgba(208, 27, 27, 1);
+$theme_color_06_opacity: rgba(208, 27, 27, 0.5);
+
+/* Theme Palette End */
 
 /* Theme  End */
 
@@ -28,6 +42,8 @@ $gray_color_08_opacity: rgba(240, 240, 240, 0.8);
 $gray_color_09_opacity: rgba(255, 255, 255, 0.8);
 
 /* Gray End */
+
+
 
 /* Global Colors Start */
 

@@ -21,6 +21,6 @@ const Page = () => {
             </ProfileContextComponent>
         </div>
     )
-}
+};
 
-export default Page
+export default Page;

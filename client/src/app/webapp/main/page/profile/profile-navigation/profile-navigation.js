@@ -17,10 +17,6 @@ const ProfileNavigation = () => {
 
     /* Trigger Functions */
     useEffect(() => {
-        setTab('details');
-    }, []);
-
-    useEffect(() => {
         const footer = document.getElementById('footer-container');
         const footerHeight = footer.getBoundingClientRect().height;
         const navigationContainer = profileNavigationContainerRef.current;
@@ -51,7 +47,8 @@ const ProfileNavigation = () => {
             ref={profileNavigationContainerRef}
             className='profile-navigation-container'>
             <ProfilePicture />
-            <ProfileInvitations />
+            {/*<ProfileInvitations />*/}
+
             <ProfileNavigationButton title='details'/>
             <ProfileNavigationButton title='settings'/>
             <ProfileNavigationButton title='help'/>

@@ -1,0 +1,26 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .create-invitation-popup-button-container {
+            background-color: $gray_color_02;
+            border-radius: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 4rem;
+            transition: .1s ease-in-out;
+            > p {
+                font-size: 1.4rem;
+                color: $gray_color_08;
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: $gray_color_04;
+            }
+            &:active {
+                background-color: $gray_color_02;
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .profile-view-container {
+            width: auto;
+            padding: 0 50px;
+            > .daily-invitations-container {
+                margin-top: 2rem;
+            }
+        }
+    }
+}

@@ -1,7 +1,8 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {GlobalContext} from "../../context/global-context";
 import LoadingPopup from "./popups/loading-popup/loading-popup";
 import DeleteAccountPopup from "./popups/delete-account-popup/delete-account-popup";
+import CreateInvitationPopup from "./popups/create-invitation-popup/create-invitation-popup";
 import Header from "./header/header";
 import Footer from "./footer/footer";
 import Main from "./main/main";
@@ -13,10 +14,15 @@ const Webapp = () => {
         popup,
     } = useContext(GlobalContext);
 
+    useEffect(() => {
+        console.log(popup)
+    }, [popup])
+
     return (
         <div className='webapp-container'>
             { popup === 'loading' ? <LoadingPopup /> : <></> }
-            { popup === 'delete-account' ? <DeleteAccountPopup/> : <></> }
+            { popup === 'delete-account' ? <DeleteAccountPopup /> : <></> }
+            { popup === 'create-invitation' ? <CreateInvitationPopup /> : <></> }
             <Header/>
             <Main/>
             <Footer/>

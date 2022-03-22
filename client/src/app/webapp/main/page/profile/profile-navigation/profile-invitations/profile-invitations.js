@@ -11,7 +11,6 @@ const ProfileInvitations = () => {
 
     return (
         <div className='profile-invitations-container'>
-            <p>Invitations</p>
             {details.invitations.map((day, index )=> {
                 return <InvitationDayTab
                     key={index}
