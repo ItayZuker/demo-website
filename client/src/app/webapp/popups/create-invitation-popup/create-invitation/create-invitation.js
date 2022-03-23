@@ -1,18 +1,10 @@
 import React, {useContext, useEffect} from "react";
-import "./create-invitation.scss";
 import {GlobalContext} from "../../../../../context/global-context";
-import closeIconDark from "../../../../../assets/images/close-icon-dark.svg";
-import CreateUserError
-    from "../../../../website/popups/create-user-popup/create-user/create-user-error/create-user-error";
-import CreateUserStageAgeLimit
-    from "../../../../website/popups/create-user-popup/create-user/create-user-stage-age-limit/create-user-stage-age-limit";
-import CreateUserStageEmail
-    from "../../../../website/popups/create-user-popup/create-user/create-user-stage-email/create-user-stage-email";
-import CreateUserStagePassword
-    from "../../../../website/popups/create-user-popup/create-user/create-user-stage-password/create-user-stage-password";
-import CreateUserStageCreateUser
-    from "../../../../website/popups/create-user-popup/create-user/create-user-stage-create-user/create-user-stage-create-user";
 import {CreateInvitationContext} from "../../../../../context/create-invitation-context";
+import CreateInvitationStageChooseType from "./create-invitation-stage-type/create-invitation-stage-type";
+import closeIconDark from "../../../../../assets/images/close-icon-dark.svg";
+import "./create-invitation.scss";
+
 
 const CreateInvitation = () => {
 
@@ -22,11 +14,29 @@ const CreateInvitation = () => {
 
     const {
         title,
-        setTitle
+        setTitle,
+        message,
+        setMessage,
+        error,
+        stage,
+        setStage,
     } = useContext(CreateInvitationContext);
 
     useEffect(() => {
         setTitle('Invitation Type');
+
+        setMessage(prevState => {
+            return {...prevState,
+                one: {
+                    string: 'What type of invitation would you like to create?',
+                    highlight: false,
+                },
+                two: {
+                    string: '',
+                    highlight: false,
+                }};
+        });
+        setStage('invitation-type');
     }, []);
 
     return (
@@ -40,14 +50,14 @@ const CreateInvitation = () => {
                 <h1>{title}</h1>
             </div>
             <div className='message-container'>
-                {/*<p className={message.one.highlight ? 'highlight' : ''}>*/}
-                {/*    {message.one.string}</p>*/}
-                {/*<p className={message.two.highlight ? 'highlight' : ''}>*/}
-                {/*    {message.two.string}</p>*/}
+                <p className={message.one.highlight ? 'highlight' : ''}>
+                    {message.one.string}</p>
+                <p className={message.two.highlight ? 'highlight' : ''}>
+                    {message.two.string}</p>
             </div>
             <div className='verification-container'>
                 {/*{error ? <CreateUserError /> : <></>}*/}
-                {/*{!error && stage === 'age-limit' ? <CreateUserStageAgeLimit /> : <></>}*/}
+                {!error && stage === 'invitation-type' ? <CreateInvitationStageChooseType /> : <></>}
                 {/*{!error && stage === 'email' ? <CreateUserStageEmail /> : <></>}*/}
                 {/*{!error && stage === 'password' ? <CreateUserStagePassword /> : <></>}*/}
                 {/*{!error && stage === 'create-user' ? <CreateUserStageCreateUser /> : <></>}*/}
