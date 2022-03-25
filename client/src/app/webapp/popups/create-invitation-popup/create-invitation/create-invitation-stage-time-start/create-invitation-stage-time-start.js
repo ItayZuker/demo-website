@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
+import InputTime from "../../../../../../components/input-time/input-time";
 import Button from "../../../../../../components/button/button";
 import "./create-invitation-stage-time-start.scss";
 
@@ -19,9 +20,9 @@ const CreateInvitationStageTimeStart = () => {
     useEffect(() => {
         if (next) {
             if (invitation.type === 'chat') {
-                setStage('invitation-repeat')  ;
+                // setStage('invitation-repeat')  ;
             } else {
-                setStage('invitation-repeat');
+                // setStage('invitation-repeat');
             }
         }
     }, [next]);
@@ -32,7 +33,7 @@ const CreateInvitationStageTimeStart = () => {
             setMessage(prevState => {
                 return {...prevState,
                     one: {
-                        string: 'Please select a day, for a chat invitation:',
+                        string: 'When do you want the chat to start?',
                         highlight: false,
                     },
                     two: {
@@ -45,7 +46,7 @@ const CreateInvitationStageTimeStart = () => {
             setMessage(prevState => {
                 return {...prevState,
                     one: {
-                        string: 'Please select a day, for a date invitation:',
+                        string: 'When will you meet?',
                         highlight: false,
                     },
                     two: {
@@ -59,11 +60,12 @@ const CreateInvitationStageTimeStart = () => {
 
 
     return (
-        <div className='create-invitation-day-container'>
+        <div className='create-invitation-time-start-container'>
             <div className='selection-container'>
+                <InputTime />
             </div>
             <Button
-                isActive={!!invitation.day.day.name}
+                isActive={false}
                 loading={false}
                 value={'Next'}
                 callback={setNext}/>

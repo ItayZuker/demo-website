@@ -2,7 +2,7 @@
 
 html {
     body {
-        .create-invitation-stage-time-start-container {
+        .create-invitation-time-start-container {
             height: inherit;
             width: 100%;
             display: flex;
@@ -11,11 +11,13 @@ html {
             > .selection-container {
                 padding-top: 1rem;
                 display: flex;
-                flex-wrap: wrap;
+                justify-content: center;
                 width: 90%;
+                //background-color: blue;
             }
             > .button-container {
-                margin-top: 2rem;
+                margin-top: auto;
+                margin-bottom: 5rem;
             }
         }
     }

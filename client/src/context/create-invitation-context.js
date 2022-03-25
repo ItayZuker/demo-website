@@ -95,6 +95,11 @@ const CreateInvitationContextComponent = (props) => {
             day: {},
             date: {}
         },
+        start: {
+            minuet: null,
+            hour: null,
+            ampm: 'am'
+        }
     });
 
     useEffect(async () => {

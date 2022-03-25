@@ -1,0 +1,114 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .input-time-container {
+            height: 10rem;
+            display: flex;
+            align-items: center;
+            > span.colon {
+                font-size: 3rem;
+                margin: 0 0.5rem;
+                color: $gray_color_06;
+                user-select: none;
+            }
+            > .hour-container,
+            > .minuets-container {
+                width: 80px;
+                height: inherit;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                > .plus-arrow {
+                    width: inherit;
+                    height: 2rem;
+                    background-color: $gray_color_09;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    &:after {
+                        content: '';
+                        width: 1rem;
+                        height: 1rem;
+                        border-right: 3px solid $gray_color_07;
+                        border-top: 3px solid $gray_color_07;
+                        transform: rotate(-45deg);
+                        position: absolute;
+                        margin-top: 0.5rem;
+                        border-radius: 0 7px 0 0;
+                    }
+                }
+                > .minus-arrow {
+                    width: inherit;
+                    height: 2rem;
+                    background-color: $gray_color_09;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    &:after {
+                        content: '';
+                        width: 1rem;
+                        height: 1rem;
+                        border-right: 3px solid $gray_color_07;
+                        border-bottom: 3px solid $gray_color_07;
+                        transform: rotate(45deg);
+                        position: absolute;
+                        margin-bottom: 0.5rem;
+                        border-radius: 0 0 7px 0;
+                    }
+                }
+                > .value-container {
+                    width: inherit;
+                    height: 5rem;
+                    background-color: $gray_color_09;
+                    border-radius: 3px;
+                }
+            }
+            > .ampm-container {
+                margin-left: 1rem;
+                width: 80px;
+                height: inherit;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                > .am,
+                > .pm {
+                    width: 100%;
+                    height: 2rem;
+                    background-color: $gray_color_07_opacity;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 3px;
+                    margin: 2px 0;
+                    transform: scale(.8);
+                    transition: .2s ease-in-out;
+                    > p {
+                        color: $gray_color_06_opacity;
+                        font-weight: 500;
+                        transition: .2s ease-in-out;
+                        user-select: none;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        background-color: $gray_color_06_opacity;
+                        > p {
+                            color: $gray_color_04;
+                        }
+                    }
+                    &.active {
+                        margin: 0;
+                        transform: scale(1);
+                        background-color: $gray_color_02;
+                        > p {
+                            color: $gray_color_08;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
