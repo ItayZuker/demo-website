@@ -1,0 +1,103 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .create-invitation-day-container {
+            height: inherit;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            > .selection-container {
+                padding-top: 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                width: 90%;
+                > .day-container {
+                    width: 95px;
+                    height: 95px;
+                    border-radius: 3px;
+                    margin: 5px;
+                    background-color: $gray_color_07;
+                    display: flex;
+                    flex-direction: column;
+                    transition: .1s ease-in-out;
+                    > p {
+                        transition: .5s ease-in-out;
+                        &.day {
+                            text-transform: capitalize;
+                            font-size: 0.9rem;
+                            word-break: break-all;
+                            margin: 0.5rem 0.5rem 0 0.5rem;
+                            font-weight: 500;
+                            color: $gray_color_04;
+                        }
+                        &.date {
+                            text-transform: capitalize;
+                            font-size: 0.9rem;
+                            word-break: break-all;
+                            margin: 0 0.5rem;
+                            font-weight: 500;
+                            color: $gray_color_06;
+                        }
+                        &.today {
+                            font-weight: 500;
+                            margin: auto 0.5rem 0.5rem 0.5rem;
+                            color: $gray_color_06;
+                            &.hide {
+                                display: none;
+                            }
+                        }
+                    }
+                    &.selected {
+                        background-color: $gray_color_02;
+                        > p {
+                            &.day {
+                                color: $gray_color_08;
+                            }
+                            &.date {
+                                color: $gray_color_08;
+                            }
+                            &.today {
+                                color: $gray_color_08;
+                            }
+                        }
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        background-color: $gray_color_06;
+                        > p {
+                            &.day {
+                                color: $gray_color_04;
+                            }
+                            &.date {
+                                color: $gray_color_04;
+                            }
+                            &.today {
+                                color: $gray_color_04;
+                            }
+                        }
+                        &.selected {
+                            background-color: $gray_color_02;
+                            > p {
+                                &.day {
+                                    color: $gray_color_08;
+                                }
+                                &.date {
+                                    color: $gray_color_08;
+                                }
+                                &.today {
+                                    color: $gray_color_08;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            > .button-container {
+                margin-top: auto;
+                margin-bottom: 5rem;
+            }
+        }
+    }
+}

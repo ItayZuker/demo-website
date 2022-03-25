@@ -5,70 +5,58 @@ html {
         .create-invitation-type-container {
             height: inherit;
             width: 100%;
-            //background-color: red;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-top: 2rem;
             > .selection-container {
                 display: flex;
                 justify-content: space-between;
-                width: 80%;
-                > .chat-container {
-                    border-radius: 3px;
-                    height: 150px;
-                    width: 150px;
-                    background-color: $gray_color_09;
-                    border: 4px solid $gray_color_02;
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
-                > .event-container {
-                    border-radius: 3px;
-                    height: 150px;
-                    width: 150px;
-                    background-color: $gray_color_02;
-                    border: 4px solid $gray_color_02;
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
-            }
-            > .info-container {
-                margin-top: 2rem;
-                width: 80%;
-                max-height: 200px;
-                > .inner-container {
-                    padding: 1rem;
-                    border-radius: 3px;
-                    opacity: 0;
-                    transition: .5s ease-in-out;
-                    border: 4px solid transparent;
+                width: 70%;
+                > .chat-container,
+                > .date-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                     > p {
-                        opacity: 0;
-                        font-weight: 500;
-                        transition: .5s ease-in-out;
+                        color: $gray_color_06;
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        transition: .1s ease-in-out;
                     }
-                    &.chat {
-                        opacity: 1;
-                        background-color: $gray_color_09;
-                        border: 4px solid $gray_color_02;
-                        border-radius: 3px 30px 3px 30px;
-                        > p {
-                            opacity: 1;
-                            font-weight: 600;
-                            color: $gray_color_02;
+                    > .icon-container {
+                        border-radius: 3px;
+                        height: 150px;
+                        width: 150px;
+                        background-color: $gray_color_02;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: background-color .1s ease-in-out;
+                        > svg {
+                            width: 50%;
+                            path {
+                                fill: $gray_color_08;
+                            }
                         }
                     }
-                    &.event {
-                        opacity: 1;
-                        background-color: $gray_color_02;
-                        border: 4px solid $gray_color_02;
-                        border-radius: 30px 3px 30px 3px;
+                    &:hover {
                         > p {
-                            opacity: 1;
-                            font-weight: 500;
-                            color: $gray_color_07;
+                            transform: translateY(-0.5rem);
+                            color: $gray_color_02;
+                        }
+                        > .icon-container {
+                            cursor: pointer;
+                            background-color: $gray_color_02_opacity;
+                        }
+                    }
+                    &:active {
+                        > p {
+                            transform: translateY(0);
+                            color: $gray_color_02;
+                        }
+                        > .icon-container {
+                            background-color: $gray_color_02;
                         }
                     }
                 }

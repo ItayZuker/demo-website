@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from "react";
 import {GlobalContext} from "../../../../../context/global-context";
 import {CreateInvitationContext} from "../../../../../context/create-invitation-context";
 import CreateInvitationStageChooseType from "./create-invitation-stage-type/create-invitation-stage-type";
+import CreateInvitationStageDay from "./create-invitation-stage-day/create-invitation-stage-day";
 import closeIconDark from "../../../../../assets/images/close-icon-dark.svg";
 import "./create-invitation.scss";
 
@@ -23,8 +24,7 @@ const CreateInvitation = () => {
     } = useContext(CreateInvitationContext);
 
     useEffect(() => {
-        setTitle('Invitation Type');
-
+        setTitle('Create Invitation');
         setMessage(prevState => {
             return {...prevState,
                 one: {
@@ -58,6 +58,7 @@ const CreateInvitation = () => {
             <div className='verification-container'>
                 {/*{error ? <CreateUserError /> : <></>}*/}
                 {!error && stage === 'invitation-type' ? <CreateInvitationStageChooseType /> : <></>}
+                {!error && stage === 'invitation-day' ? <CreateInvitationStageDay /> : <></>}
                 {/*{!error && stage === 'email' ? <CreateUserStageEmail /> : <></>}*/}
                 {/*{!error && stage === 'password' ? <CreateUserStagePassword /> : <></>}*/}
                 {/*{!error && stage === 'create-user' ? <CreateUserStageCreateUser /> : <></>}*/}
