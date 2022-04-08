@@ -7,13 +7,11 @@ import "./create-invitation-stage-time-start.scss";
 const CreateInvitationStageTimeStart = () => {
 
     const {
-        setStage,
         invitation,
-        setInvitation,
         setTitle,
         setMessage,
-        nextWeek,
     } = useContext(CreateInvitationContext);
+
 
     const [next, setNext] = useState(false);
 
@@ -33,7 +31,7 @@ const CreateInvitationStageTimeStart = () => {
             setMessage(prevState => {
                 return {...prevState,
                     one: {
-                        string: 'When do you want the chat to start?',
+                        string: 'When will the chat start?',
                         highlight: false,
                     },
                     two: {
@@ -56,7 +54,6 @@ const CreateInvitationStageTimeStart = () => {
             });
         }
     }, []);
-
 
 
     return (
