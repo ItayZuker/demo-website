@@ -28,6 +28,26 @@ const CreateInvitationStageDuration = () => {
     }, [next]);
 
     useEffect(() => {
+        updateStageTitles();
+        updateInvitationDefault();
+    }, []);
+
+    /* Functions */
+    const updateInvitationDefault = () => {
+        setInvitation(prevState => {
+            return {...prevState,
+                // start: getTime(followingWeek[0], minimumDelay),
+                duration: {
+                    set: true,
+                    metric: 30,
+                    string: '30 Minutes',
+                    unlimited: false
+                }
+            }
+        });
+    }
+
+    const updateStageTitles = () => {
         setTitle('Time Limit')
         setMessage(prevState => {
             return {...prevState,
@@ -40,20 +60,8 @@ const CreateInvitationStageDuration = () => {
                     highlight: false,
                 }};
         });
-        setInvitation(prevState => {
-            return {...prevState,
-                start: getTime(followingWeek[0], minimumDelay),
-                duration: {
-                    set: true,
-                    metric: 30,
-                    string: '30 Minutes',
-                    unlimited: false
-                }
-            }
-        });
-    }, []);
+    }
 
-    /* Functions */
     const selectDuration = (limit) => {
         if (limit === 'unlimited') {
             setInvitation(prevState => {

@@ -49,10 +49,11 @@ html {
         .input-time-container {
             display: flex;
             align-items: center;
+            justify-content: center;
+            width: 100%;
             > span.colon {
                 font-size: 2rem;
-                margin: 0 0.5rem;
-                color: $gray_color_07;
+                color: $gray_color_06;
                 user-select: none;
             }
             > .hour-container,
@@ -77,7 +78,8 @@ html {
                     }
                     &:active {
                         &:after {
-                            border-bottom-color: $gray_color_06;
+                            border-bottom-color: $gray_color_02;
+                            transform: translateY(-3px);
                         }
                     }
                     &:after {
@@ -88,7 +90,7 @@ html {
                         border-right: 8px solid transparent;
                         border-bottom: 10px solid $gray_color_07;
                         position: absolute;
-                        transition: .1s ease-in-out;
+                        transition: .2s ease-in-out;
                     }
                 }
                 > .minus-arrow {
@@ -107,6 +109,7 @@ html {
                     &:active {
                         &:after {
                             border-top-color: $gray_color_06;
+                            transform: translateY(3px);
                         }
                     }
                     &:after {
@@ -117,7 +120,7 @@ html {
                         border-right: 8px solid transparent;
                         border-top: 10px solid $gray_color_07;
                         position: absolute;
-                        transition: .1s ease-in-out;
+                        transition: .2s ease-in-out;
                     }
                 }
                 > .value-container {
@@ -135,6 +138,7 @@ html {
                         font-size: 2rem;
                         line-height: 1;
                         color: $gray_color_04;
+                        user-select: none;
                         &.out-from-top {
                             animation: out-from-top 0.2s linear;
                         }

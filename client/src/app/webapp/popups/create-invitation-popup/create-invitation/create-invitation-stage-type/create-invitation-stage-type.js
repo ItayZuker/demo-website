@@ -4,6 +4,7 @@ import "./create-invitation-stage-type.scss";
 
 const CreateInvitationStageType = () => {
 
+    /* Global variables */
     const {
         setStage,
         invitation,
@@ -12,11 +13,29 @@ const CreateInvitationStageType = () => {
         setMessage,
     } = useContext(CreateInvitationContext);
 
+    /* Triggers */
     useEffect(() => {
-        resetInvitation();
+        updateStageTitles();
+        updateInvitationDefault();
     }, []);
 
-    const resetInvitation = () => {
+    /* Functions */
+    const updateStageTitles = () => {
+        setTitle('Create Invitation');
+        setMessage(prevState => {
+            return {...prevState,
+                one: {
+                    string: 'Select invitation type:',
+                    highlight: false,
+                },
+                two: {
+                    string: '',
+                    highlight: false,
+                }};
+        });
+    };
+
+    const updateInvitationDefault = () => {
         setInvitation({
             type: '',
             start: {
@@ -45,6 +64,7 @@ const CreateInvitationStageType = () => {
         }
     };
 
+    /* JSX Output */
     return (
         <div className='create-invitation-type-container'>
             <div className='selection-container'>

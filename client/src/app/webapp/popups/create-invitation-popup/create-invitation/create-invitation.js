@@ -27,18 +27,6 @@ const CreateInvitation = () => {
     } = useContext(CreateInvitationContext);
 
     useEffect(() => {
-        setTitle('Create Invitation');
-        setMessage(prevState => {
-            return {...prevState,
-                one: {
-                    string: 'Select invitation type:',
-                    highlight: false,
-                },
-                two: {
-                    string: '',
-                    highlight: false,
-                }};
-        });
         setStage('invitation-type');
     }, []);
 
@@ -90,7 +78,6 @@ const CreateInvitation = () => {
                 <div
                     onClick={() => clickBack()}
                     className={'back-button-container ' + (stage !== 'invitation-type' && !error ? '' : 'hide')}>
-                    <p>Back</p>
                 </div>
             </div>
         </div>

@@ -11,12 +11,13 @@ html {
             > .selection-container {
                 padding-top: 1rem;
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
                 width: 90%;
             }
             > .button-container {
                 margin-top: auto;
-                margin-bottom: 5rem;
+                margin-bottom: 2rem;
             }
         }
     }

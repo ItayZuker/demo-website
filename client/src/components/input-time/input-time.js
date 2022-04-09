@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {CreateInvitationContext} from "../../context/create-invitation-context";
 import "./input-time.scss";
 
@@ -8,14 +8,10 @@ const InputTime = () => {
     const {
         invitation,
         setInvitation,
-        followingWeek,
-        minimumDelay,
-        getTime,
     } = useContext(CreateInvitationContext);
 
     /* Local variables */
-    const [selectedMinute, setSelectedMinute] = useState(invitation.start.time.minute);
-    const [selectedHour, setSelectedHour] = useState(invitation.start.time.hour);
+    const [change, setChange] = useState('');
 
     /* Triggers */
     useEffect(() => {
@@ -24,7 +20,6 @@ const InputTime = () => {
 
     useEffect(() => {
         updateHourDisplay();
-        checkMinutes();
     }, [invitation.start.time.hour]);
 
     /* Functions */
@@ -38,34 +33,14 @@ const InputTime = () => {
         }
     };
 
-    const checkMinutes = () => {
-        if (invitation.start.day.isToday) {
-            if (invitation.start.time.hour === followingWeek[0].time.hour) {
-                const minimumMinute = getMinimumMinute();
-                if (invitation.start.time.minute < minimumMinute) {
-                    setInvitation(prevState => {
-                        return {...prevState,
-                            start: {...prevState.start,
-                                time: {...prevState.start.time,
-                                    minute: minimumMinute,
-                                },
-                            },
-                        };
-                    });
-                }
-            }
-        }
-    }
-
     const updateHourDisplay = () => {
         const prevElement = document.getElementById('input-hour-id');
-        const prevValue = Number(prevElement.innerText);
         const newValue = invitation.start.time.hour;
         const newElement = document.createElement('p');
         newElement.classList.add('current-element');
         newElement.innerText = convertValueToString(newValue);
         prevElement.parentElement.appendChild(newElement);
-        if (newValue > prevValue) {
+        if (change === 'plus') {
             prevElement.id = '';
             prevElement.classList.add('out-from-top');
             setTimeout(() => {
@@ -88,13 +63,12 @@ const InputTime = () => {
 
     const updateMinuteDisplay = () => {
         const prevElement = document.getElementById('input-minute-id');
-        const prevValue = Number(prevElement.innerText);
         const newValue = invitation.start.time.minute;
         const newElement = document.createElement('p');
         newElement.classList.add('current-element');
         newElement.innerText = convertValueToString(newValue);
         prevElement.parentElement.appendChild(newElement);
-        if (newValue > prevValue) {
+        if (change === 'plus') {
             prevElement.id = '';
             prevElement.classList.add('out-from-top');
             setTimeout(() => {
@@ -115,37 +89,24 @@ const InputTime = () => {
         }
     };
 
-    const getMinimumMinute = () => {
-        if (invitation.start.day.isToday) {
-            if (invitation.start.time.hour > followingWeek[0].time.hour) {
-                return 0;
-            } else {
-                const minimumData = getTime(followingWeek[0], minimumDelay);
-                return minimumData.time.minute;
-            }
-        } else {
-            return 0;
-        }
-    };
-
     const getNewMinute = (math, currentMinuteValue) => {
-        const minimumMinute = getMinimumMinute();
         if (math === 'plus') {
-            if (currentMinuteValue < 60) {
+            if (currentMinuteValue < 59) {
                 return currentMinuteValue + 1;
             } else {
-                return minimumMinute;
+                return 0;
             }
         } else {
-            if (currentMinuteValue > minimumMinute) {
+            if (currentMinuteValue > 0) {
                 return currentMinuteValue - 1;
             } else {
-                return 60;
+                return 59;
             }
         }
     };
 
     const updateMinuteClick = (math) => {
+        setChange(math);
         const currentMinuteValue = invitation.start.time.minute;
         setInvitation(prevState => {
             return {...prevState,
@@ -158,7 +119,8 @@ const InputTime = () => {
         });
     };
 
-    const updateMinuteInterval = (e, math) => {
+    const updateMinuteInterval = (math) => {
+        setChange(math);
         let interval = setInterval(() => {
             const currentMinuteValue = Number(document.getElementById('input-minute-id').innerText);
             setInvitation(prevState => {
@@ -170,36 +132,28 @@ const InputTime = () => {
                     },
                 };
             });
-        }, 100);
-        e.target.addEventListener('mouseup', () => clearInterval(interval));
+        }, 200);
+        document.addEventListener('mouseup', () => clearInterval(interval));
     };
-
-    const getMinimumHour = () => {
-        if (invitation.start.day.isToday) {
-            return followingWeek[0].time.hour;
-        } else {
-            return 0;
-        }
-    }
 
     const getNewHour = (math, currentHourValue) => {
-        const minimumHour = getMinimumHour();
         if (math === 'plus') {
-            if (currentHourValue < 24) {
+            if (currentHourValue < 23) {
                 return currentHourValue + 1;
             } else {
-                return minimumHour;
+                return 0;
             }
         } else {
-            if (currentHourValue > minimumHour) {
+            if (currentHourValue > 0) {
                 return currentHourValue - 1;
             } else {
-                return 24;
+                return 23;
             }
         }
     };
 
-    const updateHourInterval = (e, math) => {
+    const updateHourInterval = (math) => {
+        setChange(math);
         let interval = setInterval(() => {
             const currentHourValue = Number(document.getElementById('input-hour-id').innerText);
             setInvitation(prevState => {
@@ -211,11 +165,12 @@ const InputTime = () => {
                     },
                 };
             });
-        }, 100);
-        e.target.addEventListener('mouseup', () => clearInterval(interval));
+        }, 200);
+        document.addEventListener('mouseup', () => clearInterval(interval));
     };
 
     const updateHourClick = (math) => {
+        setChange(math);
         const currentHourValue = invitation.start.time.hour;
         setInvitation(prevState => {
             return {...prevState,
@@ -233,8 +188,8 @@ const InputTime = () => {
         <div className='input-time-container'>
             <div className='hour-container'>
                 <div
-                    onClick={(e) => updateHourClick('plus')}
-                    onMouseDown={(e) => updateHourInterval(e,'plus')}
+                    onClick={() => updateHourClick('plus')}
+                    onMouseDown={() => updateHourInterval('plus')}
                     className='plus-arrow'>
                 </div>
                 <div className='value-container'>
@@ -243,27 +198,25 @@ const InputTime = () => {
                 </div>
                 <div
                     onClick={(e) => updateHourClick('minus')}
-                    onMouseDown={(e) => updateHourInterval(e,'minus')}
+                    onMouseDown={() => updateHourInterval('minus')}
                     className='minus-arrow'>
                 </div>
             </div>
             <span className='colon'>:</span>
             <div className='minuets-container'>
                 <div
-                    onClick={(e) => updateMinuteClick('plus')}
-                    onMouseDown={(e) => updateMinuteInterval(e,'plus')}
+                    onClick={() => updateMinuteClick('plus')}
+                    onMouseDown={() => updateMinuteInterval('plus')}
                     className='plus-arrow'>
-
                 </div>
                 <div className='value-container'>
                     <p id='input-minute-id'>
                     </p>
                 </div>
                 <div
-                    onClick={(e) => updateMinuteClick('minus')}
-                    onMouseDown={(e) => updateMinuteInterval(e,'minus')}
+                    onClick={() => updateMinuteClick('minus')}
+                    onMouseDown={() => updateMinuteInterval('minus')}
                     className='minus-arrow'>
-
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ const CreateInvitationContext = React.createContext();
 const CreateInvitationContextComponent = (props) => {
 
     /* Local State */
-    const [minimumDelay] = useState(5);
+    const [minimumDelay] = useState(0);
     const [followingWeek, setFollowingWeek] = useState([]);
     const [monthList] = useState([
         {
@@ -47,31 +47,31 @@ const CreateInvitationContextComponent = (props) => {
     const [daysList] = useState([
         {
             name: 'sunday',
-            short: 'sun'
+            short: 'su',
         },
         {
             name: 'monday',
-            short: 'mon'
+            short: 'mo',
         },
         {
             name: 'tuesday',
-            short: 'tue'
+            short: 'tu'
         },
         {
             name: 'wednesday',
-            short: 'wed'
+            short: 'we'
         },
         {
             name: 'thursday',
-            short: 'thu'
+            short: 'th'
         },
         {
             name: 'friday',
-            short: 'fri'
+            short: 'fr'
         },
         {
             name: 'saturday',
-            short: 'sat'
+            short: 'sa'
         }
     ]);
     const [stage, setStage] = useState('');
@@ -100,8 +100,9 @@ const CreateInvitationContextComponent = (props) => {
         },
     });
 
+    /* Triggers */
     useEffect(() => {
-        if (invitation.duration.set) {
+        if (invitation.duration.set && invitation.start.set) {
             updateInvitationEnd(invitation.duration);
         }
     }, [invitation.duration]);
@@ -118,10 +119,17 @@ const CreateInvitationContextComponent = (props) => {
 
     useEffect(() => {
         if (!!followingWeek.length) {
-            tryUpdateInvitation(followingWeek[0]);
+            // tryUpdateInvitation(followingWeek[0]);
         }
     }, [followingWeek]);
 
+    useEffect(() => {
+        if (invitation.start.set && invitation.duration.set) {
+            updateInvitationEnd(invitation.duration);
+        }
+    }, [invitation.start, invitation.duration]);
+
+    /* Functions */
     const getUpdateMinutes = (start, delay) => {
         return {
             set: true,
@@ -161,7 +169,7 @@ const CreateInvitationContextComponent = (props) => {
     const getUpdateDayHourMinute = (start, delay) => {
         const today = new Date();
         const date = new Date(today);
-        date.setDate(date.getDate() + 1);
+        date.setDate(start.day.metricDayInTheMonth + 1);
         return {
             set: true,
             timeZone: {
@@ -190,7 +198,7 @@ const CreateInvitationContextComponent = (props) => {
     const getUpdateMonthDayHourMinute = (start, delay) => {
         const today = new Date();
         const date = new Date(today);
-        date.setDate(date.getDate() + 1);
+        date.setDate(start.day.metricDayInTheMonth + 1);
         return {
             set: true,
             timeZone: {
@@ -225,7 +233,7 @@ const CreateInvitationContextComponent = (props) => {
     const getUpdateYearMonthDayHourMinute = (start, delay) => {
         const today = new Date();
         const date = new Date(today);
-        date.setDate(date.getDate() + 1);
+        date.setDate(start.day.metricDayInTheMonth + 1);
         return {
             set: true,
             timeZone: {
@@ -262,16 +270,16 @@ const CreateInvitationContextComponent = (props) => {
             return getUpdateMinutes(start, delay);
         } else if (start.time.hour < 23) {
             return getUpdateHourMinutes(start, delay);
-        } else if (start.month.isLastInYear) {
-            if (start.day.isLastInMonth) {
+        } else if (!start.month.isLastInYear) {
+            if (!start.day.isLastInMonth) {
                 return getUpdateDayHourMinute(start, delay);
             } else {
                 return getUpdateMonthDayHourMinute(start, delay);
             }
         } else {
             return getUpdateYearMonthDayHourMinute(start, delay);
-        }
-    }
+        };
+    };
 
     const updateInvitationEnd = (duration) => {
         if (duration.unlimited) {
@@ -280,11 +288,12 @@ const CreateInvitationContextComponent = (props) => {
                     end: {
                         set: true,
                         unlimited: true,
-                    }
-                }
-            })
+                    },
+                };
+            });
         } else {
-            const invitationEnd = getTime(followingWeek[0], duration.metric);
+            const invitationEnd = getTime(invitation.start, duration.metric);
+            // console.log(invitationEnd)
             setInvitation(prevState => {
                 return {...prevState,
                     end: invitationEnd,
@@ -293,48 +302,14 @@ const CreateInvitationContextComponent = (props) => {
         }
     };
 
-    const updateInvitationToMinimumStart = (start) => {
-        const invitationStart = getTime(start, minimumDelay)
-        setInvitation(prevState => {
-            return {...prevState,
-                start: invitationStart,
-            };
-        });
-    }
-
-    const tryUpdateInvitation = async (today) => {
-        if (invitation.start.set) {
-            const
-                year_1 = today.year.metric,
-                month_1 = today.month.metricInYear,
-                day_1 = today.day.metricDayInTheMonth,
-                hour_1 = today.time.hour,
-                minute_1 = today.time.minute
-            const
-                year_2 = invitation.start.year.metric,
-                month_2 = invitation.start.month.metricInYear,
-                day_2 = invitation.start.day.metricDayInTheMonth,
-                hour_2 = invitation.start.time.hour,
-                minute_2 = invitation.start.time.minute
-            const minimumDate = (new Date(year_1, month_1, day_1, hour_1, minute_1)).getTime();
-            const selectedDate = (new Date(year_2, month_2, day_2, hour_2, minute_2)).getTime();
-            const diffInMinutes = ((selectedDate - minimumDate) / 1000) / 60;
-            if (diffInMinutes < minimumDelay) {
-                updateInvitationToMinimumStart(today);
-            }
-        } else {
-            updateInvitationToMinimumStart(today);
-        }
-    };
-
     const getTimeZone = () => {
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const continent = timezone.split("/")[0];
-            const city = timezone.split("/")[1];
-            return {
-                continent: continent,
-                city: city,
-            };
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const continent = timezone.split("/")[0];
+        const city = timezone.split("/")[1];
+        return {
+            continent: continent,
+            city: city,
+        };
     };
 
     const getDayData = (metric) => {
@@ -354,6 +329,11 @@ const CreateInvitationContextComponent = (props) => {
             const metricUTCMinuteOffset = date.getTimezoneOffset();
             if (metric > 0) {
                 resolve({
+                    timeZone: {
+                        continent: timeZone.continent,
+                        city: timeZone.city,
+                        metricUTCMinuteOffset: metricUTCMinuteOffset,
+                    },
                     year: {
                         metric: metricYear,
                     },
@@ -369,6 +349,9 @@ const CreateInvitationContextComponent = (props) => {
                         short: stringDay.short,
                         metricDayInTheMonth: metricDayInTheMonth,
                         metricDayInTheWeek: date.getDay() + 1,
+                        isToday: false,
+                        isLastInMonth: metricDayInTheMonth === metricTotalInMonth,
+                        isLastInWeek: (date.getDay() + 1) === 7,
                     },
                 });
             } else {
