@@ -1,0 +1,56 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .input-handle-container {
+            display: flex;
+            align-items: center;
+            > .handle {
+                width: calc(4rem - 8px);
+                height: calc(2rem - 8px);
+                border-radius: 2rem;
+                background-color: $gray_color_08;
+                border: 2px solid $gray_color_07;
+                position: relative;
+                display: flex;
+                align-items: center;
+                transition: .1s ease-in-out;
+                &:hover {
+                    cursor: pointer;
+                    &:after {
+                        background-color: $gray_color_09;
+                    }
+                }
+                &:after {
+                    content: '';
+                    width: calc(2rem - 4px);
+                    height: calc(2rem - 4px);
+                    border-radius: 1rem;
+                    border: 2px solid $gray_color_07;
+                    background-color: $gray_color_08;
+                    position: absolute;
+                    left: -4px;
+                    box-shadow: 0 0 10px $gray_color_07;
+                    transition: .2s ease-in-out;
+                }
+            }
+            > p.value {
+                margin-left: 0.5rem;
+                color: $gray_color_06;
+                transition: .2s ease-out;
+            }
+            &.on {
+                > .handle {
+                    background-color: $gray_color_02;
+                    border-color: $gray_color_02;
+                    &:after {
+                        left: calc(100% - 2rem + 4px);
+                    }
+                }
+                > p.value {
+                    color: $gray_color_02;
+                }
+            }
+        }
+    }
+}

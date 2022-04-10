@@ -25,9 +25,9 @@ const CreateInvitationStageTimeStart = () => {
     useEffect(() => {
         if (next) {
             if (invitation.type === 'chat') {
-                // setStage('invitation-repeat')  ;
+                // setStage('invitation-intro')  ;
             } else {
-                // setStage('invitation-repeat');
+                // setStage('invitation-intro');
             }
         }
     }, [next]);
