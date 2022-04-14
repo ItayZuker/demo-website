@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-import {CreateInvitationContext} from "../../context/create-invitation-context";
-import InputHandle from "../input-handle/input-handle";
+import {CreateChatInvitationContext} from "../../context/create-chat-invitation-context";
+import InputCheckBox from "../input-check-box/input-check-box";
 import "./input-day.scss";
 
 const InputDay = () => {
@@ -11,7 +11,7 @@ const InputDay = () => {
         setInvitation,
         invitation,
         followingWeek,
-    } = useContext(CreateInvitationContext);
+    } = useContext(CreateChatInvitationContext);
 
     /* Local variables */
     const [repeat, setRepeat] = useState(false);
@@ -43,6 +43,18 @@ const InputDay = () => {
     /* JSX Output */
     return (
         <div className='input-day-container'>
+            <div className='all-week-container'>
+                {daysList.map((day, index) => {
+                    return (
+                        <div
+                            onClick={() => selectDay(day.short)}
+                            className={'day-item-container ' + (invitation.start.day.short === day.short ? 'selected' : '')}
+                            key={index}>
+                            <p>{day.short}</p>
+                        </div>
+                    )
+                })}
+            </div>
             <div className='selected-date-container'>
                 {
                     repeat ?
@@ -58,24 +70,10 @@ const InputDay = () => {
                         </p>
                 }
             </div>
-            <div className='all-week-container'>
-                {daysList.map((day, index) => {
-                    return (
-                        <div
-                            onClick={() => selectDay(day.short)}
-                            className={'day-item-container ' + (invitation.start.day.short === day.short ? 'selected' : '')}
-                            key={index}>
-                            <p>{day.short}</p>
-                        </div>
-                    )
-                })}
-            </div>
             <div className='repeat-container'>
-                <InputHandle
+                <InputCheckBox
+                    text={'Repeat'}
                     innitial={repeat}
-                    valueOff={'No repeat'}
-                    valueOn={'Repeat'}
-                    isActive={true}
                     callback={setRepeat}/>
             </div>
         </div>

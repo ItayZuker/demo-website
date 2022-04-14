@@ -1,0 +1,30 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .input-text-area-container {
+            width: 100%;
+            position: relative;
+            &.loading {
+                pointer-events: none;
+            }
+            > textarea {
+                width: calc(100% - 2rem);
+                height: calc(90% - 2rem);
+                border: none;
+                resize: none;
+                padding: 1rem;
+                font-family: 'Roboto', sans-serif;
+                font-size: 1.2rem;
+                line-height: 1.5;
+                color: $gray_color_06;
+                &:focus {
+                    outline: none;
+                }
+            }
+            > .character-counter-container {
+                right: 1%;
+            }
+        }
+    }
+}

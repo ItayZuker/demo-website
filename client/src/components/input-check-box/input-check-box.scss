@@ -1,0 +1,67 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .input-check-box-container {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            > .check-box {
+                width: 0.8rem;
+                height: 0.8rem;
+                border: 2px solid $gray_color_06;
+                border-radius: 2px;
+                margin-right: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                transition: .1s ease-in-out;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 0.4rem;
+                    height: 0.4rem;
+                    border-radius: 50%;
+                    background-color: transparent;
+                    transition: .1s ease-in-out;
+                }
+            }
+            > p.check-box-text {
+                color: $gray_color_06;
+                font-weight: 400;
+                transition: .1s ease-in-out;
+            }
+            &.check {
+                > p {
+                    color: $gray_color_04;
+                }
+                > .check-box {
+                    border-color: $gray_color_04;
+                    &:after {
+                        background-color: $gray_color_04;
+                    }
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                > .check-box {
+                    &:after {
+                        background-color: $gray_color_06;
+                    }
+                }
+                &.check {
+                    > p {
+                        color: $gray_color_04;
+                    }
+                    > .check-box {
+                        border-color: $gray_color_04;
+                        &:after {
+                            background-color: $gray_color_04;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

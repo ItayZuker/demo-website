@@ -90,7 +90,6 @@ const GlobalContextComponent = (props) => {
                 },
                 body: JSON.stringify({
                     countryName: countryName,
-
                 }),
             })
             return await res.json();

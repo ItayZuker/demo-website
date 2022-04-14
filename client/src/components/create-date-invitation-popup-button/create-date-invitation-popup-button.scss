@@ -1,0 +1,51 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .create-date-invitation-popup-button-container {
+            background-color: $gray_color_02;
+            border-radius: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 4rem;
+            transition: .1s ease-in-out;
+            > p {
+                font-size: 1.4rem;
+                color: $gray_color_08;
+                display: flex;
+                align-items: center;
+                > span.plus {
+                    position: relative;
+                    margin-right: 2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    &:before {
+                        content: '';
+                        width: 1.5rem;
+                        height: 4px;
+                        border-radius: 1px;
+                        background-color: $gray_color_07;
+                        position: absolute;
+                    }
+                    &:after {
+                        content: '';
+                        width: 4px;
+                        height: 1.5rem;
+                        border-radius: 1px;
+                        background-color: $gray_color_07;
+                        position: absolute;
+                    }
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: $gray_color_04;
+            }
+            &:active {
+                background-color: $gray_color_02;
+            }
+        }
+    }
+}

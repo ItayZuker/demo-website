@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {ProfileContext} from "../../../../../../../context/profile-context";
-import DailyInvitations from "./daily-invitations/daily-invitations";
-import AddInvitation from "./add-invitation/add-invitation";
+import AddChatInvitation from "./add-chat-invitation/add-chat-invitation";
+import AddDateInvitation from "./add-date-invitation/add-date-invitation";
 import "./profile-view.scss";
 
 const ProfileView = () => {
@@ -12,7 +12,8 @@ const ProfileView = () => {
 
     return (
         <div className='profile-view-container'>
-            <AddInvitation />
+            <AddChatInvitation />
+            <AddDateInvitation />
             <div className='daily-invitations-container'>
                 {/*{details.invitations.map((day, index )=> {*/}
                 {/*    const chats = day.chats.length;*/}

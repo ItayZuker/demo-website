@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {CreateInvitationContext} from "../../context/create-invitation-context";
+import {CreateChatInvitationContext} from "../../context/create-chat-invitation-context";
 import "./input-time.scss";
 
 const InputTime = () => {
@@ -8,7 +8,7 @@ const InputTime = () => {
     const {
         invitation,
         setInvitation,
-    } = useContext(CreateInvitationContext);
+    } = useContext(CreateChatInvitationContext);
 
     /* Local variables */
     const [change, setChange] = useState('');

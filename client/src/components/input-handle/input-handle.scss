@@ -6,7 +6,7 @@ html {
             display: flex;
             align-items: center;
             > .handle {
-                width: calc(4rem - 8px);
+                width: calc(3rem - 8px);
                 height: calc(2rem - 8px);
                 border-radius: 2rem;
                 background-color: $gray_color_08;

@@ -7,35 +7,12 @@ html {
             display: flex;
             flex-direction: column;
             align-items: center;
-            > .selected-date-container {
-                width: inherit;
-                height: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                > p {
-                    color: $gray_color_06;
-                    font-size: 1rem;
-                    line-height: 1;
-                    text-transform: capitalize;
-                    > span {
-                        &.day {
-                            margin-right: 0.5rem;
-                        }
-                        &.month {
-                            margin-left: 0.5rem;
-                        }
-                        &.metric-day {
-                            margin-left: 0.5rem;
-                        }
-                    }
-                }
-            }
             > .all-week-container {
                 width: inherit;
                 display: flex;
                 justify-content: space-between;
                 height: 3rem;
+                margin-top: 1rem;
                 > .day-item-container {
                     display: flex;
                     align-items: center;
@@ -74,10 +51,36 @@ html {
                     }
                 }
             }
-            > .repeat-container {
+            > .selected-date-container {
                 width: inherit;
-                height: 5rem;
+                height: 2rem;
                 display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 1rem;
+                > p {
+                    color: $gray_color_06;
+                    font-size: 1rem;
+                    line-height: 1;
+                    text-transform: capitalize;
+                    > span {
+                        &.day {
+                            margin-right: 0.5rem;
+                        }
+                        &.month {
+                            margin-left: 0.5rem;
+                        }
+                        &.metric-day {
+                            margin-left: 0.5rem;
+                        }
+                    }
+                }
+            }
+            > .repeat-container {
+                margin-top: 0.5rem;
+                width: inherit;
+                display: flex;
+                justify-content: center;
                 align-items: center;
             }
         }
