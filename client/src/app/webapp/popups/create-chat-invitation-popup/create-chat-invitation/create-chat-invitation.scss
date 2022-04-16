@@ -6,21 +6,50 @@ html {
             width: 500px;
             border-radius: 2px;
             background-color: $gray_color_08;
+            position: relative;
             > .top-container {
-                width: 100%;
+                width:100%;
                 height: 3rem;
                 display: flex;
                 align-items: center;
-                justify-content: flex-end;
-                > img {
+                justify-content: space-between;
+                position: relative;
+                z-index: 1;
+                > .close-icon-container {
+                    margin: 0 1rem 0 auto;
+                }
+                > .back-icon-container {
+                    margin: 0 auto 0 1rem;
+                }
+                > .close-icon-container,
+                > .back-icon-container {
                     height: 1rem;
-                    margin-right: 1rem;
+                    width: 1rem;
+                    &.hide {
+                        display: none;
+                    }
+                    > svg {
+                        height: inherit;
+                        width: inherit;
+                        path {
+                            fill: $gray_color_06;
+                            transition: .1s ease-in-out;
+                        }
+                    }
                     &:hover {
                         cursor: pointer;
-                        opacity: 0.5;
+                        > svg {
+                            > path {
+                                fill: $gray_color_04;
+                            }
+                        }
                     }
                     &:active {
-                        opacity: 1;
+                        > svg {
+                            > path {
+                                fill: $gray_color_06;
+                            }
+                        }
                     }
                 }
             }
@@ -28,17 +57,18 @@ html {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                min-height: 3rem;
             }
             .message-container {
-                min-height: 3.6rem;
+                min-height: 1.3rem;
+                padding: 1rem;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 > p {
                     text-align: center;
                     font-weight: 500;
-                    color: $gray_color_03;
+                    color: $gray_color_04;
                     transition: color .3s ease-in-out;
                     &.highlight {
                         color: $warning-color-01;
@@ -46,7 +76,7 @@ html {
                 }
             }
             .verification-container {
-                height: calc(400px - 3rem);
+                height: 350px;
             }
             > .bottom-container {
                 height: 3rem;

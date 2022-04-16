@@ -3,45 +3,65 @@
 html {
     body {
         .create-date-invitation-popup-button-container {
+            width: 100%;
+            height: 100%;
             background-color: $gray_color_02;
-            border-radius: 5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem 4rem;
+            border-radius: 3px;
             transition: .1s ease-in-out;
-            > p {
-                font-size: 1.4rem;
-                color: $gray_color_08;
+            position: relative;
+            > .static {
+                width: inherit;
+                height: inherit;
                 display: flex;
                 align-items: center;
-                > span.plus {
-                    position: relative;
-                    margin-right: 2rem;
+                justify-content: center;
+                transition: .1s ease-in-out;
+                opacity: 1;
+                position: absolute;
+                > .icon-container {
+                    height: 50%;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    &:before {
-                        content: '';
-                        width: 1.5rem;
-                        height: 4px;
-                        border-radius: 1px;
-                        background-color: $gray_color_07;
-                        position: absolute;
-                    }
-                    &:after {
-                        content: '';
-                        width: 4px;
-                        height: 1.5rem;
-                        border-radius: 1px;
-                        background-color: $gray_color_07;
-                        position: absolute;
+                    > svg {
+                        width: fit-content;
+                        height: 100%;
                     }
                 }
+            }
+            > .hover {
+                width: inherit;
+                height: inherit;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: .1s ease-in-out;
+                opacity: 0;
+                position: absolute;
+                > .icon-container {
+                    height: 20%;
+                    display: flex;
+                    align-items: center;
+                    > svg {
+                        width: fit-content;
+                        margin-right: 1rem;
+                        height: 100%;
+                    }
+                }
+                > p {
+                    font-size: 2rem;
+                    color: $gray_color_08;
+                }
+
             }
             &:hover {
                 cursor: pointer;
                 background-color: $gray_color_04;
+                > .static {
+                    opacity: 0;
+                }
+                > .hover {
+                    opacity: 1;
+                }
             }
             &:active {
                 background-color: $gray_color_02;

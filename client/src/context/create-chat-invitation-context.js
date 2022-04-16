@@ -78,14 +78,8 @@ const CreateChatInvitationContextComponent = (props) => {
     const [title, setTitle] = useState('');
     const [error, setError] = useState(false);
     const [message, setMessage] = useState({
-        one: {
-            string: '',
-            highlight: false
-        },
-        two: {
-            string: '',
-            highlight: false
-        }
+        string: '',
+        highlight: false,
     });
     const [invitation, setInvitation] = useState({
         type: 'chat',
@@ -292,6 +286,7 @@ const CreateChatInvitationContextComponent = (props) => {
                 };
             });
         } else {
+
             const invitationEnd = getTime(invitation.start, duration.metric);
             // console.log(invitationEnd)
             setInvitation(prevState => {

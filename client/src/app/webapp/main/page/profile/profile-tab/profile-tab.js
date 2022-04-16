@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../../../../context/global-context";
+import React, {useContext} from "react";
 import {ProfileContext} from "../../../../../../context/profile-context";
-import ProfileView from "./profile-view/profile-view";
+import View from "./view/view";
 import Picture from "./picture/picture";
 import Details from "./details/details";
 import Settings from "./settings/settings";
@@ -18,7 +17,7 @@ const ProfileTab = () => {
     /* JSX Output */
     return (
         <div className='profile-tab-container'>
-            {tab === 'profile-view' ? <ProfileView /> : <></>}
+            {tab === 'profile' ? <View /> : <></>}
             {tab === 'picture' ? <Picture /> : <></>}
             {tab === 'details' ? <Details /> : <></>}
             {tab === 'settings' ? <Settings /> : <></>}

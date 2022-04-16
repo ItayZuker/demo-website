@@ -3,9 +3,9 @@ import {CreateChatInvitationContext} from "../../../../../../context/create-chat
 import InputTime from "../../../../../../components/input-time/input-time";
 import Button from "../../../../../../components/button/button";
 import InputDay from "../../../../../../components/input-day/input-day";
-import "./create-invitation-stage-start.scss";
+import "./create-chat-invitation-start.scss";
 
-const CreateInvitationStageStart = () => {
+const CreateChatInvitationStart = () => {
 
     /* Global variables */
     const {
@@ -46,16 +46,9 @@ const CreateInvitationStageStart = () => {
 
     const updateStageTitles = () => {
        setTitle('Start');
-       setMessage(prevState => {
-          return {...prevState,
-              one: {
-                  string: 'When will you start talking?',
-                    highlight: false,
-              },
-             two: {
-                string: '',
-                    highlight: false,
-                }};
+       setMessage({
+          string: 'When will you start talking?',
+          highlight: false,
         });
     };
 
@@ -64,7 +57,7 @@ const CreateInvitationStageStart = () => {
         return <></>
     } else {
         return (
-            <div className='create-invitation-stage-start-container'>
+            <div className='create-chat-invitation-start-container'>
                 <div className='selection-container'>
                     <InputTime />
                     <InputDay />
@@ -79,4 +72,4 @@ const CreateInvitationStageStart = () => {
     }
 };
 
-export default CreateInvitationStageStart;
+export default CreateChatInvitationStart;

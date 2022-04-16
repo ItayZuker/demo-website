@@ -47,8 +47,7 @@ const ProfileNavigation = () => {
             ref={profileNavigationContainerRef}
             className='profile-navigation-container'>
             <ProfilePicture />
-            {/*<ProfileInvitations />*/}
-
+            <ProfileNavigationButton title='profile'/>
             <ProfileNavigationButton title='details'/>
             <ProfileNavigationButton title='settings'/>
             <ProfileNavigationButton title='help'/>

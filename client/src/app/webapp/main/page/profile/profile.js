@@ -27,7 +27,7 @@ const Profile = () => {
 
     /* Triggers */
     useEffect(() => {
-        setTab('profile-view');
+        setTab('profile');
     }, []);
 
     useEffect(() => {

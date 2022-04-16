@@ -133,43 +133,7 @@ const createUser = (data) => {
                 geoData: data.geoData,
                 legal: data.legal,
                 login: true,
-                invitations: [
-                    {
-                        day: 'sunday',
-                        chats: [],
-                        events: [],
-                    },
-                    {
-                        day: 'monday',
-                        chats: [],
-                        events: [],
-                    },
-                    {
-                        day: 'tuesday',
-                        chats: [],
-                        events: [],
-                    },
-                    {
-                        day: 'wednesday',
-                        chats: [],
-                        events: [],
-                    },
-                    {
-                        day: 'thursday',
-                        chats: [],
-                        events: [],
-                    },
-                    {
-                        day: 'friday',
-                        chats: [],
-                        events: [],
-                    },
-                    {
-                        day: 'saturday',
-                        chats: [],
-                        events: [],
-                    },
-                ],
+                invitations: [],
                 verify: {
                     hash: '',
                     lifeTime: null,

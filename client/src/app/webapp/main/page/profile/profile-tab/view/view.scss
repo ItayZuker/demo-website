@@ -2,12 +2,9 @@
 
 html {
     body {
-        .profile-view-container {
+        .view-container {
             width: auto;
             padding: 0 50px;
-            > .daily-invitations-container {
-                margin-top: 2rem;
-            }
         }
     }
 }
