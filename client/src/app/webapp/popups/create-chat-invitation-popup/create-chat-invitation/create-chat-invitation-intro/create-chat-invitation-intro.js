@@ -57,6 +57,17 @@ const CreateChatInvitationIntro = () => {
         });
     };
 
+    const getTimeZone = () => {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const continent = timezone.split("/")[0];
+        const city = timezone.split("/")[1];
+        return {
+            continent: continent,
+            city: city,
+            offset: invitation.start.timeStamp.getTimezoneOffset()
+        };
+    }
+
     const submitInvitation = async () => {
         setLoading(true);
         try {
@@ -70,6 +81,7 @@ const CreateChatInvitationIntro = () => {
                 body: JSON.stringify({
                     token: token,
                     invitation: invitation,
+                    timeZone: getTimeZone()
                 }),
             });
             const data = await res.json();
@@ -100,7 +112,7 @@ const CreateChatInvitationIntro = () => {
 
     /* JSX Output */
     return (
-        <div className='create-chat-invitation-intro-container'>
+        <div className={'create-chat-invitation-intro-container ' + (loading ? 'loading' : '')}>
             <div className='selection-container'>
                 <InputTextArea
                     valueCallback={setIntro}

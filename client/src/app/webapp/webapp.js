@@ -25,6 +25,7 @@ const Webapp = () => {
             { popup === 'delete-account' ? <DeleteAccountPopup /> : <></> }
             { popup === 'create-invitation' ? <CreateInvitationPopup /> : <></> }
             { popup === 'create-chat-invitation' ? <CreateChatInvitationPopup /> : <></> }
+            {/*{ popup === 'create-date-invitation' ? <CreateDateInvitationPopup /> : <></> }*/}
             <Header/>
             <Main/>
             <Footer/>

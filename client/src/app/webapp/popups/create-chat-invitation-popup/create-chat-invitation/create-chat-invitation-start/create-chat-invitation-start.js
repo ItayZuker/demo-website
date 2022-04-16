@@ -14,8 +14,6 @@ const CreateChatInvitationStart = () => {
         setTitle,
         setMessage,
         followingWeek,
-        getTime,
-        minimumDelay,
         setStage,
     } = useContext(CreateChatInvitationContext);
 
@@ -36,10 +34,12 @@ const CreateChatInvitationStart = () => {
 
     /* Functions */
     const updateDaySelection = () => {
-        const timeData = getTime(followingWeek[0], minimumDelay);
         setInvitation(prevState => {
             return {...prevState,
-                start: timeData,
+                start: {
+                    set: true,
+                    timeStamp: followingWeek[0]
+                },
             };
         });
     };

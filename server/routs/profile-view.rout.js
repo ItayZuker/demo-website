@@ -30,46 +30,29 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-const getLocalTimeStamp = (date) => {
-    if (date.unlimited) {
+const getUTCTimeStamp = (date, timeZoneOffset) => {
+    if (!!date.unlimited) {
         return {
             timeSet: false,
         }
     } else {
-        const year = date.year.metric;
-        const monthIndex = date.month.metricInYear - 1;
-        const day = date.day.metricDayInTheMonth;
-        const hours = date.time.hour;
-        const minutes = date.time.minute;
-        return {
-            timeSet: true,
-            timeZone: date.timeZone,
-            timeStamp: new Date(year, monthIndex, day, hours, minutes),
-        };
-    }
-};
 
-const getUTCTimeStamp = (date) => {
-    if (date.unlimited) {
-        return {
-            timeSet: false,
-        }
-    } else {
-        const minutesToAdd = date.timeZone.metricUTCMinuteOffset;
-        const year = date.year.metric;
-        const monthIndex = date.month.metricInYear - 1;
-        const day = date.day.metricDayInTheMonth;
-        const hours = date.time.hour;
-        const minutes = date.time.minute;
-        const currentDate = new Date(year, monthIndex, day, hours, minutes);
+        console.log(1)
+        console.log(date.timeStamp)
+        console.log(new Date(date.timeStamp))
+        console.log(new Date(date.timeStamp).getTime())
+        console.log(new Date(date.timeStamp).getTime() + timeZoneOffset*60000)
+        console.log(new Date(new Date(date.timeStamp).getTime() + timeZoneOffset*60000))
+        console.log((date.timeStamp).getTime() + timeZoneOffset*60000)
+        console.log(2)
         return {
             timeSet: true,
-            timeStamp: new Date(currentDate.getTime() + minutesToAdd*60000),
+            timeStamp: new Date(date.timeStamp.getTime() + (timeZoneOffset*60000)),
         }
     }
 };
 
-const getInvitation = (invitation) => {
+const getInvitation = (invitation, timeZone) => {
     return new Promise((resolve) => {
         if (invitation.type === 'chat') {
             resolve({
@@ -78,13 +61,14 @@ const getInvitation = (invitation) => {
                 intro: invitation.intro,
                 duration: invitation.duration,
                 repeat: invitation.repeat,
+                timeZone: timeZone,
                 start: {
-                    local: getLocalTimeStamp(invitation.start),
-                    utc: getUTCTimeStamp(invitation.start),
+                    local: invitation.start.timeStamp,
+                    utc: getUTCTimeStamp(invitation.start, timeZone.offset),
                 },
                 end: {
-                    local: getLocalTimeStamp(invitation.end),
-                    utc: getUTCTimeStamp(invitation.end),
+                    local: invitation.end.timeStamp,
+                    utc: getUTCTimeStamp(invitation.end, timeZone.Offset),
                 }
             })
         } else {
@@ -115,7 +99,7 @@ const addInvitationToUser = (invitation, data) => {
 /* Profile Details Routs */
 router.post('/create-chat-invitation', verifyToken, async (req, res) => {
     try {
-        const invitation = await getInvitation(req.body.invitation);
+        const invitation = await getInvitation(req.body.invitation, req.body.timeZone);
         Invitation_Model
             .create({
                 email: req.email,

@@ -8,6 +8,7 @@ const InputDay = () => {
     /* Global variables */
     const {
         daysList,
+        monthList,
         setInvitation,
         invitation,
         followingWeek,
@@ -15,12 +16,35 @@ const InputDay = () => {
 
     /* Local variables */
     const [repeat, setRepeat] = useState(false);
+    const [dayData, setDayData] = useState('');
+    const [monthData, setMonthData] = useState('');
 
     useEffect(() => {
         updateInvitationRepeat();
     }, [repeat]);
 
+    useEffect(() => {
+        updateDayData(invitation.start.timeStamp)
+        updateMonthData(invitation.start.timeStamp)
+    }, [invitation.start])
+
     /* Functions */
+    const updateDayData = (date) => {
+        setDayData({
+            name: daysList[date.getDay()].name,
+            short: daysList[date.getDay()].short,
+            metricDayInTheMonth: date.getDate(),
+            metricDayInTheWeek: date.getDay() + 1,
+        });
+    };
+    const updateMonthData = (date) => {
+        setMonthData({
+            name: monthList[date.getMonth()].name,
+            short: monthList[date.getMonth()].short,
+            metricInYear: date.getMonth() + 1,
+        });
+    };
+
     const updateInvitationRepeat = () => {
         setInvitation(prevState => {
             return {...prevState,
@@ -29,12 +53,22 @@ const InputDay = () => {
         });
     };
 
+    const getNewDayTimeStamp = (day) => {
+        const year = invitation.start.timeStamp.getFullYear();
+        const monthIndex = invitation.start.timeStamp.getMonth();
+        const hours = invitation.start.timeStamp.getHours();
+        const minute = invitation.start.timeStamp.getMinutes()
+        return new Date(year, monthIndex, day, hours, minute);
+    }
+
     const selectDay = (dayShort) => {
-        const dayData = followingWeek.find(item => item.day.short === dayShort)
+        const day = followingWeek.find(timeStamp => daysList[timeStamp.getDay()].short === dayShort)
+        const newDayTimeStamp = getNewDayTimeStamp(day.getDate());
         setInvitation(prevState => {
             return {...prevState,
-                start: {...prevState.start,
-                    day: dayData.day,
+                start: {
+                    set: true,
+                    timeStamp: newDayTimeStamp
                 },
             };
         });
@@ -48,7 +82,7 @@ const InputDay = () => {
                     return (
                         <div
                             onClick={() => selectDay(day.short)}
-                            className={'day-item-container ' + (invitation.start.day.short === day.short ? 'selected' : '')}
+                            className={'day-item-container ' + (dayData.short === day.short ? 'selected' : '')}
                             key={index}>
                             <p>{day.short}</p>
                         </div>
@@ -59,14 +93,14 @@ const InputDay = () => {
                 {
                     repeat ?
                         <p>
-                            <span className='day'>Every {invitation.start.day.name}</span>
+                            <span className='day'>Every {dayData.name}</span>
                         </p>
                         :
                         <p>
-                            <span className='day'>{invitation.start.day.name}</span>
+                            <span className='day'>{dayData.name}</span>
                             -
-                            <span className='month'>{invitation.start.month.short}</span>
-                            <span className='metric-day'>{invitation.start.day.metricDayInTheMonth}</span>
+                            <span className='month'>{monthData.short}</span>
+                            <span className='metric-day'>{dayData.metricDayInTheMonth}</span>
                         </p>
                 }
             </div>
