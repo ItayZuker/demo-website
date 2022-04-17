@@ -57,15 +57,20 @@ const CreateChatInvitationIntro = () => {
         });
     };
 
-    const getTimeZone = () => {
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const continent = timezone.split("/")[0];
-        const city = timezone.split("/")[1];
+    const getInvitation = () => {
         return {
-            continent: continent,
-            city: city,
-            offset: invitation.start.timeStamp.getTimezoneOffset()
-        };
+            type: invitation.type,
+            duration: invitation.duration,
+            repeat: invitation.repeat,
+            intro: invitation.intro.string,
+            start: {
+                timeStamp: invitation.start.timeStamp.getTime()
+            },
+            end: {
+                unlimited: invitation.end.unlimited,
+                timeStamp: invitation.end.timeStamp ? invitation.end.timeStamp.getTime() : null
+            }
+        }
     }
 
     const submitInvitation = async () => {
@@ -80,8 +85,7 @@ const CreateChatInvitationIntro = () => {
                 },
                 body: JSON.stringify({
                     token: token,
-                    invitation: invitation,
-                    timeZone: getTimeZone()
+                    invitation: getInvitation(),
                 }),
             });
             const data = await res.json();

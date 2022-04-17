@@ -37,14 +37,22 @@ const getUTCTimeStamp = (date, timeZoneOffset) => {
         }
     } else {
 
-        console.log(1)
-        console.log(date.timeStamp)
-        console.log(new Date(date.timeStamp))
-        console.log(new Date(date.timeStamp).getTime())
-        console.log(new Date(date.timeStamp).getTime() + timeZoneOffset*60000)
-        console.log(new Date(new Date(date.timeStamp).getTime() + timeZoneOffset*60000))
-        console.log((date.timeStamp).getTime() + timeZoneOffset*60000)
-        console.log(2)
+        // console.log(1)
+        // console.log(date.timeStamp)
+        // console.log(typeof date.timeStamp)
+        // console.log(2)
+        // console.log(date.timeStamp.getTime())
+        // console.log(3)
+        // console.log(new Date(date.timeStamp))
+        // console.log(4)
+        // console.log(new Date(date.timeStamp).getTime())
+        // console.log(5)
+        // console.log(new Date(date.timeStamp).getTime() + timeZoneOffset*60000)
+        // console.log(6)
+        // console.log(new Date(new Date(date.timeStamp).getTime() + timeZoneOffset*60000))
+        // console.log(7)
+        // console.log((date.timeStamp).getTime() + timeZoneOffset*60000)
+
         return {
             timeSet: true,
             timeStamp: new Date(date.timeStamp.getTime() + (timeZoneOffset*60000)),
@@ -53,6 +61,11 @@ const getUTCTimeStamp = (date, timeZoneOffset) => {
 };
 
 const getInvitation = (invitation, timeZone) => {
+    console.log('------------------------')
+    console.log(invitation)
+    // console.log(typeof invitation.start.timeStamp)
+    // console.log(invitation.end.timeStamp)
+    // console.log(typeof invitation.end.timeStamp)
     return new Promise((resolve) => {
         if (invitation.type === 'chat') {
             resolve({
@@ -61,7 +74,7 @@ const getInvitation = (invitation, timeZone) => {
                 intro: invitation.intro,
                 duration: invitation.duration,
                 repeat: invitation.repeat,
-                timeZone: timeZone,
+                timeZone: invitation.timeZone,
                 start: {
                     local: invitation.start.timeStamp,
                     utc: getUTCTimeStamp(invitation.start, timeZone.offset),
@@ -95,20 +108,42 @@ const addInvitationToUser = (invitation, data) => {
     })
 }
 
+const getInvitationForCollection = (invitation) => {
+    return {
+        iat: new Date(),
+        type: invitation.type,
+        repeat: invitation.repeat,
+        start: {
+            timeStamp: invitation.start.timeStamp
+        },
+        end: {
+            unlimited: invitation.end.unlimited,
+            timeStamp: invitation.end.timeStamp
+        }
+    }
+}
 
 /* Profile Details Routs */
 router.post('/create-chat-invitation', verifyToken, async (req, res) => {
     try {
-        const invitation = await getInvitation(req.body.invitation, req.body.timeZone);
         Invitation_Model
             .create({
                 email: req.email,
-                timeStamp: invitation.start.utc.timeStamp
+                iat: new Date(),
+                type: req.body.invitation.type,
+                repeat: req.body.invitation.repeat,
+                start: {
+                    timeStamp: req.body.invitation.start.timeStamp
+                },
+                end: {
+                    unlimited: req.body.invitation.end.unlimited,
+                    timeStamp: req.body.invitation.end.timeStamp
+                }
             }, async (err, data) => {
                 if (err) {
                     res.status(500).send(err);
                 } else {
-                    const invitationAdded = await addInvitationToUser(invitation, data)
+                    const invitationAdded = await addInvitationToUser(req.body.invitation, data)
                     if (invitationAdded) {
                         res.status(200).send({
                             success: true,

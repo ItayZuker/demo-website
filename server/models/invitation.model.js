@@ -4,10 +4,30 @@ const Invitation_Schema = mongoose.Schema({
         type: String,
         require: true
     },
-    timeStamp: {
+    invitation: {
+        type: Object,
+        require: true
+    },
+    iat: {
         type: Date,
         require: true
     },
+    type: {
+        type: String,
+        require: true
+    },
+    repeat: {
+        type: Boolean,
+        require: false
+    },
+    start: {
+        type: Object,
+        require: true,
+    },
+    end: {
+        type: Object,
+        require: true
+    }
 });
 
 const Invitation_Model = mongoose.model('invitation', Invitation_Schema);
