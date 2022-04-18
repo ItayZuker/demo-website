@@ -16,10 +16,6 @@ const Invitation_Schema = mongoose.Schema({
         type: String,
         require: true
     },
-    repeat: {
-        type: Boolean,
-        require: false
-    },
     start: {
         type: Object,
         require: true,

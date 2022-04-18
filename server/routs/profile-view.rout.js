@@ -92,7 +92,9 @@ const getInvitation = (invitation, timeZone) => {
 
 const addInvitationToUser = (invitation, data) => {
     return new Promise((resolve) => {
-        invitation.id = data._id
+        invitation.collectionId = data._id
+        invitation.accepted = false
+        invitation.freeze = false
         User_Model
             .findOneAndUpdate(
             {email: data.email},
@@ -131,7 +133,6 @@ router.post('/create-chat-invitation', verifyToken, async (req, res) => {
                 email: req.email,
                 iat: new Date(),
                 type: req.body.invitation.type,
-                repeat: req.body.invitation.repeat,
                 start: {
                     timeStamp: req.body.invitation.start.timeStamp
                 },
