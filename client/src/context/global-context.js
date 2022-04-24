@@ -1,16 +1,23 @@
 import React, {useState, useEffect} from "react";
 import {useMediaFix} from "../hooks/media-query";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5000"); // ---> Should be the actual socket address
 const GlobalContext = React.createContext();
 
 const GlobalContextComponent = (props) => {
 
     const [sideMenuOpen, setSideMenuOpen] = useState(false);
+    const [countries, setCountries] = useState([]);
     const [popup, setPopup] = useState('');
     const [media, setMedia] = useState('desktop');
     const [sideMenuDropdown, setSideMenuDropdown] = useState('');
     const [geoData, setGeoData] = useState({});
     const [login, setLogin] = useState(false);
     const [globalMessage, setGlobalMessage] = useState('');
+    const [details, setDetails] = useState({});
+    const [globals, setGlobals] = useState({
+        gender: [],
+    });
 
     /* Import Custom Hooks */
     const {mediaFix} = useMediaFix();
@@ -36,7 +43,14 @@ const GlobalContextComponent = (props) => {
         popUp();
     }, [popup]);
 
-    /* Component Functions */
+    /* Socket */
+    useEffect(() => {
+        // console.log(123)
+        //
+        // socket.on("connect");
+    }, [])
+
+    /* Functions */
     const tryLogin = () => {
         const token = window.localStorage.getItem('token');
         if(!!token) {
@@ -128,6 +142,12 @@ const GlobalContextComponent = (props) => {
         setLogin,
         globalMessage,
         setGlobalMessage,
+        details,
+        setDetails,
+        countries,
+        setCountries,
+        globals,
+        setGlobals
     };
 
     /* JSX Output */

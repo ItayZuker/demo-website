@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
-import {CreateChatInvitationContext} from "../../../../../../context/create-chat-invitation-context";
+import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
 import InputTime from "../../../../../../components/input-time/input-time";
 import Button from "../../../../../../components/button/button";
 import InputDay from "../../../../../../components/input-day/input-day";
-import "./create-chat-invitation-start.scss";
+import "./create-invitation-start.scss";
 
-const CreateChatInvitationStart = () => {
+const CreateInvitationStart = () => {
 
     /* Global variables */
     const {
@@ -15,7 +15,7 @@ const CreateChatInvitationStart = () => {
         setMessage,
         followingWeek,
         setStage,
-    } = useContext(CreateChatInvitationContext);
+    } = useContext(CreateInvitationContext);
 
     /* Locale variables */
     const [next, setNext] = useState(false);
@@ -57,7 +57,7 @@ const CreateChatInvitationStart = () => {
         return <></>
     } else {
         return (
-            <div className='create-chat-invitation-start-container'>
+            <div className='create-invitation-start-container'>
                 <div className='selection-container'>
                     <InputTime />
                     <InputDay />
@@ -72,4 +72,4 @@ const CreateChatInvitationStart = () => {
     }
 };
 
-export default CreateChatInvitationStart;
+export default CreateInvitationStart;

@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
 import Button from "../../../../../../components/button/button";
-import "./create-invitation-stage-duration.scss";
+import "./create-invitation-duration.scss";
 
-const CreateInvitationStageDuration = () => {
+const CreateInvitationDuration = () => {
 
     /* Global Variables */
     const {
@@ -12,9 +12,6 @@ const CreateInvitationStageDuration = () => {
         setMessage,
         setStage,
         setInvitation,
-        getTime,
-        followingWeek,
-        minimumDelay,
     } = useContext(CreateInvitationContext);
 
     /* Local Variables */
@@ -23,7 +20,7 @@ const CreateInvitationStageDuration = () => {
     /* Triggers */
     useEffect(() => {
         if (next) {
-            setStage('invitation-time-start');
+            setStage('invitation-intro');
         }
     }, [next]);
 
@@ -36,31 +33,23 @@ const CreateInvitationStageDuration = () => {
     const updateInvitationDefault = () => {
         setInvitation(prevState => {
             return {...prevState,
-                // start: getTime(followingWeek[0], minimumDelay),
                 duration: {
                     set: true,
                     metric: 30,
                     string: '30 Minutes',
                     unlimited: false
-                }
-            }
+                },
+            };
         });
-    }
+    };
 
     const updateStageTitles = () => {
-        setTitle('Time Limit')
-        setMessage(prevState => {
-            return {...prevState,
-                one: {
-                    string: 'Select a time limit for your chat invitation:',
-                    highlight: false,
-                },
-                two: {
-                    string: '',
-                    highlight: false,
-                }};
+        setTitle('Limit')
+        setMessage({
+            string: 'Select a time limit for your conversation:',
+            highlight: false,
         });
-    }
+    };
 
     const selectDuration = (limit) => {
         if (limit === 'unlimited') {
@@ -90,7 +79,7 @@ const CreateInvitationStageDuration = () => {
 
     /* JSX Output */
     return (
-        <div className='create-invitation-stage-duration-container'>
+        <div className='create-invitation-duration-container'>
             <div className='selection-container'>
                 <div className='duration-container'>
                     <div
@@ -137,4 +126,4 @@ const CreateInvitationStageDuration = () => {
     )
 };
 
-export default CreateInvitationStageDuration;
+export default CreateInvitationDuration;

@@ -4,13 +4,23 @@ import "./input-text-area.scss";
 
 const InputTextArea = (props) => {
 
+    /* Locale Variables */
     const [value, setValue] = useState(props.value || '');
     const [typeLimit, setTypeLimit] = useState(false);
+
+    /* Triggers */
+    useEffect(() => {
+        if (props.reset) {
+            console.log(props.resetValue)
+            setValue(props.resetValue)
+        }
+    }, [props.reset])
 
     useEffect(() => {
         props.valueCallback(value);
     }, [value]);
 
+    /* Functions */
     const handleKeyPress = (e) => {
         if (typeLimit) {
             e.preventDefault();
@@ -36,18 +46,32 @@ const InputTextArea = (props) => {
         }
     };
 
+    const handleBlur = () => {
+        if (props.blurCallback) {
+            props.blurCallback(true)
+        }
+    }
+
+    /* JSX Output */
     return (
         <div className={'input-text-area-container ' + (props.loading ? 'loading' : '')}>
             <textarea
+                placeholder={"Write here..."}
                 value={value}
+                onBlur={() => handleBlur()}
                 onPaste={(e) => handlePast(e)}
                 onKeyPress={(e) => handleKeyPress(e)}
                 onChange={(e) => handleChange(e)} />
-            <CharactersCounter
-                isActive={!!props.typeLimit}
-                value={value.length}
-                topLimit={props.typeLimit}
-                callBack={setTypeLimit}/>
+            {!!props.typeLimit ?
+                <CharactersCounter
+                    isActive={!!props.typeLimit}
+                    value={value.length}
+                    topLimit={props.typeLimit}
+                    callBack={setTypeLimit}/>
+                :
+                <></>
+            }
+
         </div>
     )
 };

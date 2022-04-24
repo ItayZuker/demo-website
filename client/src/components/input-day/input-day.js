@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {CreateChatInvitationContext} from "../../context/create-chat-invitation-context";
+import {CreateInvitationContext} from "../../context/create-invitation-context";
 import InputCheckBox from "../input-check-box/input-check-box";
 import "./input-day.scss";
 
@@ -12,7 +12,7 @@ const InputDay = () => {
         setInvitation,
         invitation,
         followingWeek,
-    } = useContext(CreateChatInvitationContext);
+    } = useContext(CreateInvitationContext);
 
     /* Local variables */
     const [repeat, setRepeat] = useState(false);

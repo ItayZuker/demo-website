@@ -7,17 +7,30 @@ html {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0 0 3rem 0;
+            margin: 4rem 0 2rem 0;
             > h2 {
                 font-size: 2.4rem;
                 font-weight: 600;
                 margin-bottom: 1rem;
                 text-transform: capitalize;
-                color: $gray_color_04;
+                color: $gray_color_06;
             }
             > p {
                 font-size: 1.2rem;
-                color: $gray_color_04;
+                color: $gray_color_06;
+                > span {
+                    color: $gray_color_02;
+                    font-weight: 600;
+                    text-decoration: underline;
+                    transition: .1s ease-in-out;
+                    &:hover {
+                        cursor: pointer;
+                        color: $gray_color_05;
+                    }
+                    &:active {
+                        color: $gray_color_02;
+                    }
+                }
             }
         }
     }

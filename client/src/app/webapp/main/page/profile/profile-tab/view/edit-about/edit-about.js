@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../../../../../../../context/global-context";
-import InputString from "../../../../../../../../components/input-string/input-string";
-import Button from "../../../../../../../../components/button/button";
 import SuccessIndicator from "../../../../../../../../components/success-indicator/success-indicator";
-import "./edit-name.scss";
+import InputTextArea from "../../../../../../../../components/input-text-area/input-text-area";
+import "./edit-about.scss";
 
-const EditName = () => {
+const EditAbout = () => {
 
     /* Global Variables */
     const {
@@ -14,38 +13,21 @@ const EditName = () => {
     } = useContext(GlobalContext);
 
     /* Locale Variables */
-    const [save, setSave] = useState(false);
-    const [name, setName] = useState('');
+    const [about, setAbout] = useState('');
     const [loading, setLoading] = useState(false);
     const [indicateSuccess, setIndicateSuccess] = useState(false);
-    const [edit, setEdit] = useState(false);
+    const [textAreaBlur, setTextAreaBlur] = useState(false);
+    const [reset, setReset] = useState(false);
 
     /* Triggers */
     useEffect(() => {
-        if (save) {
+        if (textAreaBlur) {
+            setTextAreaBlur(false)
             saveNewValue();
         }
-    }, [save]);
-
-    useEffect(() => {
-        if (!!name && name !== details.name) {
-            setEdit(true);
-        } else {
-            setEdit(false);
-        }
-    }, [name, details.name]);
+    }, [textAreaBlur])
 
     /* Functions */
-    const verifyValue = (value) => {
-        return new Promise((resolve, reject) => {
-            if (!!value) {
-                resolve(true)
-            } else {
-                reject('No value');
-            }
-        });
-    };
-
     const successIndicator = () => {
         setIndicateSuccess(true);
         setTimeout(() => {
@@ -55,31 +37,30 @@ const EditName = () => {
 
     const handleData = (data) => {
         setDetails(prevState => {
-            return {...prevState, name: data.name}
+            return {...prevState, about: data.about}
         })
         setLoading(false);
-        setSave(false);
         successIndicator();
     };
 
-    const handleErr = (err) => {
+    const handleErr = () => {
+        setReset(true);
         setLoading(false);
-        setSave(false);
     };
 
     const saveNewValue = async () => {
+        setReset(false);
         setLoading(true);
         try {
-            await verifyValue(name);
             const token = window.localStorage.getItem('token');
-                const res = await fetch('/profile-details/update-name', {
+                const res = await fetch('/profile-details/update-about', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         token: token,
-                        name: name,
+                        about: about,
                     }),
                 });
                 const data = await res.json();
@@ -91,29 +72,21 @@ const EditName = () => {
 
     /* JSX Output */
     return (
-        <div className='edit-name-container'>
+        <div className={'edit-about-container ' + (loading ? "loading" : "")}>
             <div className='title-container'>
-                <h2>Name</h2>
+                <h2>About {details.name}</h2>
                 <SuccessIndicator
                     isActive={indicateSuccess}/>
             </div>
             <div className='input-container'>
-                <InputString
-                    loading={loading}
-                    value={details.name}
-                    typeLimit={15}
-                    valueCallback={setName}/>
-            </div>
-            <div className='confirmation-container'>
-                <Button
-                    isActive={edit && !!name}
-                    loading={loading}
-                    unique={'save'}
-                    value={'Save'}
-                    callback={setSave}/>
+                <InputTextArea
+                    reset={reset}
+                    resetValue={details.about}
+                    blurCallback={setTextAreaBlur}
+                    valueCallback={setAbout}/>
             </div>
         </div>
     )
 };
 
-export default EditName;
+export default EditAbout;

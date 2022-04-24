@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
-import {CreateChatInvitationContext} from "../../../../../../context/create-chat-invitation-context";
+import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
 import Button from "../../../../../../components/button/button";
 import InputTextArea from "../../../../../../components/input-text-area/input-text-area";
-import "./create-chat-invitation-intro.scss";
+import "./create-invitation-intro.scss";
 
-const CreateChatInvitationIntro = () => {
+const CreateInvitationIntro = () => {
 
     /* Global Variables */
     const {
@@ -14,7 +14,7 @@ const CreateChatInvitationIntro = () => {
         setMessage,
         setStage,
         setError,
-    } = useContext(CreateChatInvitationContext);
+    } = useContext(CreateInvitationContext);
 
     /* Local Variables */
     const [intro, setIntro] = useState('');
@@ -52,7 +52,7 @@ const CreateChatInvitationIntro = () => {
     };
 
     const verifyData = () => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             resolve();
         });
     };
@@ -116,7 +116,7 @@ const CreateChatInvitationIntro = () => {
 
     /* JSX Output */
     return (
-        <div className={'create-chat-invitation-intro-container ' + (loading ? 'loading' : '')}>
+        <div className={'create-invitation-intro-container ' + (loading ? 'loading' : '')}>
             <div className='selection-container'>
                 <InputTextArea
                     valueCallback={setIntro}
@@ -131,4 +131,4 @@ const CreateChatInvitationIntro = () => {
     )
 };
 
-export default CreateChatInvitationIntro;
+export default CreateInvitationIntro;

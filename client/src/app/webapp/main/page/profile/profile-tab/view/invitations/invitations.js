@@ -1,14 +1,13 @@
 import React, {useEffect, useState, useContext} from "react";
+import {GlobalContext} from "../../../../../../../../context/global-context";
 import "./invitations.scss";
-import {ProfileContext} from "../../../../../../../../context/profile-context";
-import ZeroInvitations from "./zero-invitations/zero-invitations";
 
 const Invitations = () => {
 
     /* Global Variables */
     const {
         details,
-    } = useContext(ProfileContext);
+    } = useContext(GlobalContext);
 
     const [invitations, setInvitations] = useState(details.invitations || [])
 

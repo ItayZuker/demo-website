@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {ProfileContext} from "../../../../../../../../context/profile-context";
+import {GlobalContext} from "../../../../../../../../context/global-context";
 import SuccessIndicator from "../../../../../../../../components/success-indicator/success-indicator";
 import Button from "../../../../../../../../components/button/button";
 import InputDropdown from "../../../../../../../../components/input-dropdown/input-dropdown";
@@ -13,7 +13,7 @@ const EditCountry = () => {
         details,
         setDetails,
         countries,
-    } = useContext(ProfileContext);
+    } = useContext(GlobalContext);
 
     /* Locale Variables */
     const [save, setSave] = useState(false);

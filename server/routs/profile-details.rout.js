@@ -49,6 +49,28 @@ router.post('/globals', verifyToken, async (req, res) => {
     }
 });
 
+router.put("/update-about", verifyToken, async (req, res) => {
+    try {
+        User_Model
+            .findOneAndUpdate(
+                {email: req.email},
+                {about: req.body.about},
+                {},
+                (err)=> {
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.status(200).json(
+                            {
+                                success: true,
+                                message: 'About updated successfully',
+                            });
+                    }});
+    } catch (err) {
+        res.status(500).send(err);
+    }
+})
+
 router.put('/update-gender', verifyToken, async (req, res) => {
     try {
         User_Model
@@ -95,28 +117,6 @@ router.put('/update-country', verifyToken, async (req, res) => {
     }
 });
 
-// router.put('/update-countries', async (req, res) => {
-//     // console.log(123)
-//     try {
-//         Country_Model
-//             .updateMany(
-//                 {},
-//                 {ageLimit: 18},
-//                 {},
-//                 (err)=> {
-//                     if (err) {
-//                         res.status(500).send(err);
-//                     } else {
-//                         res.status(200).json(
-//                             {
-//                                 success: true
-//                             });
-//                     }});
-//     } catch (err) {
-//         res.status(500).send(err);
-//     }
-// });
-
 router.put('/update-name', verifyToken, async (req, res) => {
     try {
         User_Model
@@ -149,6 +149,7 @@ router.post('/', verifyToken, async ( req, res) => {
                 } else {
                     const userDetails = {
                         name: user.name,
+                        about: user.about,
                         geoData: user.geoData,
                         email: user.email,
                         birthday: user.birthday,

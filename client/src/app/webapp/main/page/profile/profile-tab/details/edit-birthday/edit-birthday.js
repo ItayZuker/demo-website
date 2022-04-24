@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {ProfileContext} from "../../../../../../../../context/profile-context";
+import {GlobalContext} from "../../../../../../../../context/global-context";
 import "./edit-birthday.scss";
 
 const EditBirthday = () => {
@@ -8,7 +8,7 @@ const EditBirthday = () => {
     const {
         details,
         setTab,
-    } = useContext(ProfileContext);
+    } = useContext(GlobalContext);
 
     /* Local Variables */
     const [edit, setEdit] = useState(false);

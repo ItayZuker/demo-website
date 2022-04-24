@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from "react";
 import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
-import "./create-invitation-stage-type.scss";
+import "./create-invitation-type.scss";
 
-const CreateInvitationStageType = () => {
+const CreateInvitationType = () => {
 
     /* Global variables */
     const {
@@ -21,23 +21,16 @@ const CreateInvitationStageType = () => {
 
     /* Functions */
     const updateStageTitles = () => {
-        setTitle('Create Invitation');
-        setMessage(prevState => {
-            return {...prevState,
-                one: {
-                    string: 'Select invitation type:',
-                    highlight: false,
-                },
-                two: {
-                    string: '',
-                    highlight: false,
-                }};
+        setTitle("Create Invitation");
+        setMessage({
+            string: "Select invitation type:",
+            highlight: false,
         });
     };
 
     const updateInvitationDefault = () => {
         setInvitation({
-            type: '',
+            type: "",
             start: {
                 set: false,
             },
@@ -51,29 +44,29 @@ const CreateInvitationStageType = () => {
     };
 
     const handleClick = (type) => {
-        if (type === 'chat') {
+        if (type === "chat") {
             setInvitation(prevState => {
-                return {...prevState, type: 'chat'};
+                return {...prevState, type: "chat"};
             });
-            setStage('invitation-duration');
+            setStage("invitation-start");
         } else {
             setInvitation(prevState => {
-                return {...prevState, type: 'date'};
+                return {...prevState, type: "date"};
             })
-            setStage('invitation-duration');
+            setStage("invitation-start");
         }
     };
 
     /* JSX Output */
     return (
-        <div className='create-invitation-type-container'>
-            <div className='selection-container'>
+        <div className="create-invitation-type-container">
+            <div className="selection-container">
                 <div
-                    className='chat-container'>
+                    className="chat-container">
                     <p>Chat</p>
                     <div
-                        onClick={() => handleClick('chat')}
-                        className='icon-container'>
+                        onClick={() => handleClick("chat")}
+                        className="icon-container">
                         <svg width="160" height="128" viewBox="0 0 160 128" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_29_22)">
                                 <path d="M42.67 112.56L35.52 110.61C34.01 110.2 32.81 109 32.39 107.48L30.44 100.33C30.39 100.13 30.21 100 30 100C29.79 100 29.62 100.14 29.56 100.33L27.61 107.48C27.2 108.99 26 110.19 24.48 110.61L17.33 112.56C17.13 112.61 17 112.79 17 113C17 113.21 17.14 113.38 17.33 113.44L24.48 115.39C25.99 115.8 27.19 117 27.61 118.52L29.56 125.67C29.67 126.06 30.33 126.06 30.44 125.67L32.39 118.52C32.8 117.01 34 115.81 35.52 115.39L42.67 113.44C42.87 113.39 43 113.21 43 113C43 112.79 42.86 112.62 42.67 112.56V112.56Z" fill="white"/>
@@ -90,11 +83,11 @@ const CreateInvitationStageType = () => {
                     </div>
                 </div>
                 <div
-                    className='date-container'>
+                    className="date-container">
                     <p>Date</p>
                     <div
-                        onClick={() => handleClick('date')}
-                        className='icon-container'>
+                        onClick={() => handleClick("date")}
+                        className="icon-container">
                         <svg width="146" height="139" viewBox="0 0 146 139" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_25_6)">
                                 <path d="M115.07 89.29L81.81 80.42C80 79.94 78.57 78.51 78.09 76.7L69.22 43.44C69.07 42.89 68.58 42.51 68.01 42.51C67.44 42.51 66.94 42.89 66.8 43.44L57.93 76.7C57.45 78.51 56.02 79.94 54.21 80.42L20.95 89.29C20.4 89.44 20.02 89.93 20.02 90.5C20.02 91.07 20.4 91.57 20.95 91.71L54.21 100.58C56.02 101.06 57.45 102.49 57.93 104.3L66.8 137.56C66.95 138.11 67.44 138.49 68.01 138.49C68.58 138.49 69.08 138.11 69.22 137.56L78.09 104.3C78.57 102.49 80 101.06 81.81 100.58L115.07 91.71C115.62 91.56 116 91.07 116 90.5C116 89.93 115.62 89.43 115.07 89.29V89.29Z" fill="white"/>
@@ -114,4 +107,4 @@ const CreateInvitationStageType = () => {
     )
 };
 
-export default CreateInvitationStageType;
+export default CreateInvitationType;

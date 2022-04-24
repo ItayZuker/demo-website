@@ -1,0 +1,41 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .create-invitation-button-container {
+            width: 85%;
+            height: 3rem;
+            margin-bottom: 1rem;
+            background-color: $gray_color_02;
+            border-radius: 2rem;
+            transition: .1s ease-in-out;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover {
+                cursor: pointer;
+                background-color: $gray_color_04;
+            }
+            &:active {
+                background-color: $gray_color_02;
+            }
+            > .icon-container {
+                height: 30%;
+                display: flex;
+                align-items: center;
+                //position: absolute;
+                //left: 2rem;
+                > svg {
+                    width: fit-content;
+                    margin-right: 1rem;
+                    height: 100%;
+                }
+            }
+            > p {
+                font-size: 1.2rem;
+                color: $gray_color_08;
+            }
+        }
+    }
+}

@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../../../../../context/global-context";
-import {CreateChatInvitationContext} from "../../../../../../context/create-chat-invitation-context";
+import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
 import Button from "../../../../../../components/button/button";
-import "./create-chat-invitation-success.scss";
+import "./create-invitation-success.scss";
 
-const CreateChatInvitationSuccess = () => {
+const CreateInvitationSuccess = () => {
 
     const {
         setPopup,
@@ -14,7 +14,7 @@ const CreateChatInvitationSuccess = () => {
         setTitle,
         setMessage,
         setStage
-    } = useContext(CreateChatInvitationContext);
+    } = useContext(CreateInvitationContext);
 
     const [anotherInvitation, setAnotherInvitation] = useState(false);
     const [close, setClose] = useState(false);
@@ -44,10 +44,10 @@ const CreateChatInvitationSuccess = () => {
     }
 
     return (
-        <div className='create-chat-invitation-success-container'>
+        <div className='create-invitation-success-container'>
             <div className='title-container'>
                 <h1>Great!</h1>
-                <p>your chat invitation was created successfully.</p>
+                <p>Your chat invitation was created successfully.</p>
             </div>
             <div className='buttons-container'>
                 <Button
@@ -60,10 +60,9 @@ const CreateChatInvitationSuccess = () => {
                     loading={false}
                     value={'Create another chat invitation'}
                     callback={setAnotherInvitation}/>
-
             </div>
         </div>
     )
 };
 
-export default CreateChatInvitationSuccess;
+export default CreateInvitationSuccess;

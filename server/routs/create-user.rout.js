@@ -127,8 +127,9 @@ const createUser = (data) => {
             .create({
                 iat: new Date(),
                 email: data.email,
-                name: 'userName',
-                gender: '',
+                name: "User",
+                about: "",
+                gender: "",
                 birthday: data.birthday,
                 geoData: data.geoData,
                 legal: data.legal,
@@ -139,7 +140,6 @@ const createUser = (data) => {
                     lifeTime: null,
                     timeStamp: null,
                 },
-
             }, async (err, user) => {
                 if (err) {
                     reject(err);

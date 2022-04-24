@@ -78,17 +78,11 @@ const CreateInvitationContextComponent = (props) => {
     const [title, setTitle] = useState('');
     const [error, setError] = useState(false);
     const [message, setMessage] = useState({
-        one: {
-            string: '',
-            highlight: false
-        },
-        two: {
-            string: '',
-            highlight: false
-        }
+        string: '',
+        highlight: false,
     });
     const [invitation, setInvitation] = useState({
-        type: '',
+        type: "",
         start: {
             set: false,
         },
@@ -118,167 +112,24 @@ const CreateInvitationContextComponent = (props) => {
     }, []);
 
     useEffect(() => {
-        if (!!followingWeek.length) {
-            // tryUpdateInvitation(followingWeek[0]);
-        }
-    }, [followingWeek]);
-
-    useEffect(() => {
         if (invitation.start.set && invitation.duration.set) {
             updateInvitationEnd(invitation.duration);
         }
     }, [invitation.start, invitation.duration]);
 
     /* Functions */
-    const getUpdateMinutes = (start, delay) => {
+
+    const getTimeStamp = (date, delay) => {
+        const year = date.year.metric;
+        const monthIndex = date.month.metricInYear - 1;
+        const day = date.day.metricDayInTheMonth;
+        const hours = date.time.hour;
+        const minutes = date.time.minute;
+        const currentDate = new Date(year, monthIndex, day, hours, minutes);
         return {
-            set: true,
-            timeZone: {
-                continent: start.timeZone.continent,
-                city: start.timeZone.city,
-                metricUTCMinuteOffset: start.timeZone.metricUTCMinuteOffset,
-            },
-            year: start.year,
-            month: start.month,
-            day: start.day,
-            time: {
-                hour: start.time.hour,
-                minute: start.time.minute + delay
-            }
+            timeSet: true,
+            timeStamp: new Date(currentDate.getTime() + delay*60000),
         }
-    };
-
-    const getUpdateHourMinutes = (start, delay) => {
-        return {
-            set: true,
-            timeZone: {
-                continent: start.timeZone.continent,
-                city: start.timeZone.city,
-                metricUTCMinuteOffset: start.timeZone.metricUTCMinuteOffset,
-            },
-            year: start.year,
-            month: start.month,
-            day: start.day,
-            time: {
-                hour: start.time.hour + 1,
-                minute: delay - (60 - start.time.minute),
-            },
-        }
-    }
-
-    const getUpdateDayHourMinute = (start, delay) => {
-        const today = new Date();
-        const date = new Date(today);
-        date.setDate(start.day.metricDayInTheMonth + 1);
-        return {
-            set: true,
-            timeZone: {
-                continent: start.timeZone.continent,
-                city: start.timeZone.city,
-                metricUTCMinuteOffset: start.timeZone.metricUTCMinuteOffset,
-            },
-            year: start.year,
-            month: start.month,
-            day: {
-                name: daysList[date.getDay()].name,
-                short: daysList[date.getDay()].short,
-                metricDayInTheMonth: date.getDate(),
-                metricDayInTheWeek: date.getDay() + 1,
-                isToday: false,
-                isLastInMonth: date.getDate() === new Date(date.getFullYear(), (date.getMonth() + 1), 0).getDate(),
-                isLastInWeek: (date.getDay() + 1) === 7,
-            },
-            time: {
-                hour: 0,
-                minute: delay - (60 - start.time.minute),
-            }
-        }
-    }
-
-    const getUpdateMonthDayHourMinute = (start, delay) => {
-        const today = new Date();
-        const date = new Date(today);
-        date.setDate(start.day.metricDayInTheMonth + 1);
-        return {
-            set: true,
-            timeZone: {
-                continent: start.timeZone.continent,
-                city: start.timeZone.city,
-                metricUTCMinuteOffset: start.timeZone.metricUTCMinuteOffset,
-            },
-            year: start.year,
-            month: {
-                name: monthList[date.getMonth()].name,
-                short: monthList[date.getMonth()].short,
-                metricInYear: date.getMonth() + 1,
-                metricTotalInMonth: new Date(date.getFullYear(), (date.getMonth() + 1), 0).getDate(),
-                isLastInYear: (date.getMonth() + 1) === 12,
-            },
-            day: {
-                name: daysList[date.getDay()].name,
-                short: daysList[date.getDay()].short,
-                metricDayInTheMonth: date.getDate(),
-                metricDayInTheWeek: date.getDay() + 1,
-                isToday: false,
-                isLastInMonth: date.getDate() === new Date(date.getFullYear(), (date.getMonth() + 1), 0).getDate(),
-                isLastInWeek: (date.getDay() + 1) === 7,
-            },
-            time: {
-                hour: 0,
-                minute: delay - (60 - start.time.minute),
-            }
-        };
-    };
-
-    const getUpdateYearMonthDayHourMinute = (start, delay) => {
-        const today = new Date();
-        const date = new Date(today);
-        date.setDate(start.day.metricDayInTheMonth + 1);
-        return {
-            set: true,
-            timeZone: {
-                continent: start.timeZone.continent,
-                city: start.timeZone.city,
-                metricUTCMinuteOffset: start.timeZone.metricUTCMinuteOffset,
-            },
-            year: start.year.metric + 1,
-            month: {
-                name: monthList[date.getMonth()].name,
-                short: monthList[date.getMonth()].short,
-                metricInYear: date.getMonth() + 1,
-                metricTotalInMonth: new Date(date.getFullYear(), (date.getMonth() + 1), 0).getDate(),
-                isLastInYear: (date.getMonth() + 1) === 12,
-            },
-            day: {
-                name: daysList[date.getDay()].name,
-                short: daysList[date.getDay()].short,
-                metricDayInTheMonth: date.getDate(),
-                metricDayInTheWeek: date.getDay() + 1,
-                isToday: false,
-                isLastInMonth: date.getDate() === new Date(date.getFullYear(), (date.getMonth() + 1), 0).getDate(),
-                isLastInWeek: (date.getDay() + 1) === 7,
-            },
-            time: {
-                hour: 0,
-                minute: delay - (60 - start.time.minute),
-            }
-        };
-    }
-
-    const getTime = (start, delay) => {
-        if (start.time.minute + delay < 60) {
-            return getUpdateMinutes(start, delay);
-        } else if (start.time.hour < 23) {
-            return getUpdateHourMinutes(start, delay);
-        } else if (!start.month.isLastInYear) {
-            if (!start.day.isLastInMonth) {
-                return getUpdateDayHourMinute(start, delay);
-            } else {
-                return getUpdateMonthDayHourMinute(start, delay);
-            }
-        } else {
-            return getUpdateYearMonthDayHourMinute(start, delay);
-        };
     };
 
     const updateInvitationEnd = (duration) => {
@@ -292,100 +143,32 @@ const CreateInvitationContextComponent = (props) => {
                 };
             });
         } else {
-            const invitationEnd = getTime(invitation.start, duration.metric);
-            // console.log(invitationEnd)
+            const invitationEndTimeStamp = new Date(invitation.start.timeStamp.getTime() + duration.metric*60000);
             setInvitation(prevState => {
                 return {...prevState,
-                    end: invitationEnd,
+                    end: {
+                        set: true,
+                        unlimited: false,
+                        timeStamp: invitationEndTimeStamp
+                    }
                 };
             });
         }
     };
 
-    const getTimeZone = () => {
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const continent = timezone.split("/")[0];
-        const city = timezone.split("/")[1];
-        return {
-            continent: continent,
-            city: city,
-        };
-    };
-
     const getDayData = (metric) => {
         /* metric === 0 means today, metric === 1 means tomorrow ext. */
         return new Promise(resolve => {
-            const timeZone = getTimeZone();
             const today = new Date();
             const date = new Date(today)
             date.setDate(date.getDate() + metric)
-            const metricYear = date.getFullYear();
-            const stringMonth = monthList[date.getMonth()];
-            const stringDay = daysList[date.getDay()];
-            const metricDayInTheMonth = date.getDate();
-            const metricTotalInMonth = new Date(date.getFullYear(), (date.getMonth() + 1), 0).getDate();
-            const metricHour = date.getHours();
-            const metricMinute = date.getMinutes();
-            const metricUTCMinuteOffset = date.getTimezoneOffset();
-            if (metric > 0) {
-                resolve({
-                    timeZone: {
-                        continent: timeZone.continent,
-                        city: timeZone.city,
-                        metricUTCMinuteOffset: metricUTCMinuteOffset,
-                    },
-                    year: {
-                        metric: metricYear,
-                    },
-                    month: {
-                        name: stringMonth.name,
-                        short: stringMonth.short,
-                        metricInYear: date.getMonth() + 1,
-                        metricTotalInMonth: metricTotalInMonth,
-                        isLastInYear: (date.getMonth() + 1) === 12,
-                    },
-                    day: {
-                        name: stringDay.name,
-                        short: stringDay.short,
-                        metricDayInTheMonth: metricDayInTheMonth,
-                        metricDayInTheWeek: date.getDay() + 1,
-                        isToday: false,
-                        isLastInMonth: metricDayInTheMonth === metricTotalInMonth,
-                        isLastInWeek: (date.getDay() + 1) === 7,
-                    },
-                });
-            } else {
-                resolve({
-                    timeZone: {
-                        continent: timeZone.continent,
-                        city: timeZone.city,
-                        metricUTCMinuteOffset: metricUTCMinuteOffset,
-                    },
-                    year: {
-                        metric: metricYear,
-                    },
-                    month: {
-                        name: stringMonth.name,
-                        short: stringMonth.short,
-                        metricInYear: date.getMonth() + 1,
-                        metricTotalInMonth: metricTotalInMonth,
-                        isLastInYear: (date.getMonth() + 1) === 12,
-                    },
-                    day: {
-                        name: stringDay.name,
-                        short: stringDay.short,
-                        metricDayInTheMonth: metricDayInTheMonth,
-                        metricDayInTheWeek: date.getDay() + 1,
-                        isToday: true,
-                        isLastInMonth: metricDayInTheMonth === metricTotalInMonth,
-                        isLastInWeek: (date.getDay() + 1) === 7,
-                    },
-                    time: {
-                        hour: metricHour,
-                        minute: metricMinute,
-                    },
-                });
-            }
+            const year = date.getFullYear();
+            const monthIndex = date.getMonth();
+            const day = date.getDate();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const currentDate = new Date(year, monthIndex, day, hours, minutes);
+            resolve(currentDate);
         });
     };
 
@@ -419,7 +202,7 @@ const CreateInvitationContextComponent = (props) => {
         setInvitation,
         monthList,
         daysList,
-        getTime,
+        getTimeStamp,
     };
 
     /* JSX Output */

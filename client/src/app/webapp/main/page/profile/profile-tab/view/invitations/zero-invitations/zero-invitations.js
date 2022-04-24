@@ -1,24 +1,20 @@
 import React, {useContext} from "react";
+import {GlobalContext} from "../../../../../../../../../context/global-context";
 import "./zero-invitations.scss";
-import {ProfileContext} from "../../../../../../../../../context/profile-context";
 
 const ZeroInvitations = () => {
 
     /* Global Variables */
     const {
-        details,
-    } = useContext(ProfileContext);
+        setPopup,
+    } = useContext(GlobalContext);
 
-    if (details.invitations.length > 1) {
-        return <></>
-    } else {
-        return (
-            <div className='zero-invitations-container'>
-                <h2>You have not created any invitations</h2>
-                <p>Click the <b>Chat</b> or <b>Date</b> icon below, to add some invitations.</p>
-            </div>
-        )
-    }
+    return (
+        <div className='zero-invitations-container'>
+            <h2>You have not created any invitations</h2>
+            <p><span onClick={() => setPopup('create-invitation')}>Add an invitation</span>, to start interacting with other people.</p>
+        </div>
+    )
 };
 
 export default ZeroInvitations;

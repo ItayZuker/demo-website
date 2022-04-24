@@ -2,7 +2,7 @@
 
 html {
     body {
-        .create-chat-invitation-intro-container {
+        .create-invitation-start-container {
             height: inherit;
             width: 100%;
             display: flex;
@@ -10,10 +10,9 @@ html {
             align-items: center;
             > .selection-container {
                 display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                width: 80%;
-                height: 250px;
+                flex-direction: column;
+                align-items: center;
+                width: 90%;
             }
             > .button-container {
                 margin-top: auto;

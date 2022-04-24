@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../../../../../context/global-context";
-import {CreateChatInvitationContext} from "../../../../../../context/create-chat-invitation-context";
+import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
 import Button from "../../../../../../components/button/button";
-import "./create-chat-invitation-error.scss";
+import "./create-invitation-error.scss";
 
-const CreateChatInvitationError = () => {
+const CreateInvitationError = () => {
 
     const {
         setPopup,
@@ -15,7 +15,7 @@ const CreateChatInvitationError = () => {
         setMessage,
         setStage,
         setError
-    } = useContext(CreateChatInvitationContext);
+    } = useContext(CreateInvitationContext);
 
     const [tryAgain, setTryAgain] = useState(false);
     const [close, setClose] = useState(false);
@@ -46,7 +46,7 @@ const CreateChatInvitationError = () => {
     }
 
     return (
-        <div className='create-chat-invitation-error-container'>
+        <div className='create-invitation-error-container'>
             <div className='title-container'>
                 <h1>Error...</h1>
                 <p>Something went wrong.</p>
@@ -67,4 +67,4 @@ const CreateChatInvitationError = () => {
     )
 };
 
-export default CreateChatInvitationError;
+export default CreateInvitationError;

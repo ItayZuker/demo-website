@@ -2,39 +2,43 @@ const mongoose = require('mongoose');
 const User_Schema = mongoose.Schema({
     login : {
         type: Boolean,
-        require: true,
+        require: true
     },
     geoData: {
         type: Object,
-        require: true,
+        require: true
     },
     email: {
         type: String,
-        require: true,
+        require: true
     },
     name: {
         type: String,
-        require: true,
+        require: true
+    },
+    about: {
+        type: String,
+        require: true
     },
     birthday: {
         type: Object,
-        require: true,
+        require: true
     },
     gender: {
         type: String,
-        require: true,
+        require: true
     },
     invitations: {
         type: Object,
-        require: true,
+        require: true
     },
     legal: {
         type: Object,
-        require: true,
+        require: true
     },
     iat: {
         type: Date,
-        require: true,
+        require: true
     },
     verify: {
         type: Object,

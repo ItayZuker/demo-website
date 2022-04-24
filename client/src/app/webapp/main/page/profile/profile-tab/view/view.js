@@ -1,25 +1,22 @@
 import React, {useContext} from "react";
-import {ProfileContext} from "../../../../../../../context/profile-context";
-import AddChatInvitation from "./add-chat-invitation/add-chat-invitation";
-import AddDateInvitation from "./add-date-invitation/add-date-invitation";
-import "./view.scss";
-import CreateChatInvitationPopupButton from "../../../../../../../components/create-chat-invitation-popup-button/create-chat-invitation-popup-button";
-import CreateDateInvitationPopupButton from "../../../../../../../components/create-date-invitation-popup-button/create-date-invitation-popup-button";
+import {GlobalContext} from "../../../../../../../context/global-context";
 import Invitations from "./invitations/invitations";
 import ZeroInvitations from "./invitations/zero-invitations/zero-invitations";
+import EditAbout from "./edit-about/edit-about";
+import "./view.scss";
 
 const View = () => {
 
     const {
         details
-    } = useContext(ProfileContext);
+    } = useContext(GlobalContext);
 
     return (
         <div className='view-container'>
-            <ZeroInvitations />
-            <AddChatInvitation />
-            <AddDateInvitation />
-            <Invitations />
+            <EditAbout />
+            {details.invitations.length > 0
+                ? <Invitations />
+                : <ZeroInvitations />}
         </div>
     )
 };
