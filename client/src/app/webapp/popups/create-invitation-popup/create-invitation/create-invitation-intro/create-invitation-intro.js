@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
+import {GlobalContext} from "../../../../../../context/global-context";
 import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
 import Button from "../../../../../../components/button/button";
 import InputTextArea from "../../../../../../components/input-text-area/input-text-area";
@@ -15,6 +16,10 @@ const CreateInvitationIntro = () => {
         setStage,
         setError,
     } = useContext(CreateInvitationContext);
+
+    const {
+        setDetails
+    } = useContext(GlobalContext)
 
     /* Local Variables */
     const [intro, setIntro] = useState('');
@@ -37,9 +42,18 @@ const CreateInvitationIntro = () => {
     }, []);
 
     /* Functions */
+    const updateInvitations = (data) => {
+        setDetails(prevState => {
+            return {...prevState,
+                invitations: data.invitations
+            }
+        })
+    }
+
     const handleData = async (data) => {
         setLoading(false);
         if (data.success) {
+            updateInvitations(data)
             setStage('invitation-success');
         } else {
             setError(true)

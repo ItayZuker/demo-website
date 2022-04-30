@@ -102,10 +102,12 @@ const addInvitationToUser = (invitation, data) => {
             {},
             (err, user)=> {
                 if (err) {
-                    console.log(err)
-                    resolve(false)
+                    resolve({status: false})
                 } else {
-                    resolve(true)
+                    let array = []
+                    user.invitations.forEach(invitation => array.push(invitation))
+                    array.push(invitation)
+                    resolve({status: true, array: array})
                 }});
     })
 }
@@ -145,15 +147,16 @@ router.post('/create-chat-invitation', verifyToken, async (req, res) => {
                     res.status(500).send(err);
                 } else {
                     const invitationAdded = await addInvitationToUser(req.body.invitation, data)
-                    if (invitationAdded) {
+                    if (invitationAdded.status) {
                         res.status(200).send({
                             success: true,
                             message: 'Invitation added successfully',
+                            invitations: invitationAdded.array,
                         });
                     } else {
                         res.status(500).send({
                             success: true,
-                            message: 'Invitation was not added to user',
+                            message: 'Invitation was not added to user'
                         });
                     }
                 }

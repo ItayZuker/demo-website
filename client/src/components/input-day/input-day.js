@@ -53,9 +53,10 @@ const InputDay = () => {
         });
     };
 
-    const getNewDayTimeStamp = (day) => {
-        const year = invitation.start.timeStamp.getFullYear();
-        const monthIndex = invitation.start.timeStamp.getMonth();
+    const getNewDayTimeStamp = (data) => {
+        const year = data.getFullYear();
+        const monthIndex = data.getMonth();
+        const day = data.getDate()
         const hours = invitation.start.timeStamp.getHours();
         const minute = invitation.start.timeStamp.getMinutes()
         return new Date(year, monthIndex, day, hours, minute);
@@ -63,7 +64,7 @@ const InputDay = () => {
 
     const selectDay = (dayShort) => {
         const day = followingWeek.find(timeStamp => daysList[timeStamp.getDay()].short === dayShort)
-        const newDayTimeStamp = getNewDayTimeStamp(day.getDate());
+        const newDayTimeStamp = getNewDayTimeStamp(day);
         setInvitation(prevState => {
             return {...prevState,
                 start: {

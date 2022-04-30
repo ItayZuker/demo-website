@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {useMediaFix} from "../hooks/media-query";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:5000"); // ---> Should be the actual socket address
+import { io } from "socket.io-client";
 const GlobalContext = React.createContext();
 
 const GlobalContextComponent = (props) => {
 
+    const [socket] = useState(() => io("http://localhost:5000"))// ---> Should be the actual socket host
     const [sideMenuOpen, setSideMenuOpen] = useState(false);
     const [countries, setCountries] = useState([]);
     const [popup, setPopup] = useState('');
@@ -45,9 +45,9 @@ const GlobalContextComponent = (props) => {
 
     /* Socket */
     useEffect(() => {
-        // console.log(123)
-        //
-        // socket.on("connect");
+        const token = window.localStorage.getItem('token');
+        socket.auth = { token: token }
+        socket.connect()
     }, [])
 
     /* Functions */
@@ -147,7 +147,8 @@ const GlobalContextComponent = (props) => {
         countries,
         setCountries,
         globals,
-        setGlobals
+        setGlobals,
+        socket
     };
 
     /* JSX Output */

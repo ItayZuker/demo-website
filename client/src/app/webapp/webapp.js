@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../../context/global-context";
-// import {ProfileContext} from "../../context/profile-context";
 import LoadingPopup from "./popups/loading-popup/loading-popup";
 import DeleteAccountPopup from "./popups/delete-account-popup/delete-account-popup";
 import CreateInvitationPopup from "./popups/create-invitation-popup/create-invitation-popup";
@@ -19,10 +18,6 @@ const Webapp = () => {
         setCountries,
         setGlobals,
     } = useContext(GlobalContext);
-
-    // const {
-    //     setTab
-    // } = useContext(ProfileContext);
 
     /* Locale Variables */
     const [loading, setLoading] = useState(true);
@@ -111,25 +106,6 @@ const Webapp = () => {
             console.log(err);
         }
     };
-
-    /* SOCKET TESTING START */
-    // const socketTest = async () => {
-    //     const token = window.localStorage.getItem('token');
-    //     try {
-    //         const res = await fetch('/socket-server/user/test', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 token: token,
-    //             }),
-    //         });
-    //     } catch ( err ) {
-    //         console.log(err);
-    //     }
-    // };
-    /* SOCKET TESTING END */
 
     /* JSX Output */
     if (loading) {

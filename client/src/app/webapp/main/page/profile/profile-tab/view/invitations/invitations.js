@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useContext} from "react";
 import {GlobalContext} from "../../../../../../../../context/global-context";
+import DayList from "./day-list/day-list";
 import "./invitations.scss";
 
 const Invitations = () => {
@@ -9,26 +10,31 @@ const Invitations = () => {
         details,
     } = useContext(GlobalContext);
 
-    const [invitations, setInvitations] = useState(details.invitations || [])
+    const [invitations, setInvitations] = useState([])
 
     useEffect(() => {
-        if (invitations.length > 0) {
-            sortInvitations()
-        } else {
-
+        if (details.invitations) {
+            updateInvitationsList(details.invitations)
         }
-    }, [invitations])
-
-    useEffect(() => {
-        setInvitations(details.invitations)
     }, [details.invitations])
 
     /* Functions */
-    const sortInvitations = async () => {
-        const chatInvitations = await invitations.filter(invitation => invitation.type === "chat")
-        const dateInvitations = await invitations.filter(invitation => invitation.type === "date")
-        console.log(chatInvitations)
-        console.log(dateInvitations)
+    const updateInvitationsList = (list) => {
+        let week = [
+            {list: []},
+            {list: []},
+            {list: []},
+            {list: []},
+            {list: []},
+            {list: []},
+            {list: []},
+        ]
+        list.forEach((invitation => {
+            const date = new Date(invitation.start.timeStamp)
+            const day = date.getDay()
+            week[day].list.push(invitation)
+        }))
+        setInvitations(week)
     }
 
     /* JSX Output */
@@ -37,7 +43,9 @@ const Invitations = () => {
     } else {
         return (
             <div className='invitations-container'>
-
+                {invitations.map((day, index) => {
+                    return <DayList day={day} key={index} />
+                })}
             </div>
         )
     }
