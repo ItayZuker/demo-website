@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
-import "./day-list.scss";
 import {ProfileContext} from "../../../../../../../../../context/profile-context";
+import InvitationEdit from "./invitation-edit/invitation-edit";
+import "./day-list.scss";
 
 const DayList = (props) => {
 
@@ -40,7 +41,7 @@ const DayList = (props) => {
     } else {
         return (
             <div className="day-list-container">
-                <div className='day-title-container'>
+                <div className='title-container'>
                     <p>
                         <span className='day'>{dayData.name}</span>
                         -
@@ -48,6 +49,11 @@ const DayList = (props) => {
                         <span className='metric-day'>{dayData.metricDayInTheMonth}</span>
                     </p>
                 </div>
+                <ul className="list-container">
+                    {props.day.list.map(invitation => {
+                        return <InvitationEdit data={invitation}/>
+                    })}
+                </ul>
             </div>
         )
     }

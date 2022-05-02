@@ -1,0 +1,16 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        li.invitation-edit-container {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 1rem;
+            background-color: $gray_color_09;
+            position: relative;
+            border-radius: 3px;
+            overflow: hidden;
+
+        }
+    }
+}
