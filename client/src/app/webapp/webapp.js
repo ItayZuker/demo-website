@@ -17,6 +17,7 @@ const Webapp = () => {
         setDetails,
         setCountries,
         setGlobals,
+        logout
     } = useContext(GlobalContext);
 
     /* Locale Variables */
@@ -38,7 +39,7 @@ const Webapp = () => {
             await getCountries();
             await getGlobals();
         } else {
-            window.location = '/';
+            logout()
         }
     }, []);
 
@@ -57,12 +58,16 @@ const Webapp = () => {
                 }),
             });
             const data = await res.json();
-            setGlobals(prevState => {
-                return {...prevState, gender: data.list}
-            })
-            setGlobalsReady(true);
+            if (data.expiredAt) {
+                logout()
+            } else {
+                setGlobals(prevState => {
+                    return {...prevState, gender: data.list}
+                })
+                setGlobalsReady(true);
+            }
         } catch ( err ) {
-            console.log(err);
+            logout()
         }
     }
 
@@ -79,10 +84,14 @@ const Webapp = () => {
                 }),
             });
             const data = await res.json();
-            setCountries(data);
-            setCountriesReady(true);
+            if (data.expiredAt) {
+                logout()
+            } else {
+                setCountries(data);
+                setCountriesReady(true);
+            }
         } catch ( err ) {
-            console.log(err);
+            logout()
         }
     };
 
@@ -96,14 +105,17 @@ const Webapp = () => {
                 },
                 body: JSON.stringify({
                     token: token,
-
                 }),
             });
             const data = await res.json();
-            setDetails(data);
-            setProfileDetailsReady(true);
+            if (data.expiredAt) {
+                logout()
+            } else {
+                setDetails(data);
+                setProfileDetailsReady(true);
+            }
         } catch ( err ) {
-            console.log(err);
+            logout()
         }
     };
 

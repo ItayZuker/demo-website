@@ -41,7 +41,9 @@ const getUserToken = (data) => {
 
         const user = {email: data.email};
         const secretKey = process.env.ACCESS_TOKEN_SECRET;
-        const options = {};
+        const options = {
+            expiresIn: 60 * 60 * 24 * 7
+        };
 
         jwt.sign(user, secretKey, options,(err, token) => {
             if(err) {
@@ -240,6 +242,9 @@ router.post('/password-verification', async ( req, res ) => {
 
                 if(match) {
                     const token = await getUserToken(user);
+                    console.log("--------------------------------")
+                    console.log(token)
+                    console.log("--------------------------------")
                     if(!!token) {
                         const {success} = await login(user);
                         if (success) {

@@ -50,8 +50,8 @@ const DayList = (props) => {
                     </p>
                 </div>
                 <ul className="list-container">
-                    {props.day.list.map(invitation => {
-                        return <InvitationEdit data={invitation}/>
+                    {props.day.list.map((invitation, index) => {
+                        return <InvitationEdit data={invitation} key={index}/>
                     })}
                 </ul>
             </div>

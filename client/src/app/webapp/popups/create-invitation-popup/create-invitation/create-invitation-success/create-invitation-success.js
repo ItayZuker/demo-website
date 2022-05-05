@@ -8,7 +8,7 @@ const CreateInvitationSuccess = () => {
 
     const {
         setPopup,
-        socket,
+        // socket,
     } = useContext(GlobalContext);
 
     const {
@@ -34,14 +34,14 @@ const CreateInvitationSuccess = () => {
 
     useEffect(() => {
         updateStageSuccess()
-        socketUpdate()
+        // socketUpdate()
     }, [])
 
-    const socketUpdate = () => {
-        socket.emit("invitation-created", {
+    // const socketUpdate = () => {
+        // socket.emit("invitation-created", {
 
-        });
-    }
+        // });
+    // }
 
     const updateStageSuccess = () => {
         setTitle('');

@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const validator = require('email-validator');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
+const { ObjectId } = require('mongodb');
 require('dotenv').config();
 
 /* Router functions */
@@ -19,76 +20,19 @@ const verifyToken = (req, res, next) => {
         const secretKey = process.env.ACCESS_TOKEN_SECRET;
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.status(500).send(err);
+                res.send(err);
             } else if (decodedUser.email) {
                 req.email = decodedUser.email;
                 next();
             } else {
-                res.status(400).send('Token not good');
+                res.status(403).send({
+                    success: false,
+                    message: "Forbidden: Token was bad"
+                });
             }
         })
     }
 };
-
-const getUTCTimeStamp = (date, timeZoneOffset) => {
-    if (!!date.unlimited) {
-        return {
-            timeSet: false,
-        }
-    } else {
-
-        // console.log(1)
-        // console.log(date.timeStamp)
-        // console.log(typeof date.timeStamp)
-        // console.log(2)
-        // console.log(date.timeStamp.getTime())
-        // console.log(3)
-        // console.log(new Date(date.timeStamp))
-        // console.log(4)
-        // console.log(new Date(date.timeStamp).getTime())
-        // console.log(5)
-        // console.log(new Date(date.timeStamp).getTime() + timeZoneOffset*60000)
-        // console.log(6)
-        // console.log(new Date(new Date(date.timeStamp).getTime() + timeZoneOffset*60000))
-        // console.log(7)
-        // console.log((date.timeStamp).getTime() + timeZoneOffset*60000)
-
-        return {
-            timeSet: true,
-            timeStamp: new Date(date.timeStamp.getTime() + (timeZoneOffset*60000)),
-        }
-    }
-};
-
-const getInvitation = (invitation, timeZone) => {
-    console.log('------------------------')
-    console.log(invitation)
-    // console.log(typeof invitation.start.timeStamp)
-    // console.log(invitation.end.timeStamp)
-    // console.log(typeof invitation.end.timeStamp)
-    return new Promise((resolve) => {
-        if (invitation.type === 'chat') {
-            resolve({
-                iat: new Date(),
-                type: invitation.type,
-                intro: invitation.intro,
-                duration: invitation.duration,
-                repeat: invitation.repeat,
-                timeZone: invitation.timeZone,
-                start: {
-                    local: invitation.start.timeStamp,
-                    utc: getUTCTimeStamp(invitation.start, timeZone.offset),
-                },
-                end: {
-                    local: invitation.end.timeStamp,
-                    utc: getUTCTimeStamp(invitation.end, timeZone.Offset),
-                }
-            })
-        } else {
-
-        }
-    })
-}
 
 const addInvitationToUser = (invitation, data) => {
     return new Promise((resolve) => {
@@ -102,32 +46,102 @@ const addInvitationToUser = (invitation, data) => {
             {},
             (err, user)=> {
                 if (err) {
-                    resolve({status: false})
-                } else {
+                    resolve({err: err})
+                } else if (!!user) {
                     let array = []
                     user.invitations.forEach(invitation => array.push(invitation))
                     array.push(invitation)
-                    resolve({status: true, array: array})
+                    resolve({success: true, array: array})
+                } else {
+                    resolve({success: false})
                 }});
     })
 }
 
-const getInvitationForCollection = (invitation) => {
-    return {
-        iat: new Date(),
-        type: invitation.type,
-        repeat: invitation.repeat,
-        start: {
-            timeStamp: invitation.start.timeStamp
-        },
-        end: {
-            unlimited: invitation.end.unlimited,
-            timeStamp: invitation.end.timeStamp
-        }
-    }
+const getUser = (email) => {
+    return new  Promise((resolve) => {
+        User_Model
+            .findOne(
+                {email: email},
+                {},
+                {},
+                (err, user) => {
+                    if (err) {
+                        resolve({
+                            success: false,
+                            user: {},
+                            err: err
+                        })
+                    } else if (!!user) {
+                        resolve({
+                            success: true,
+                            data: user,
+                            err: false
+                        })
+                    } else {
+                        resolve({
+                            success: false,
+                            user: {},
+                            err: false
+                        })
+                    }
+                })
+    })
+}
+
+const deleteInvitationFromCollection = (id) => {
+    return new Promise((resolve) =>  {
+        Invitation_Model
+            .findOneAndDelete(
+                {_id: id},
+                {},
+                (err) => {
+                    if (err) {
+                        resolve({err: err})
+                    } else {
+                        resolve(true)
+                    }
+                }
+            )
+    })
 }
 
 /* Profile Details Routs */
+router.delete('/delete-invitation', verifyToken, async (req, res) => {
+    try {
+        const id = ObjectId.createFromHexString(req.body.invitationId)
+        User_Model
+            .findOneAndUpdate(
+                {email: req.email},
+                { $pull: { "invitations": {collectionId: id } }},
+            {},
+                async (err) => {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        const isDeletedFromCollection = await deleteInvitationFromCollection(id)
+                        if (isDeletedFromCollection.err) {
+                            res.send(isDeletedFromCollection.err)
+                        } else {
+                            const user = await getUser(req.email)
+                            if (user.err) {
+                                res.send(user.err)
+                            } else {
+                                res.status(200).send({
+                                    success: true,
+                                    deletedFromGlobalCollection: isDeletedFromCollection,
+                                    invitations: user.data.invitations,
+                                    message: "Invitation was deleted"
+                                });
+                            }
+                        }
+                    }}
+            );
+    } catch (err) {
+        res.send(err);
+    }
+});
+
 router.post('/create-chat-invitation', verifyToken, async (req, res) => {
     try {
         Invitation_Model
@@ -142,30 +156,30 @@ router.post('/create-chat-invitation', verifyToken, async (req, res) => {
                     unlimited: req.body.invitation.end.unlimited,
                     timeStamp: req.body.invitation.end.timeStamp
                 }
-            }, async (err, data) => {
+            }, async (err, docs) => {
                 if (err) {
-                    res.status(500).send(err);
+                    res.send(err);
                 } else {
-                    const invitationAdded = await addInvitationToUser(req.body.invitation, data)
-                    if (invitationAdded.status) {
-                        res.status(200).send({
+                    const invitationAdded = await addInvitationToUser(req.body.invitation, docs)
+                    if (invitationAdded.err) {
+                        res.send(invitationAdded.err)
+                    } else if (invitationAdded.success) {
+                        res.status(201).send({
                             success: true,
-                            message: 'Invitation added successfully',
+                            message: 'Invitation created and added successfully',
                             invitations: invitationAdded.array,
                         });
                     } else {
-                        res.status(500).send({
-                            success: true,
-                            message: 'Invitation was not added to user'
+                        res.status(417).send({
+                            success: false,
+                            message: "Execution failed: Invitation was not added to user"
                         });
                     }
                 }
             })
     } catch (err) {
-        res.status(500).send(err);
+        res.send(err);
     }
 });
-
-
 
 module.exports = router;

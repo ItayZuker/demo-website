@@ -18,7 +18,8 @@ const CreateInvitationIntro = () => {
     } = useContext(CreateInvitationContext);
 
     const {
-        setDetails
+        setDetails,
+        logout
     } = useContext(GlobalContext)
 
     /* Local Variables */
@@ -52,7 +53,9 @@ const CreateInvitationIntro = () => {
 
     const handleData = async (data) => {
         setLoading(false);
-        if (data.success) {
+        if (data.expiredAt) {
+            logout()
+        } else if (data.success) {
             updateInvitations(data)
             setStage('invitation-success');
         } else {

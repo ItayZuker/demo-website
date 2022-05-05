@@ -10,6 +10,7 @@ const DeleteAccount = () => {
         setPopup,
         setLogin,
         setGlobalMessage,
+        logout,
     } = useContext(GlobalContext);
 
     const [cancel, setCancel] = useState(false);
@@ -29,14 +30,16 @@ const DeleteAccount = () => {
     }, [deleteAccount]);
 
     const handleData = (data) => {
-        if (data.deleted) {
-            console.log(data.message);
+        if (data.expiredAt) {
+            /* TODO: Token expires, user was not deleted */
+            logout()
+        } else if (data.deleted) {
             localStorage.removeItem('token');
             setLogin(false);
             setGlobalMessage('account-deleted');
             window.location = '/';
         } else {
-            /* something went wrong */
+            /* TODO: Something went wrong user was not deleted */
         }
     };
 
@@ -51,7 +54,6 @@ const DeleteAccount = () => {
                 },
                 body: JSON.stringify({
                     token: token,
-
                 }),
             });
             const data = await res.json();

@@ -17,11 +17,15 @@ const verifyToken = (req, res, next) => {
         const secretKey = process.env.ACCESS_TOKEN_SECRET;
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.status(500).send(err);
+                res.send(err);
             } else if (decodedUser.email) {
+                console.log(2)
+                console.log(decodedUser)
                 req.email = decodedUser.email;
                 next();
             } else {
+                console.log(3)
+                console.log(decodedUser)
                 res.status(400).send('Token not good');
             }
         })

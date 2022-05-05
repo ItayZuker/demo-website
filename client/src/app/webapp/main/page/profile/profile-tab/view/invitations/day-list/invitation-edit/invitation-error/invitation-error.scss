@@ -1,0 +1,22 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .invitation-error-container {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: $gray_color_02;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            > p {
+                color: $gray_color_07;
+            }
+        }
+    }
+}
