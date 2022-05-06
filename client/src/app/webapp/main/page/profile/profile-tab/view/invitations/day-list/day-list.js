@@ -49,7 +49,6 @@ const DayList = (props) => {
         }
     }
 
-
     if (props.day.list.length === 0) {
         return <></>
     } else {

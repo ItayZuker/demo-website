@@ -1,33 +1,26 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./invitation-chat-body.scss";
-import {ProfileContext} from "../../../../../../../../../../../context/profile-context";
 
 const InvitationChatBody = (props) => {
-
-    const {
-        daysList,
-        monthList
-    } = useContext(ProfileContext)
 
     const [start, setStart] = useState("")
     const [duration, setDuration] = useState("")
     const [intro, setIntro] = useState("")
-    const [dayData, setDayData] = useState("")
-    const [monthData, setMonthData] = useState("")
 
+    /* Triggers */
     useEffect(() => {
         getStart()
         getDuration()
         getIntro()
-        getDate()
-    }, [])
+    }, [props.data])
 
+    /* Functions */
     const convertTwoTypes = (value) => {
         let string = String(value)
         if (string.length === 2) {
             return string
         } else {
-            string = '0' + string
+            string = "0" + string
             return string;
         }
     };
@@ -51,28 +44,7 @@ const InvitationChatBody = (props) => {
         }
     }
 
-    const getDate = () => {
-
-        if (props.data.repeat) {
-
-        } else {
-
-        }
-
-        const date = new Date(props.data.start.timeStamp)
-        setDayData({
-            name: daysList[date.getDay()].name,
-            short: daysList[date.getDay()].short,
-            metricDayInTheMonth: date.getDate(),
-            metricDayInTheWeek: date.getDay() + 1,
-        });
-        setMonthData({
-            name: monthList[date.getMonth()].name,
-            short: monthList[date.getMonth()].short,
-            metricInYear: date.getMonth() + 1,
-        });
-    }
-
+    /* JSX Output */
     return (
         <div className="invitation-chat-body-container">
             <div className="icon-container">
@@ -97,7 +69,7 @@ const InvitationChatBody = (props) => {
                     </p>
                 </div>
             </div>
-            <div className="intro-container">
+            <div className={"intro-container " + (props.data.intro ? "" : "no-content")}>
                 <p className="intro">{intro}</p>
             </div>
         </div>

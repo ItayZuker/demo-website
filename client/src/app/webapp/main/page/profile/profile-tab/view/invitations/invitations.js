@@ -16,25 +16,30 @@ const Invitations = () => {
         if (details.invitations) {
             updateInvitationsList(details.invitations)
         }
-    }, [details.invitations])
+    }, [details])
 
     /* Functions */
     const updateInvitationsList = (list) => {
         let week = [
-            {list: []},
-            {list: []},
-            {list: []},
-            {list: []},
-            {list: []},
-            {list: []},
-            {list: []},
+            {index: 0, list: []},
+            {index: 1, list: []},
+            {index: 2, list: []},
+            {index: 3, list: []},
+            {index: 4, list: []},
+            {index: 5, list: []},
+            {index: 6, list: []},
         ]
         list.forEach((invitation => {
             const date = new Date(invitation.start.timeStamp)
             const day = date.getDay()
             week[day].list.push(invitation)
         }))
-        setInvitations(week)
+        const sortedWeek = week.sort((a, b) => a.index - b.index)
+        const sortedWeekAndDays = sortedWeek.map(dayList => {
+            const sortedDayList = dayList.list.sort((a, b) => a.start.timeStamp - b.start.timeStamp)
+            return { index: dayList.index, list: sortedDayList }
+        })
+        setInvitations(sortedWeekAndDays)
     }
 
     /* JSX Output */

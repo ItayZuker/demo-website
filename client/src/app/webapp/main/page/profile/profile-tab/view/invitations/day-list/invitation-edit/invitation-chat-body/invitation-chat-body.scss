@@ -29,14 +29,14 @@ html {
                         > span.start {
                             display: flex;
                             align-items: center;
-                          &:after {
-                              content: "";
-                              width: 5px;
-                              height: 5px;
-                              background-color: $gray_color_08;
-                              border-radius: 50%;
-                              margin: 0 0.5rem;
-                          }
+                            &:after {
+                                content: "";
+                                width: 5px;
+                                height: 5px;
+                                background-color: $gray_color_08;
+                                border-radius: 50%;
+                                margin: 0 0.5rem;
+                            }
                         }
                         > span.duration {
                             text-transform: capitalize;
@@ -59,9 +59,14 @@ html {
                     content: "";
                     width: 1px;
                     height: calc(100% - 2rem);
-                    background-color: $gray_color_08;
+                    background-color: $gray_color_04;
                     position: absolute;
                     left: 0;
+                }
+                &.no-content {
+                    > p.intro {
+                        color: $gray_color_04;
+                    }
                 }
                 > p.intro {
                     margin-left: 2rem;

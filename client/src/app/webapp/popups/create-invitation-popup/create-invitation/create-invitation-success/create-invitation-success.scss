@@ -11,7 +11,7 @@ html {
             position: absolute;
             top: 0;
             bottom: 0;
-            background-color: $gray_color_02;
+            background-color: $gray_color_08;
             border-radius: 2px;
             > .title-container {
                 height: 40%;
@@ -21,11 +21,11 @@ html {
                 justify-content: flex-end;
                 > h1 {
                     font-size: 5rem;
-                    color: $gray_color_08;
+                    color: $gray_color_04;
                 }
                 > p {
                     margin-top: 2rem;
-                    color: $gray_color_07;
+                    color: $gray_color_06;
                     font-size: 1.2rem;
                 }
             }
@@ -37,31 +37,19 @@ html {
                 justify-content: center;
                 > .button-container {
                     margin: 0.5rem;
-                    &:nth-child(1) {
-                        background-color: $gray_color_07;
-                        > p {
-                            color: $gray_color_02;
-                        }
-                        &:hover {
-                            background-color: $gray_color_09;
-                        }
-                        &:active {
-                            background-color: $gray_color_07;
-                        }
-                    }
                     &:nth-child(2) {
                         background-color: transparent;
                         > p {
-                            color: $gray_color_04;
+                            color: $gray_color_06;
                         }
                         &:hover {
                             > p {
-                                color: $gray_color_06;
+                                color: $gray_color_02;
                             }
                         }
                         &:active {
                             > p {
-                                color: $gray_color_04;
+                                color: $gray_color_06;
                             }
                         }
                     }

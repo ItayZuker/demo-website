@@ -10,33 +10,11 @@ html {
             justify-content: center;
             &:hover {
                 cursor: pointer;
-                > svg {
-                    &.repeat {
-                        path {
-                            //fill: $gray_color_06;
-                        }
-                    }
-                    &.no-repeat {
-                        path {
-                            //fill: $gray_color_06;
-                        }
-                    }
-                }
-
             }
             > svg {
                 height: 0.9rem;
-                &.repeat {
-                    path {
-                        fill: $gray_color_08;
-                        transition: .1s ease-in-out;
-                    }
-                }
-                &.no-repeat {
-                    path {
-                        fill: $gray_color_05;
-                        transition: .1s ease-in-out;
-                    }
+                path {
+                    fill: $gray_color_08;
                 }
             }
         }
