@@ -38,7 +38,11 @@ const InvitationChatBody = (props) => {
 
     const getIntro = () => {
         if (props.data.intro) {
-            setIntro(props.data.intro)
+            if (props.data.intro.trim().length > 0) {
+                setIntro(props.data.intro)
+            } else {
+                setIntro("No subject")
+            }
         } else {
             setIntro("No subject")
         }

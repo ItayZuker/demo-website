@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import Button from "../../../../../../../../../../../components/button/button";
 import "./delete-invitation-confirmation.scss";
 import {GlobalContext} from "../../../../../../../../../../../context/global-context";
@@ -13,8 +13,13 @@ const DeleteInvitationConfirmation = (props) => {
     /* Local Variables */
     const [clickYes, setClickYes] = useState(false)
     const [clickNo, setClickNo] = useState(false)
+    const deleteInvitationConfirmationRef = useRef()
 
     /* Triggers */
+    useEffect(() => {
+        deleteInvitationConfirmationRef.current.focus()
+    }, [])
+
     useEffect(() => {
         if (clickYes) {
             deleteInvitation()
@@ -70,9 +75,19 @@ const DeleteInvitationConfirmation = (props) => {
         }
     }
 
+    const blurComponent = () => {
+        setTimeout(() => {
+            setClickNo(true)
+        }, 100)
+    }
+
     /* JSX Output */
     return (
-        <div className="delete-invitation-confirmation">
+        <div
+            tabIndex={-1}
+            onBlur={() => blurComponent()}
+            ref={deleteInvitationConfirmationRef}
+            className="delete-invitation-confirmation">
             <p>Are you sure you want to delete this invitation?</p>
             <div className="buttons-container">
                 <Button

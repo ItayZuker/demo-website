@@ -1,17 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const User_Model = require('../models/user.model');
-const Invitation_Model = require('../models/invitation.model');
-const Country_Model = require('../models/country.model');
-const Global_Model = require('../models/global.model');
-const jwt = require('jsonwebtoken');
-const generator = require('generate-password');
-const bcrypt = require('bcrypt');
-const validator = require('email-validator');
-const nodemailer = require('nodemailer');
-const { v4: uuidv4 } = require('uuid');
-const { ObjectId } = require('mongodb');
-require('dotenv').config();
+const express = require("express")
+const router = express.Router()
+const User_Model = require("../models/user.model")
+const Invitation_Model = require("../models/invitation.model")
+const Country_Model = require("../models/country.model")
+const Global_Model = require("../models/global.model")
+const jwt = require("jsonwebtoken")
+const generator = require("generate-password")
+const bcrypt = require("bcrypt")
+const validator = require("email-validator")
+const nodemailer = require("nodemailer")
+const { v4: uuidv4 } = require("uuid")
+const { ObjectId } = require("mongodb")
+require("dotenv").config()
 
 /* Router functions */
 const verifyToken = (req, res, next) => {
@@ -32,7 +32,7 @@ const verifyToken = (req, res, next) => {
             }
         })
     }
-};
+}
 
 const addInvitationToUser = (invitation, data) => {
     return new Promise((resolve) => {
@@ -120,10 +120,9 @@ router.put("/update-repeat-invitation", verifyToken, async (req, res) => {
                 {},
                 async ( err) => {
                     if ( err ) {
-                        res.send(err);
+                        res.send(err)
                     } else {
                         const user = await getUser(req.email)
-                        console.log(user.data.invitations)
                         if (user.err) {
                             res.send(user.err)
                         } else {
@@ -134,13 +133,13 @@ router.put("/update-repeat-invitation", verifyToken, async (req, res) => {
                             })
                         }
                     }}
-            );
+            )
     } catch (err) {
-        res.send(err);
+        res.send(err)
     }
-});
+})
 
-router.delete('/delete-invitation', verifyToken, async (req, res) => {
+router.delete("/delete-invitation", verifyToken, async (req, res) => {
     try {
         const id = ObjectId.createFromHexString(req.body.invitationId)
         User_Model
@@ -150,7 +149,7 @@ router.delete('/delete-invitation', verifyToken, async (req, res) => {
             {},
                 async (err) => {
                     if (err) {
-                        res.send(err);
+                        res.send(err)
                     } else {
                         const isDeletedFromCollection = await deleteInvitationFromCollection(id)
                         if (isDeletedFromCollection.err) {
@@ -171,9 +170,9 @@ router.delete('/delete-invitation', verifyToken, async (req, res) => {
                     }}
             );
     } catch (err) {
-        res.send(err);
+        res.send(err)
     }
-});
+})
 
 router.post('/create-chat-invitation', verifyToken, async (req, res) => {
     try {
@@ -191,7 +190,7 @@ router.post('/create-chat-invitation', verifyToken, async (req, res) => {
                 }
             }, async (err, docs) => {
                 if (err) {
-                    res.send(err);
+                    res.send(err)
                 } else {
                     const invitationAdded = await addInvitationToUser(req.body.invitation, docs)
                     if (invitationAdded.err) {
@@ -201,18 +200,18 @@ router.post('/create-chat-invitation', verifyToken, async (req, res) => {
                             success: true,
                             message: 'Invitation created and added successfully',
                             invitations: invitationAdded.array,
-                        });
+                        })
                     } else {
                         res.status(417).send({
                             success: false,
                             message: "Execution failed: Invitation was not added to user"
-                        });
+                        })
                     }
                 }
             })
     } catch (err) {
-        res.send(err);
+        res.send(err)
     }
 });
 
-module.exports = router;
+module.exports = router
