@@ -14,10 +14,8 @@ const InvitationEdit = (props) => {
         <li className="invitation-edit-container">
             {error ? <InvitationError setError={setError}/> : <></>}
             {clickDelete ? <DeleteInvitationConfirmation data={props.data} setClickDelete={setClickDelete} setError={setError}/> : <></>}
-            <InvitationEditHeader data={props.data} setClickDelete={setClickDelete}/>
+            <InvitationEditHeader data={props.data} setClickDelete={setClickDelete} setError={setError}/>
             {props.data.type === "chat" ? <InvitationChatBody data={props.data}/> : <></>}
-
-
         </li>
     )
 }

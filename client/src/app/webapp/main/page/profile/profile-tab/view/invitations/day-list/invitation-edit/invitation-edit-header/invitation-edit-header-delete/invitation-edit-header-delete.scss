@@ -5,40 +5,31 @@ html {
         .invitation-edit-header-delete-container {
             height: inherit;
             width: 1.5rem;
-            margin-left: auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-left: auto;
             &:hover {
                 cursor: pointer;
-                &:after,
-                &:before {
-                    background-color: $gray_color_02;
+                > svg {
+                    path {
+                        fill: $gray_color_06;
+                    }
                 }
             }
             &:active {
-                &:after,
-                &:before {
-                    background-color: $gray_color_06;
+                > svg {
+                    path {
+                        fill: $gray_color_08;
+                    }
                 }
             }
-            &:after {
-                content: "";
-                width: 1rem;
-                height: 4px;
-                border-radius: 2px;
-                background-color: $gray_color_04;
-                transform: rotate(45deg);
-                position: absolute;
-            }
-            &:before {
-                content: "";
-                width: 1rem;
-                height: 4px;
-                border-radius: 2px;
-                background-color: $gray_color_04;
-                transform: rotate(-45deg);
-                position: absolute;
+            > svg {
+                height: 0.9rem;
+                path {
+                    transition: .1s ease-in-out;
+                    fill: $gray_color_08;
+                }
             }
         }
     }

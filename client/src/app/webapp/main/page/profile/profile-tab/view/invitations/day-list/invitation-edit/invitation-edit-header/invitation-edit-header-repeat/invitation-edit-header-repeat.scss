@@ -1,0 +1,44 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .invitation-edit-header-repeat-container {
+            height: inherit;
+            width: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:hover {
+                cursor: pointer;
+                > svg {
+                    &.repeat {
+                        path {
+                            //fill: $gray_color_06;
+                        }
+                    }
+                    &.no-repeat {
+                        path {
+                            //fill: $gray_color_06;
+                        }
+                    }
+                }
+
+            }
+            > svg {
+                height: 0.9rem;
+                &.repeat {
+                    path {
+                        fill: $gray_color_08;
+                        transition: .1s ease-in-out;
+                    }
+                }
+                &.no-repeat {
+                    path {
+                        fill: $gray_color_05;
+                        transition: .1s ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+}

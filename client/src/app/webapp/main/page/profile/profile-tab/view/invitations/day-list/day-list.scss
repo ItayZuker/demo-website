@@ -4,6 +4,16 @@ html {
     body {
         .day-list-container {
             margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1rem;
+            &:before {
+                content: "";
+                height: 100%;
+                width: 2px;
+                position: absolute;
+                left: 0;
+                background-color: $gray_color_06;
+            }
             > .title-container {
                 display: flex;
                 align-items: center;
@@ -23,11 +33,18 @@ html {
                             margin-left: 0.5rem;
                         }
                     }
+                    &.day-reference {
+                        color: $gray_color_07;
+                        margin-left: 0.5rem;
+                    }
                 }
-
             }
             > ul.list-container {
                 list-style: none;
+                padding: 0 0 0 0;
+                display: flex;
+                flex-direction: column;
+                margin: 0;
             }
         }
     }

@@ -107,6 +107,39 @@ const deleteInvitationFromCollection = (id) => {
 }
 
 /* Profile Details Routs */
+router.put("/update-repeat-invitation", verifyToken, async (req, res) => {
+    try {
+        const id = ObjectId.createFromHexString(req.body.invitationId)
+        User_Model
+            .findOneAndUpdate(
+                {
+                    email: req.email,
+                    "invitations.collectionId": id },
+                { $set: {
+                        "invitations.$.repeat": req.body.repeat } },
+                {},
+                async ( err) => {
+                    if ( err ) {
+                        res.send(err);
+                    } else {
+                        const user = await getUser(req.email)
+                        console.log(user.data.invitations)
+                        if (user.err) {
+                            res.send(user.err)
+                        } else {
+                            res.status(200).send({
+                                success: true,
+                                invitations: user.data.invitations,
+                                message: `Invitation repeat updated to: ${req.body.repeat}`
+                            })
+                        }
+                    }}
+            );
+    } catch (err) {
+        res.send(err);
+    }
+});
+
 router.delete('/delete-invitation', verifyToken, async (req, res) => {
     try {
         const id = ObjectId.createFromHexString(req.body.invitationId)

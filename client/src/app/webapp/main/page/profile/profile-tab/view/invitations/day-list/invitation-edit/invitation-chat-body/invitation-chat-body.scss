@@ -3,58 +3,71 @@
 html {
     body {
         .invitation-chat-body-container {
+            min-height: 120px;
             height: fit-content;
-            //background-color: $gray_color_06;
             display: flex;
-            > .info-container {
-                width: 30%;
+            background-color: $gray_color_02;
+            > .icon-container {
                 display: flex;
+                flex-direction: column;
+                width: 30%;
                 align-items: center;
-                > .inner-info-container {
-                    margin: 1rem;
+                justify-content: center;
+                > svg {
                     height: fit-content;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    > h2 {
-                        text-transform: capitalize;
-                        font-weight: 500;
-                        margin: 0 0 0.5rem 0;
-                        color: $gray_color_04;
+                    width: 70px;
+                    path {
+                        fill: $gray_color_08;
                     }
-                    > .time-container {
-                        > p {
-                            color: $gray_color_06;
-                            > span {
-                                margin: 0 0.5rem;
-                            }
+                }
+                > .info-container {
+                    margin-top: 0.5rem;
+                    > p {
+                        color: $gray_color_08;
+                        display: flex;
+                        line-height: 1;
+                        > span.start {
+                            display: flex;
+                            align-items: center;
+                          &:after {
+                              content: "";
+                              width: 5px;
+                              height: 5px;
+                              background-color: $gray_color_08;
+                              border-radius: 50%;
+                              margin: 0 0.5rem;
+                          }
+                        }
+                        > span.duration {
+                            text-transform: capitalize;
+                        }
+                        > span.type {
+                            text-transform: capitalize;
+                            margin-left: 0.3rem;
                         }
                     }
                 }
             }
             > .intro-container {
-                width: 70%;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
+                justify-content: center;
+                padding: 1rem 1rem 1rem 0;
+                position: relative;
                 &:before {
                     content: "";
-                    width: 2px;
-                    height: 80%;
+                    width: 1px;
+                    height: calc(100% - 2rem);
                     background-color: $gray_color_08;
                     position: absolute;
+                    left: 0;
                 }
-                > .inner-intro-container {
-                    padding: 1rem;
-                    > p {
-                        font-size: 1.3rem;
-                        line-height: 1.2;
-                        color: $gray_color_06;
-                        > span.subject {
-                            color: $gray_color_07;
-                        }
-                    }
+                > p.intro {
+                    margin-left: 2rem;
+                    font-size: 1.2rem;
+                    line-height: 1.2;
+                    color: $gray_color_08;
                 }
             }
         }

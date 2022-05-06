@@ -43,6 +43,9 @@ const Invitations = () => {
     } else {
         return (
             <div className='invitations-container'>
+                <div className="title-container">
+                    <h2>Open invitations:</h2>
+                </div>
                 {invitations.map((day, index) => {
                     return <DayList day={day} key={index} />
                 })}
