@@ -1,190 +1,191 @@
-import React, {useEffect, useState} from "react";
-const CreateInvitationContext = React.createContext();
+import React, { useEffect, useState } from "react"
+const CreateInvitationContext = React.createContext()
 
 const CreateInvitationContextComponent = (props) => {
-
-    /* Local State */
-    const [minimumDelay] = useState(0);
-    const [followingWeek, setFollowingWeek] = useState([]);
+    /* Locale Variables */
+    const [minimumDelay] = useState(0)
+    const [followingWeek, setFollowingWeek] = useState([])
     const [monthList] = useState([
         {
-            name: 'january',
-            short: 'jan'
+            name: "january",
+            short: "jan"
         }, {
-            name: 'february',
-            short: 'feb',
+            name: "february",
+            short: "feb"
         }, {
-            name: 'march',
-            short: 'mar'
+            name: "march",
+            short: "mar"
         }, {
-            name: 'april',
-            short: 'apr'
+            name: "april",
+            short: "apr"
         }, {
-            name: 'may',
-            short: 'may'
+            name: "may",
+            short: "may"
         }, {
-            name: 'june',
-            short: 'jun'
+            name: "june",
+            short: "jun"
         }, {
-            name: 'july',
-            short: 'jul'
+            name: "july",
+            short: "jul"
         }, {
-            name: 'august',
-            short: 'aug'
+            name: "august",
+            short: "aug"
         }, {
-            name: 'september',
-            short: 'sep'
+            name: "september",
+            short: "sep"
         }, {
-            name: 'october',
-            short: 'oct'
+            name: "october",
+            short: "oct"
         }, {
-            name: 'november',
-            short: 'nov'
+            name: "november",
+            short: "nov"
         }, {
-            name: 'december',
-            short: 'dec'
-    }])
+            name: "december",
+            short: "dec"
+        }])
     const [daysList] = useState([
         {
-            name: 'sunday',
-            short: 'su',
+            name: "sunday",
+            short: "su"
         },
         {
-            name: 'monday',
-            short: 'mo',
+            name: "monday",
+            short: "mo"
         },
         {
-            name: 'tuesday',
-            short: 'tu'
+            name: "tuesday",
+            short: "tu"
         },
         {
-            name: 'wednesday',
-            short: 'we'
+            name: "wednesday",
+            short: "we"
         },
         {
-            name: 'thursday',
-            short: 'th'
+            name: "thursday",
+            short: "th"
         },
         {
-            name: 'friday',
-            short: 'fr'
+            name: "friday",
+            short: "fr"
         },
         {
-            name: 'saturday',
-            short: 'sa'
+            name: "saturday",
+            short: "sa"
         }
-    ]);
-    const [stage, setStage] = useState('');
-    const [title, setTitle] = useState('');
-    const [error, setError] = useState(false);
+    ])
+    const [stage, setStage] = useState("")
+    const [title, setTitle] = useState("")
+    const [error, setError] = useState(false)
     const [message, setMessage] = useState({
-        string: '',
-        highlight: false,
-    });
+        string: "",
+        highlight: false
+    })
     const [invitation, setInvitation] = useState({
         type: "",
         start: {
-            set: false,
+            set: false
         },
         end: {
-            set: false,
+            set: false
         },
         duration: {
-            set: false,
-        },
-    });
+            set: false
+        }
+    })
 
     /* Triggers */
     useEffect(() => {
         if (invitation.duration.set && invitation.start.set) {
-            updateInvitationEnd(invitation.duration);
+            updateInvitationEnd(invitation.duration)
         }
-    }, [invitation.duration]);
+    }, [invitation.duration])
 
     useEffect(() => {
-        updateFollowingWeek();
-        let followingWeekInterval = setInterval(() => {
-            updateFollowingWeek();
-        }, 1000);
+        updateFollowingWeek()
+        const followingWeekInterval = setInterval(() => {
+            updateFollowingWeek()
+        }, 1000)
         return () => {
-            clearInterval(followingWeekInterval);
+            clearInterval(followingWeekInterval)
         }
-    }, []);
+    }, [])
 
     useEffect(() => {
         if (invitation.start.set && invitation.duration.set) {
-            updateInvitationEnd(invitation.duration);
+            updateInvitationEnd(invitation.duration)
         }
-    }, [invitation.start, invitation.duration]);
+    }, [invitation.start, invitation.duration])
 
     /* Functions */
 
     const getTimeStamp = (date, delay) => {
-        const year = date.year.metric;
-        const monthIndex = date.month.metricInYear - 1;
-        const day = date.day.metricDayInTheMonth;
-        const hours = date.time.hour;
-        const minutes = date.time.minute;
-        const currentDate = new Date(year, monthIndex, day, hours, minutes);
+        const year = date.year.metric
+        const monthIndex = date.month.metricInYear - 1
+        const day = date.day.metricDayInTheMonth
+        const hours = date.time.hour
+        const minutes = date.time.minute
+        const currentDate = new Date(year, monthIndex, day, hours, minutes)
         return {
             timeSet: true,
-            timeStamp: new Date(currentDate.getTime() + delay*60000),
+            timeStamp: new Date(currentDate.getTime() + delay * 60000)
         }
-    };
+    }
 
     const updateInvitationEnd = (duration) => {
         if (duration.unlimited) {
             setInvitation(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     end: {
                         set: true,
-                        unlimited: true,
-                    },
-                };
-            });
+                        unlimited: true
+                    }
+                }
+            })
         } else {
-            const invitationEndTimeStamp = new Date(invitation.start.timeStamp.getTime() + duration.metric*60000);
+            const invitationEndTimeStamp = new Date(invitation.start.timeStamp.getTime() + duration.metric * 60000)
             setInvitation(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     end: {
                         set: true,
                         unlimited: false,
                         timeStamp: invitationEndTimeStamp
                     }
-                };
-            });
+                }
+            })
         }
-    };
+    }
 
     const getDayData = (metric) => {
         /* metric === 0 means today, metric === 1 means tomorrow ext. */
         return new Promise(resolve => {
-            const today = new Date();
+            const today = new Date()
             const date = new Date(today)
             date.setDate(date.getDate() + metric)
-            const year = date.getFullYear();
-            const monthIndex = date.getMonth();
-            const day = date.getDate();
-            const hours = date.getHours();
-            const minutes = date.getMinutes();
-            const currentDate = new Date(year, monthIndex, day, hours, minutes);
-            resolve(currentDate);
-        });
-    };
+            const year = date.getFullYear()
+            const monthIndex = date.getMonth()
+            const day = date.getDate()
+            const hours = date.getHours()
+            const minutes = date.getMinutes()
+            const currentDate = new Date(year, monthIndex, day, hours, minutes)
+            resolve(currentDate)
+        })
+    }
 
     const getFullWeekData = async () => {
-        let followingWeek = [];
+        const followingWeek = [] // lint fix not sure - array to CONST from LET
         for (let day = 0; day < 7; day++) {
-            const dayData = await getDayData(day);
-            followingWeek.push(dayData);
+            const dayData = await getDayData(day)
+            followingWeek.push(dayData)
         }
-        return followingWeek;
-    };
+        return followingWeek
+    }
 
     const updateFollowingWeek = async () => {
-        const followingWeekData = await getFullWeekData();
-        setFollowingWeek(followingWeekData);
-    };
+        const followingWeekData = await getFullWeekData()
+        setFollowingWeek(followingWeekData)
+    }
 
     /* Context Payload */
     const contextValue = {
@@ -202,8 +203,8 @@ const CreateInvitationContextComponent = (props) => {
         setInvitation,
         monthList,
         daysList,
-        getTimeStamp,
-    };
+        getTimeStamp
+    }
 
     /* JSX Output */
     return (

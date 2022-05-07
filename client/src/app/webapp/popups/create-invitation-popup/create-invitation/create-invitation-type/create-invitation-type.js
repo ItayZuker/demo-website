@@ -1,61 +1,59 @@
-import React, {useContext, useEffect} from "react";
-import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
-import "./create-invitation-type.scss";
+import React, { useContext, useEffect } from "react"
+import { CreateInvitationContext } from "../../../../../../context/create-invitation-context"
+import "./create-invitation-type.scss"
 
 const CreateInvitationType = () => {
-
     /* Global variables */
     const {
         setStage,
-        invitation,
         setInvitation,
         setTitle,
-        setMessage,
-    } = useContext(CreateInvitationContext);
+        setMessage
+    } = useContext(CreateInvitationContext)
 
     /* Triggers */
     useEffect(() => {
-        updateStageTitles();
-        updateInvitationDefault();
-    }, []);
+        updateStageTitles()
+        updateInvitationDefault()
+    }, [])
 
     /* Functions */
     const updateStageTitles = () => {
-        setTitle("Create Invitation");
+        setTitle("Create Invitation")
         setMessage({
             string: "Select invitation type:",
-            highlight: false,
-        });
-    };
+            highlight: false
+        })
+    }
 
     const updateInvitationDefault = () => {
         setInvitation({
             type: "",
             start: {
-                set: false,
+                set: false
             },
             end: {
-                set: false,
+                set: false
             },
             duration: {
-                set: false,
-            },
-        });
-    };
+                set: false
+            }
+        })
+    }
 
     const handleClick = (type) => {
         if (type === "chat") {
             setInvitation(prevState => {
-                return {...prevState, type: "chat"};
-            });
-            setStage("invitation-start");
+                return { ...prevState, type: "chat" }
+            })
+            setStage("invitation-start")
         } else {
             setInvitation(prevState => {
-                return {...prevState, type: "date"};
+                return { ...prevState, type: "date" }
             })
-            setStage("invitation-start");
+            setStage("invitation-start")
         }
-    };
+    }
 
     /* JSX Output */
     return (
@@ -105,6 +103,6 @@ const CreateInvitationType = () => {
             </div>
         </div>
     )
-};
+}
 
-export default CreateInvitationType;
+export default CreateInvitationType

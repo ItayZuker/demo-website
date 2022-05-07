@@ -1,25 +1,24 @@
-import React, {useContext} from "react";
-import {GlobalContext} from "../../../../context/global-context";
-import DeleteAccount from "./delete-account/delete-account";
-import "./delete-account-popup.scss";
+import React, { useContext } from "react"
+import { GlobalContext } from "../../../../context/global-context"
+import DeleteAccount from "./delete-account/delete-account"
+import "./delete-account-popup.scss"
 
 const DeleteAccountPopup = () => {
-
-    /* Import Global Variables */
+    /* Global Variables */
     const {
-        popup,
-    } = useContext(GlobalContext);
+        popup
+    } = useContext(GlobalContext)
 
     /* JSX Output */
-    if(popup !== 'delete-account') {
+    if (popup !== "delete-account") {
         return <></>
     } else {
         return (
-            <div className='delete-account-popup-container'>
+            <div className="delete-account-popup-container">
                 <DeleteAccount />
             </div>
         )
     }
 }
 
-export default DeleteAccountPopup;
+export default DeleteAccountPopup

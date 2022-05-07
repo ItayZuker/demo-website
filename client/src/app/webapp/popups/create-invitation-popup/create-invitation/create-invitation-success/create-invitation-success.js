@@ -1,34 +1,34 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../../../../context/global-context";
-import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
-import Button from "../../../../../../components/button/button";
-import "./create-invitation-success.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { GlobalContext } from "../../../../../../context/global-context"
+import { CreateInvitationContext } from "../../../../../../context/create-invitation-context"
+import Button from "../../../../../../components/button/button"
+import "./create-invitation-success.scss"
 
 const CreateInvitationSuccess = () => {
-
+    /* Globale Variables */
     const {
-        setPopup,
+        setPopup
         // socket,
-    } = useContext(GlobalContext);
+    } = useContext(GlobalContext)
 
     const {
         setTitle,
         setMessage,
         setStage
-    } = useContext(CreateInvitationContext);
+    } = useContext(CreateInvitationContext)
 
-    const [anotherInvitation, setAnotherInvitation] = useState(false);
-    const [close, setClose] = useState(false);
+    const [anotherInvitation, setAnotherInvitation] = useState(false)
+    const [close, setClose] = useState(false)
 
     useEffect(() => {
         if (close) {
-            setPopup('');
+            setPopup("")
         }
-    }, [close]);
+    }, [close])
 
     useEffect(() => {
         if (anotherInvitation) {
-            setStage('invitation-start');
+            setStage("invitation-start")
         }
     }, [anotherInvitation])
 
@@ -38,39 +38,39 @@ const CreateInvitationSuccess = () => {
     }, [])
 
     // const socketUpdate = () => {
-        // socket.emit("invitation-created", {
+    // socket.emit("invitation-created", {
 
-        // });
+    // });
     // }
 
     const updateStageSuccess = () => {
-        setTitle('');
+        setTitle("")
         setMessage({
-            string: '',
-            highlight: false,
-        });
+            string: "",
+            highlight: false
+        })
     }
 
     return (
-        <div className='create-invitation-success-container'>
-            <div className='title-container'>
+        <div className="create-invitation-success-container">
+            <div className="title-container">
                 <h1>Great!</h1>
                 <p>Your chat invitation was created successfully.</p>
             </div>
-            <div className='buttons-container'>
+            <div className="buttons-container">
                 <Button
                     isActive={true}
                     loading={false}
-                    value={'close'}
+                    value={"close"}
                     callback={setClose}/>
                 <Button
                     isActive={true}
                     loading={false}
-                    value={'Create another chat invitation'}
+                    value={"Create another chat invitation"}
                     callback={setAnotherInvitation}/>
             </div>
         </div>
     )
-};
+}
 
-export default CreateInvitationSuccess;
+export default CreateInvitationSuccess

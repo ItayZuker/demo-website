@@ -1,24 +1,23 @@
-import React, {useContext} from "react";
-import {GlobalContext} from "../../../../context/global-context";
-import "./loading-popup.scss";
+import React, { useContext } from "react"
+import { GlobalContext } from "../../../../context/global-context"
+import "./loading-popup.scss"
 
 const LoadingPopup = () => {
-
-    /* Import Global Variables */
+    /* Import Variables */
     const {
-        popup,
-    } = useContext(GlobalContext);
+        popup
+    } = useContext(GlobalContext)
 
     /* JSX Output */
-    if(popup !== 'loading') {
+    if (popup !== "loading") {
         return <></>
     } else {
         return (
-            <div className='loading-popup-container'>
+            <div className="loading-popup-container">
 
             </div>
         )
     }
-};
+}
 
-export default LoadingPopup;
+export default LoadingPopup

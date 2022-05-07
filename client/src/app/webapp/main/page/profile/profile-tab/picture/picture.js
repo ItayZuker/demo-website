@@ -1,13 +1,13 @@
-import React from "react";
-import "./picture.scss";
+import React from "react"
+import "./picture.scss"
 
 const Picture = () => {
-
+    /* JSX Output */
     return (
-        <div className='picture-container'>
+        <div className="picture-container">
             <p>Edit Picture</p>
         </div>
     )
-};
+}
 
-export default Picture;
+export default Picture

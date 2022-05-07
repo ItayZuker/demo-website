@@ -1,11 +1,11 @@
-import React from "react";
-import DropdownItem from "./dropdown-item/dropdown-item";
-import './dropdown.scss';
+import React from "react"
+import DropdownItem from "./dropdown-item/dropdown-item"
+import "./dropdown.scss"
 
 const Dropdown = (props) => {
-
+    /* JSX Output */
     return (
-        <div className={'dropdown-container ' + (props.hide ? 'hide' : '')}>
+        <div className={"dropdown-container " + (props.hide ? "hide" : "")}>
             {props.subPages.map((subPage, index) => {
                 return <DropdownItem
                     key={index}
@@ -13,6 +13,6 @@ const Dropdown = (props) => {
             })}
         </div>
     )
-};
+}
 
-export default Dropdown;
+export default Dropdown

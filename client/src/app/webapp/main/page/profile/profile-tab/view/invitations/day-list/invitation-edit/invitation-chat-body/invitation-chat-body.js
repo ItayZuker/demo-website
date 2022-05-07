@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import "./invitation-chat-body.scss";
+import React, { useEffect, useState } from "react"
+import "./invitation-chat-body.scss"
 
 const InvitationChatBody = (props) => {
-
+    /* Locale Variables */
     const [start, setStart] = useState("")
     const [duration, setDuration] = useState("")
     const [intro, setIntro] = useState("")
@@ -21,9 +21,9 @@ const InvitationChatBody = (props) => {
             return string
         } else {
             string = "0" + string
-            return string;
+            return string
         }
-    };
+    }
 
     const getStart = () => {
         const date = new Date(props.data.start.timeStamp)

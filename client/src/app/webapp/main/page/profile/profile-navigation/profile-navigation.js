@@ -1,17 +1,10 @@
-import React, {useContext, useEffect, useRef} from "react"
-import {ProfileContext} from "../../../../../../context/profile-context"
+import React, { useEffect, useRef } from "react"
 import ProfilePicture from "./profile-picture/profile-picture"
 import CreateInvitationButton from "./create-invitation-button/create-invitation-button"
 import ProfileNavigationButton from "./profile-navigation-button/profile-navigation-button"
 import "./profile-navigation.scss"
 
 const ProfileNavigation = () => {
-
-    /* Import Global Variables */
-    const {
-        setTab,
-    } = useContext(ProfileContext)
-
     /* Local Variables */
     const profileNavigationContainerRef = useRef()
 
@@ -19,7 +12,7 @@ const ProfileNavigation = () => {
     useEffect(() => {
         updateNavigationPosition()
         document.addEventListener("scroll", () => updateNavigationPosition())
-    }, []);
+    }, [])
 
     /* Component Functions */
     const updateNavigationPosition = () => {

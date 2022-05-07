@@ -1,28 +1,29 @@
-import React from "react";
-import './footer-sub-pages-item.scss';
+import React from "react"
+import "./footer-sub-pages-item.scss"
 
 const FooterSubPagesItem = (props) => {
-
+    /* JSX Output */
     const getLink = (item) => {
         if (item.disableLink) {
             return "#"
         } else {
-            const link = item.title;
-            const lowerCase = link.toLowerCase();
-            const split = lowerCase.split(' ');
-            return split.join("-");
+            const link = item.title
+            const lowerCase = link.toLowerCase()
+            const split = lowerCase.split(" ")
+            return split.join("-")
         }
-    };
+    }
 
+    /* JSX Output */
     return (
-        <div className='footer-sub-pages-item-container'>
+        <div className="footer-sub-pages-item-container">
             {props.subPages.map((item, index) => {
-                    return <a
-                        key={index}
-                        href={getLink(item)}>{item.title}</a>
-                })}
+                return <a
+                    key={index}
+                    href={getLink(item)}>{item.title}</a>
+            })}
         </div>
     )
-};
+}
 
 export default FooterSubPagesItem

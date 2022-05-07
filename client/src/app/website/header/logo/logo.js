@@ -1,16 +1,18 @@
-import React from "react";
-import logoImage from '../../../../assets/images/demoLogo.svg';
-import './logo.scss';
+import React from "react"
+import logoImage from "../../../../assets/images/demoLogo.svg"
+import "./logo.scss"
 
 const Logo = () => {
-
+    /* JSX Output */
     return (
-        <div className='logo-container'>
+        <div className="logo-container">
             <a href={"/home"}>
-                <img src={logoImage}/>
+                <img
+                    alt={"Logo"}
+                    src={logoImage}/>
             </a>
         </div>
     )
-};
+}
 
-export default Logo;
+export default Logo

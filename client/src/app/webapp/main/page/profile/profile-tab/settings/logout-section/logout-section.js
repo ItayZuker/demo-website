@@ -1,54 +1,53 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../../../../../../context/global-context";
-import Button from "../../../../../../../../components/button/button";
-import "./logout-section.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { GlobalContext } from "../../../../../../../../context/global-context"
+import Button from "../../../../../../../../components/button/button"
+import "./logout-section.scss"
 
 const LogoutSection = () => {
-
+    /* Global Variables */
     const {
         setLogin,
-        setPopup,
-    } = useContext(GlobalContext);
+        setPopup
+    } = useContext(GlobalContext)
 
-    const [logout, setLogout] = useState(false);
+    const [logout, setLogout] = useState(false)
 
     useEffect(() => {
-        if(logout) {
-            logoutAccount();
+        if (logout) {
+            logoutAccount()
         }
     }, [logout])
 
     const handleData = (data) => {
         if (data.logout) {
-            setPopup('');
-            setLogin(false);
-            localStorage.removeItem("token");
-            window.location.href = "/home";
+            setPopup("")
+            setLogin(false)
+            localStorage.removeItem("token")
+            window.location.href = "/home"
         } else {
             /* TODO: Something went wrong, try to logout again */
         }
-    };
+    }
 
     const logoutAccount = async () => {
-        setPopup("loading");
+        setPopup("loading")
         try {
-            const token = window.localStorage.getItem("token");
+            const token = window.localStorage.getItem("token")
             const res = await fetch("/profile-settings/logout", {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    token: token,
-
-                }),
-            });
-            const data = await res.json();
-            handleData(data);
-        } catch ( err ) {
-            setPopup("");
+                    token
+                })
+            })
+            const data = await res.json()
+            handleData(data)
+        } catch (err) {
+            setPopup("")
         }
-    };
+    }
 
     return (
         <div className="logout-section-container">
@@ -62,6 +61,6 @@ const LogoutSection = () => {
                 callback={setLogout}/>
         </div>
     )
-};
+}
 
-export default LogoutSection;
+export default LogoutSection

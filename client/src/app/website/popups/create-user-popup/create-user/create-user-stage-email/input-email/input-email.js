@@ -1,86 +1,84 @@
-import React, {useState, useRef, useContext} from "react";
-import validator from 'email-validator';
-import {CreateUserContext} from "../../../../../../../context/create-user-context";
-import './input-email.scss';
+import React, { useState, useRef, useContext } from "react"
+import validator from "email-validator"
+import { CreateUserContext } from "../../../../../../../context/create-user-context"
+import "./input-email.scss"
 
 const InputEmail = (props) => {
-
-    // Import Global State Variables
+    /* Import Variables */
     const {
-        setEmail,
-    } = useContext(CreateUserContext);
+        setEmail
+    } = useContext(CreateUserContext)
 
-    // Locale Component State Variables
-    const [placeholder] = useState('example@email.com');
-    const inputValueRef = useRef();
+    /* Locale Variables */
+    const [placeholder] = useState("example@email.com")
+    const inputValueRef = useRef()
 
-    // All Component Functions
+    /* Functions */
     const validateEmail = (emailString) => {
         return new Promise(resolve => {
-            const validation = validator.validate(emailString);
+            const validation = validator.validate(emailString)
             if (validation) {
-                resolve(true);
+                resolve(true)
             } else {
-                resolve(false);
+                resolve(false)
             }
-        });
-    };
+        })
+    }
 
     const handleKeyPress = (e) => {
         switch (e.charCode) {
-            case 13: {
-                e.preventDefault();
-                break;
-            }
-            case 32: {
-                e.preventDefault();
-                break;
-            }
-        };
-    };
+        case 13: {
+            e.preventDefault()
+            break
+        }
+        case 32: {
+            e.preventDefault()
+            break
+        }
+        }
+    }
 
     const handleInput = async (e) => {
-        const string = e.target.innerText;
-        const emailTrue = await validateEmail(string);
+        const string = e.target.innerText
+        const emailTrue = await validateEmail(string)
         if (emailTrue) {
             setEmail(prevState => {
-                return {...prevState, string: string}
-            });
+                return { ...prevState, string }
+            })
         } else {
             setEmail(prevState => {
-                return {...prevState, string: ''}
-            });
+                return { ...prevState, string: "" }
+            })
         }
-    };
+    }
 
     const handleFocus = (e) => {
-        const string = e.target.innerText;
+        const string = e.target.innerText
         if (string === placeholder) {
-            inputValueRef.current.innerText = '';
+            inputValueRef.current.innerText = ""
         }
-    };
+    }
 
     const handleBlur = (e) => {
-        const string = e.target.innerText;
+        const string = e.target.innerText
         if (!string) {
-            inputValueRef.current.innerText = placeholder;
+            inputValueRef.current.innerText = placeholder
         }
-    };
+    }
 
-    // JSX Output
+    /* JSX Output */
     return (
-        <div className={'input-container email' + (props.isActive ? ' active' : '') + (props.loading ? 'loading' : '')}>
+        <div className={"input-container email" + (props.isActive ? " active" : "") + (props.loading ? "loading" : "")}>
             <p
                 suppressContentEditableWarning={true}
-                contentEditable={'true'}
+                contentEditable={"true"}
                 ref={inputValueRef}
                 onFocus={(e) => handleFocus(e)}
                 onBlur={(e) => handleBlur(e)}
                 onInput={(e) => handleInput(e)}
-                onKeyPress={(e) => handleKeyPress(e)}
-                >{placeholder}</p>
+                onKeyPress={(e) => handleKeyPress(e)}>{placeholder}</p>
         </div>
     )
 }
 
-export default InputEmail;
+export default InputEmail

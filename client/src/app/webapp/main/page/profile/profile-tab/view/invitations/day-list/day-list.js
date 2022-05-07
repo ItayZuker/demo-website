@@ -1,19 +1,21 @@
-import React, {useContext, useEffect, useState} from "react";
-import {ProfileContext} from "../../../../../../../../../context/profile-context";
-import InvitationEdit from "./invitation-edit/invitation-edit";
-import "./day-list.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { ProfileContext } from "../../../../../../../../../context/profile-context"
+import InvitationEdit from "./invitation-edit/invitation-edit"
+import "./day-list.scss"
 
 const DayList = (props) => {
-
+    /* Global Variables */
     const {
         monthList,
         daysList
-    } = useContext(ProfileContext);
+    } = useContext(ProfileContext)
 
+    /* Locale Variables */
     const [dayData, setDayData] = useState("")
     const [monthData, setMonthData] = useState("")
     const [dayReference, setDayReference] = useState("")
 
+    /* Triggers */
     useEffect(() => {
         updateTitle()
     }, [props])
@@ -39,12 +41,12 @@ const DayList = (props) => {
                 name: daysList[date.getDay()].name,
                 short: daysList[date.getDay()].short,
                 metricDayInTheMonth: date.getDate(),
-                metricDayInTheWeek: date.getDay() + 1,
+                metricDayInTheWeek: date.getDay() + 1
             })
             setMonthData({
                 name: monthList[date.getMonth()].name,
                 short: monthList[date.getMonth()].short,
-                metricInYear: date.getMonth() + 1,
+                metricInYear: date.getMonth() + 1
             })
         }
     }

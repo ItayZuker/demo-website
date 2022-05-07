@@ -1,24 +1,25 @@
-import React, {useState} from "react";
-import './check-box.scss';
+import React, { useState } from "react"
+import "./check-box.scss"
 
 const CheckBox = (props) => {
+    /* Locale Variables */
+    const [check, setCheck] = useState(false)
 
-    const [check, setCheck] = useState(false);
-
+    /* Functions */
     const clickCheckBox = () => {
-        if(check) {
-            setCheck(false);
-            props.callback(false);
-
+        if (check) {
+            setCheck(false)
+            props.callback(false)
         } else {
-            setCheck(true);
-            props.callback(true);
+            setCheck(true)
+            props.callback(true)
         }
-    };
+    }
 
+    /* JSX Output */
     return (
         <div
-            className={'check-box-container ' + (check ? 'check' : '')}
+            className={"check-box-container " + (check ? "check" : "")}
             onClick={() => clickCheckBox()}>
             <div className='check-box'>
             </div>
@@ -27,4 +28,4 @@ const CheckBox = (props) => {
     )
 }
 
-export default CheckBox;
+export default CheckBox

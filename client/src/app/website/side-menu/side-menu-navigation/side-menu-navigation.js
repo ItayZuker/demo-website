@@ -1,10 +1,10 @@
-import React from "react";
-import data from "../../../../assets/json/navigation.json";
-import SideMenuNavItem from "./side-menu-nav-item/side-menu-nav-item";
-import './side-menu-navigation.scss';
+import React from "react"
+import data from "../../../../assets/json/navigation.json"
+import SideMenuNavItem from "./side-menu-nav-item/side-menu-nav-item"
+import "./side-menu-navigation.scss"
 
 const SideMenuNavigation = () => {
-
+    /* JSX Output */
     return (
         <div className='side-menu-navigation-container'>
             {data.website.header.map((item, index) => {
@@ -16,4 +16,4 @@ const SideMenuNavigation = () => {
     )
 }
 
-export default SideMenuNavigation;
+export default SideMenuNavigation

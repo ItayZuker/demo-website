@@ -1,64 +1,61 @@
-import React, {useContext, useEffect, useState} from "react";
-import {CreateUserContext} from "../../../../../../context/create-user-context";
-import {GlobalContext} from "../../../../../../context/global-context";
-import AgeLimitRejectStage from "./age-limit-reject-stage/age-limit-reject-stage";
-import AgeLimitLegalStage from "./age-limit-legal-stage/age-limit-legal-stage";
-import AgeLimitBirthdayStage from "./age-limit-birthday-stage/age-limit-birthday-stage";
-import './create-user-stage-age-limit.scss';
+import React, { useContext, useEffect } from "react"
+import { CreateUserContext } from "../../../../../../context/create-user-context"
+import { GlobalContext } from "../../../../../../context/global-context"
+import AgeLimitRejectStage from "./age-limit-reject-stage/age-limit-reject-stage"
+import AgeLimitLegalStage from "./age-limit-legal-stage/age-limit-legal-stage"
+import AgeLimitBirthdayStage from "./age-limit-birthday-stage/age-limit-birthday-stage"
+import "./create-user-stage-age-limit.scss"
 
 const CreateUserStageAgeLimit = () => {
-
-    /* Import global state variables */
+    /* Global Variables */
     const {
         setMessage,
         stage,
         subStage,
-        setTitle,
-    } = useContext(CreateUserContext);
+        setTitle
+    } = useContext(CreateUserContext)
 
     const {
-        geoData,
-    } = useContext(GlobalContext);
+        geoData
+    } = useContext(GlobalContext)
 
-    /* Locale state variables */
-    const [loading, setLoading] = useState(false);
-
-    /* Variable triggers */
+    /* Triggers */
     useEffect(() => {
-        activateAgeLimit();
-    }, []);
+        activateAgeLimit()
+    }, [])
 
-    /* Component functions */
+    /* Functions */
     const activateAgeLimit = () => {
         if (geoData.ageLimit) {
-            setTitle(`Are you +${geoData.ageLimit} ?`);
+            setTitle(`Are you +${geoData.ageLimit} ?`)
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Please confirm your age',
-                        highlight: true,
+                        string: "Please confirm your age",
+                        highlight: true
                     },
                     two: {
-                        string: '',
-                        highlight: false,
-                    }}
-            });
+                        string: "",
+                        highlight: false
+                    }
+                }
+            })
         }
-    };
+    }
 
-
-    /* JSX output */
-    if (stage !== 'age-limit') {
+    /* JSX Output */
+    if (stage !== "age-limit") {
         return <></>
     } else {
         return (
-            <div className='create-user-stage-age-limit-container'>
-                {subStage === 'reject' ? <AgeLimitRejectStage /> : <></>}
-                {subStage === 'legal' ? <AgeLimitLegalStage /> : <></>}
-                {subStage === 'birthday' ? <AgeLimitBirthdayStage /> : <></>}
+            <div className="create-user-stage-age-limit-container">
+                {subStage === "reject" ? <AgeLimitRejectStage /> : <></>}
+                {subStage === "legal" ? <AgeLimitLegalStage /> : <></>}
+                {subStage === "birthday" ? <AgeLimitBirthdayStage /> : <></>}
             </div>
         )
     }
-};
+}
 
-export default CreateUserStageAgeLimit;
+export default CreateUserStageAgeLimit

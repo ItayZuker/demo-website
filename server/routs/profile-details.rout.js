@@ -1,57 +1,53 @@
-const express = require('express');
-const router = express.Router();
-const User_Model = require('../models/user.model.js');
-const Country_Model = require('../models/country.model.js');
-const Global_Model = require('../models/global.model');
-const jwt = require('jsonwebtoken');
-const generator = require('generate-password');
-const bcrypt = require('bcrypt');
-const validator = require('email-validator');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const express = require("express")
+const router = express.Router()
+const User_Model = require("../models/user.model.js")
+const Country_Model = require("../models/country.model.js")
+const Global_Model = require("../models/global.model")
+const jwt = require("jsonwebtoken")
+const generator = require("generate-password")
+const bcrypt = require("bcrypt")
+const validator = require("email-validator")
+const nodemailer = require("nodemailer")
+require("dotenv").config()
 
 /* Router functions */
 const verifyToken = (req, res, next) => {
-    const token = req.body.token;
+    const token = req.body.token
     if (!!token) {
-        const secretKey = process.env.ACCESS_TOKEN_SECRET;
+        const secretKey = process.env.ACCESS_TOKEN_SECRET
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.send(err);
+                res.send(err)
             } else if (decodedUser.email) {
-                console.log(2)
-                console.log(decodedUser)
-                req.email = decodedUser.email;
-                next();
+                req.email = decodedUser.email
+                next()
             } else {
-                console.log(3)
-                console.log(decodedUser)
-                res.status(400).send('Token not good');
+                res.status(400).send("Token not good")
             }
         })
     }
-};
+}
 
 /* Profile Details Routs */
-router.post('/globals', verifyToken, async (req, res) => {
-    const type = req.body.type;
+router.post("/globals", verifyToken, async (req, res) => {
+    const type = req.body.type
     try {
         Global_Model
             .findOne({type: type}, (err, data) => {
                 if (err) {
-                    res.status(500).send(err);
+                    res.status(500).send(err)
                 } else {
                     const payload = {
                         type: data.type,
                         list: data.list
                     }
-                    res.status(200).json(payload);
+                    res.status(200).json(payload)
                 }
-            });
+            })
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
-});
+})
 
 router.put("/update-about", verifyToken, async (req, res) => {
     try {
@@ -62,20 +58,20 @@ router.put("/update-about", verifyToken, async (req, res) => {
                 {},
                 (err)=> {
                     if (err) {
-                        res.status(500).send(err);
+                        res.status(500).send(err)
                     } else {
                         res.status(200).json(
                             {
                                 success: true,
-                                message: 'About updated successfully',
-                            });
-                    }});
+                                message: "About updated successfully",
+                            })
+                    }})
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
 })
 
-router.put('/update-gender', verifyToken, async (req, res) => {
+router.put("/update-gender", verifyToken, async (req, res) => {
     try {
         User_Model
             .findOneAndUpdate(
@@ -84,21 +80,21 @@ router.put('/update-gender', verifyToken, async (req, res) => {
                 {},
                 (err)=> {
                     if (err) {
-                        res.status(500).send(err);
+                        res.status(500).send(err)
                     } else {
                         res.status(200).json(
                             {
                                 success: true,
-                                message: 'Gender updated successfully',
+                                message: "Gender updated successfully",
                                 gender: req.body.gender,
-                            });
-                    }});
+                            })
+                    }})
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
 })
 
-router.put('/update-country', verifyToken, async (req, res) => {
+router.put("/update-country", verifyToken, async (req, res) => {
     try {
         User_Model
             .findOneAndUpdate(
@@ -107,21 +103,21 @@ router.put('/update-country', verifyToken, async (req, res) => {
                 {},
                 (err)=> {
                     if (err) {
-                        res.status(500).send(err);
+                        res.status(500).send(err)
                     } else {
                         res.status(200).json(
                             {
                                 success: true,
-                                message: 'GeoData updated successfully',
+                                message: "GeoData updated successfully",
                                 geoData: req.body.geoData,
-                            });
-                    }});
+                            })
+                    }})
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
-});
+})
 
-router.put('/update-name', verifyToken, async (req, res) => {
+router.put("/update-name", verifyToken, async (req, res) => {
     try {
         User_Model
             .findOneAndUpdate(
@@ -130,26 +126,26 @@ router.put('/update-name', verifyToken, async (req, res) => {
                 {},
                 (err)=> {
                     if (err) {
-                        res.status(500).send(err);
+                        res.status(500).send(err)
                     } else {
                         res.status(200).json(
                             {
                                 success: true,
-                                message: 'User name updated successfully',
+                                message: "User name updated successfully",
                                 name: req.body.name,
-                            });
-                    }});
+                            })
+                    }})
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
-});
+})
 
 router.post('/', verifyToken, async ( req, res) => {
     try {
         User_Model
             .findOne({email: req.email}, (err, user) => {
                 if (err) {
-                    res.status(500).send(err);
+                    res.send(err)
                 } else {
                     const userDetails = {
                         name: user.name,
@@ -160,27 +156,27 @@ router.post('/', verifyToken, async ( req, res) => {
                         gender: user.gender,
                         invitations: user.invitations,
                     }
-                    res.status(200).json(userDetails);
+                    res.status(200).json(userDetails)
                 }
-            });
+            })
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
-});
+})
 
-router.post('/get-countries', verifyToken, async ( req, res) => {
+router.post("/get-countries", verifyToken, async ( req, res) => {
     try {
         Country_Model
             .find({}, (err, countries) => {
                 if (err) {
-                    res.status(500).send(err);
+                    res.status(500).send(err)
                 } else {
-                    res.status(200).json(countries);
+                    res.status(200).json(countries)
                 }
-            });
+            })
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(err)
     }
-});
+})
 
-module.exports = router;
+module.exports = router

@@ -1,17 +1,16 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../../../../context/global-context";
-import {LoginContext} from "../../../../../../context/login-context";
-import InputPassword from './input-password/input-password';
-import SubmitButton from "../../../../../../components/submit-button/submit-button";
-import './login-stage-two.scss';
+import React, { useContext, useEffect, useState } from "react"
+import { GlobalContext } from "../../../../../../context/global-context"
+import { LoginContext } from "../../../../../../context/login-context"
+import InputPassword from "./input-password/input-password"
+import SubmitButton from "../../../../../../components/submit-button/submit-button"
+import "./login-stage-two.scss"
 
 const LoginStageTwo = () => {
-
-    /* Import global state variables */
+    /* Global Variables */
     const {
         setLogin,
-        setPopup,
-    } = useContext(GlobalContext);
+        setPopup
+    } = useContext(GlobalContext)
 
     const {
         setStage,
@@ -19,172 +18,180 @@ const LoginStageTwo = () => {
         setPassword,
         email,
         setMessage,
-        stage,
-    } = useContext(LoginContext);
+        stage
+    } = useContext(LoginContext)
 
-    /* Locale state variables */
-    const [verifyActive, setVerifyActive] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [passwordActive, setPasswordActive] = useState(true);
+    /* Locale Variables */
+    const [verifyActive, setVerifyActive] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [passwordActive, setPasswordActive] = useState(true)
 
-    /* Variable triggers */
+    /* Triggers */
     useEffect(() => {
-        if(!!password.array) {
-            checkForPasswordString();
+        if (password.array) {
+            checkForPasswordString()
         }
-    }, [password.array]);
+    }, [password.array])
 
-    /* Component functions */
+    /* Functions */
     const checkForPasswordString = async () => {
-        const passwordString = await getPasswordString();
-        if(passwordString.length === password.array.length) {
-            setVerifyActive(true);
+        const passwordString = await getPasswordString()
+        if (passwordString.length === password.array.length) {
+            setVerifyActive(true)
         } else {
-            setVerifyActive(false);
+            setVerifyActive(false)
         }
     }
 
     const getCleanPasswordArray = () => {
         return new Promise(resolve => {
             const cleanPasswordArray = password.array.map((item, i) => {
-                return {character: '', index: i};
-            });
-            resolve(cleanPasswordArray);
-        });
-    };
+                return { character: "", index: i }
+            })
+            resolve(cleanPasswordArray)
+        })
+    }
 
     const clearPasswordArray = async () => {
-        const cleanPasswordArray = await getCleanPasswordArray();
+        const cleanPasswordArray = await getCleanPasswordArray()
         setPassword(prevState => {
-            return {...prevState, array: cleanPasswordArray}
-        });
-    };
+            return { ...prevState, array: cleanPasswordArray }
+        })
+    }
 
     const backStageOne = () => {
-        clearPasswordArray();
-        setStage('email');
-    };
+        clearPasswordArray()
+        setStage("email")
+    }
 
     const getPasswordString = () => {
         return new Promise(resolve => {
             const passwordCharactersArray = password.array.map(item => {
                 return item.character
             })
-            const passwordString = passwordCharactersArray.join('');
-            resolve(passwordString);
-        });
-    };
+            const passwordString = passwordCharactersArray.join("")
+            resolve(passwordString)
+        })
+    }
 
     const handleData = (data) => {
-        console.log(data)
-        clearPasswordArray();
-        if(data.token) {
-            localStorage.setItem('token', data.token);
-            setLogin(true);
+        clearPasswordArray()
+        if (data.token) {
+            localStorage.setItem("token", data.token)
+            setLoading(false)
+            // setPopup("")
             setTimeout(() => {
-                setLoading(false);
-                setPopup('');
-                window.location = '/book';
-            }, 100);
-        } else if(data.expired) {
-            setLoading(false);
-            setPasswordActive(false);
+            // setLoading(false)
+                setPopup("")
+                setLogin(true)
+                // window.location = "/"
+            }, 100)
+        } else if (data.expired) {
+            setLoading(false)
+            setPasswordActive(false)
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Sorry, password expired',
-                        highlight: true,
+                        string: "Sorry, password expired",
+                        highlight: true
                     },
                     two: {
-                        string: '',
-                        highlight: false,
-                    }}
-            });
-        } else if(!data.match) {
+                        string: "",
+                        highlight: false
+                    }
+                }
+            })
+        } else if (!data.match) {
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Wrong Password, try again',
-                        highlight: true,
-                    }}
-            });
+                        string: "Wrong Password, try again",
+                        highlight: true
+                    }
+                }
+            })
             setTimeout(() => {
-                resetMessage();
-            }, 3000);
-            setLoading(false);
+                resetMessage()
+            }, 3000)
+            setLoading(false)
         } else {
-            setPasswordActive(false);
+            setPasswordActive(false)
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Sorry, something went wrong',
-                        highlight: true,
+                        string: "Sorry, something went wrong",
+                        highlight: true
                     },
                     two: {
-                        string: '',
-                        highlight: false,
-                    }}
-            });
-            setLoading(false);
+                        string: "",
+                        highlight: false
+                    }
+                }
+            })
+            setLoading(false)
         }
-    };
+    }
 
     const resetMessage = () => {
         setMessage(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 one: {
-                    string: 'Password was sent to your email',
-                    highlight: false,
-                }}
-        });
-    };
+                    string: "Password was sent to your email",
+                    highlight: false
+                }
+            }
+        })
+    }
 
     const verifyCode = async () => {
-        setLoading(true);
-        const passwordString = await getPasswordString();
+        setLoading(true)
+        const passwordString = await getPasswordString()
         const item = {
             email: email.string,
             password: passwordString,
-            date: new Date(),
-        };
+            date: new Date()
+        }
         try {
-            const res = await fetch('/login/password-verification', {
-                method: 'POST',
+            const res = await fetch("/login/password-verification", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     email: item.email,
-                    password: item.password,
-                }),
-            });
-            const data = await res.json();
-            handleData(data);
-        } catch ( err ) {
-            console.log(err);
-            setLoading(false);
+                    password: item.password
+                })
+            })
+            const data = await res.json()
+            handleData(data)
+        } catch (err) {
+            setLoading(false)
         }
-    };
+    }
 
-    /* JSX output */
-    if (stage !== 'password') {
+    /* JSX Output */
+    if (stage !== "password") {
         return <></>
     } else {
         return (
-            <div className='login-stage-two-container'>
-                {passwordActive ?
-                    <InputPassword
+            <div className="login-stage-two-container">
+                {passwordActive
+                    ? <InputPassword
                         isActive={passwordActive}
                         loading={loading}/>
                     : <></> }
-                {passwordActive ?
-                    <SubmitButton
+                {passwordActive
+                    ? <SubmitButton
                         isActive={verifyActive}
                         value='verify'
                         callback={() => verifyCode()}
                         loading={loading}/>
                     : <></> }
-                <p className={passwordActive ? '' : 'password-expired'}
+                <p className={passwordActive ? "" : "password-expired"}
                     onClick={() => backStageOne()}>
                     Send another password</p>
             </div>
@@ -192,4 +199,4 @@ const LoginStageTwo = () => {
     }
 }
 
-export default LoginStageTwo;
+export default LoginStageTwo

@@ -1,0 +1,82 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .invitation-date-body-container {
+            min-height: 120px;
+            height: fit-content;
+            display: flex;
+            background-color: $gray_color_02;
+            > .icon-container {
+                display: flex;
+                flex-direction: column;
+                width: 30%;
+                align-items: center;
+                justify-content: center;
+                > svg {
+                    height: fit-content;
+                    width: 70px;
+                    path {
+                        fill: $gray_color_08;
+                    }
+                }
+                > .info-container {
+                    margin-top: 0.5rem;
+                    > p {
+                        color: $gray_color_08;
+                        display: flex;
+                        line-height: 1;
+                        > span.start {
+                            display: flex;
+                            align-items: center;
+                            &:after {
+                                content: "";
+                                width: 5px;
+                                height: 5px;
+                                background-color: $gray_color_08;
+                                border-radius: 50%;
+                                margin: 0 0.5rem;
+                            }
+                        }
+                        > span.duration {
+                            text-transform: capitalize;
+                        }
+                        > span.type {
+                            text-transform: capitalize;
+                            margin-left: 0.3rem;
+                        }
+                    }
+                }
+            }
+            > .intro-container {
+                width: 70%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                padding: 1rem 2rem 1rem 0;
+                position: relative;
+                &:before {
+                    content: "";
+                    width: 1px;
+                    height: calc(100% - 2rem);
+                    background-color: $gray_color_04;
+                    position: absolute;
+                    left: 0;
+                }
+                &.no-content {
+                    > p.intro {
+                        color: $gray_color_04;
+                    }
+                }
+                > p.intro {
+                    white-space: pre-line;
+                    margin-left: 2rem;
+                    font-size: 1.2rem;
+                    line-height: 1.2;
+                    color: $gray_color_08;
+                }
+            }
+        }
+    }
+}

@@ -1,60 +1,61 @@
-import React, {useContext, useEffect, useState} from "react";
-import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
-import Button from "../../../../../../components/button/button";
-import "./create-invitation-duration.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { CreateInvitationContext } from "../../../../../../context/create-invitation-context"
+import Button from "../../../../../../components/button/button"
+import "./create-invitation-duration.scss"
 
 const CreateInvitationDuration = () => {
-
     /* Global Variables */
     const {
         invitation,
         setTitle,
         setMessage,
         setStage,
-        setInvitation,
-    } = useContext(CreateInvitationContext);
+        setInvitation
+    } = useContext(CreateInvitationContext)
 
     /* Local Variables */
-    const [next, setNext] = useState(false);
+    const [next, setNext] = useState(false)
 
     /* Triggers */
     useEffect(() => {
         if (next) {
-            setStage('invitation-intro');
+            setStage("invitation-intro")
         }
-    }, [next]);
+    }, [next])
 
     useEffect(() => {
-        updateStageTitles();
-        updateInvitationDefault();
-    }, []);
+        updateStageTitles()
+        updateInvitationDefault()
+    }, [])
 
     /* Functions */
     const updateInvitationDefault = () => {
         setInvitation(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 duration: {
                     set: true,
                     metric: 30,
-                    string: '30 Minutes',
+                    string: "30 Minutes",
                     unlimited: false
-                },
-            };
-        });
-    };
+                }
+            }
+        })
+    }
 
     const updateStageTitles = () => {
-        setTitle('Limit')
+        setTitle("Limit")
         setMessage({
-            string: 'Select a time limit for your conversation:',
-            highlight: false,
-        });
-    };
+            string: "Select a time limit for your conversation:",
+            highlight: false
+        })
+    }
 
     const selectDuration = (limit) => {
-        if (limit === 'unlimited') {
+        if (limit === "unlimited") {
             setInvitation(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     duration: {
                         set: true,
                         metric: null,
@@ -62,10 +63,11 @@ const CreateInvitationDuration = () => {
                         unlimited: true
                     }
                 }
-            });
+            })
         } else {
             setInvitation(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     duration: {
                         set: true,
                         metric: limit,
@@ -73,57 +75,57 @@ const CreateInvitationDuration = () => {
                         unlimited: false
                     }
                 }
-            });
+            })
         }
-    };
+    }
 
     /* JSX Output */
     return (
-        <div className='create-invitation-duration-container'>
-            <div className='selection-container'>
-                <div className='duration-container'>
+        <div className="create-invitation-duration-container">
+            <div className="selection-container">
+                <div className="duration-container">
                     <div
                         onClick={() => selectDuration(10)}
-                        className={'inner-duration-container ' + (invitation.duration.metric === 10 ? 'selected' : '')}>
+                        className={"inner-duration-container " + (invitation.duration.metric === 10 ? "selected" : "")}>
                         <p>
-                            <span className='value'>10</span>
-                            <span className='unit'>Minutes</span></p>
+                            <span className="value">10</span>
+                            <span className="unit">Minutes</span></p>
                     </div>
                 </div>
-                <div className='duration-container'>
+                <div className="duration-container">
                     <div
                         onClick={() => selectDuration(30)}
-                        className={'inner-duration-container ' + (invitation.duration.metric === 30 ? 'selected' : '')}>
+                        className={"inner-duration-container " + (invitation.duration.metric === 30 ? "selected" : "")}>
                         <p>
-                            <span className='value'>30</span>
-                            <span className='unit'>Minutes</span></p>
+                            <span className="value">30</span>
+                            <span className="unit">Minutes</span></p>
                     </div>
                 </div>
-                <div className='duration-container'>
+                <div className="duration-container">
                     <div
                         onClick={() => selectDuration(60)}
-                        className={'inner-duration-container ' + (invitation.duration.metric === 60 ? 'selected' : '')}>
+                        className={"inner-duration-container " + (invitation.duration.metric === 60 ? "selected" : "")}>
                         <p>
-                            <span className='value'>1</span>
-                            <span className='unit'>Hour</span></p>
+                            <span className="value">1</span>
+                            <span className="unit">Hour</span></p>
                     </div>
                 </div>
-                <div className='duration-container'>
+                <div className="duration-container">
                     <div
-                        onClick={() => selectDuration('unlimited')}
-                        className={'inner-duration-container ' + (invitation.duration.unlimited ? 'selected' : '')}>
+                        onClick={() => selectDuration("unlimited")}
+                        className={"inner-duration-container " + (invitation.duration.unlimited ? "selected" : "")}>
                         <p>
-                            <span className='value'>No limit</span></p>
+                            <span className="value">No limit</span></p>
                     </div>
                 </div>
             </div>
             <Button
                 isActive={invitation.duration.set}
                 loading={false}
-                value={'Next'}
+                value={"Next"}
                 callback={setNext}/>
         </div>
     )
-};
+}
 
-export default CreateInvitationDuration;
+export default CreateInvitationDuration

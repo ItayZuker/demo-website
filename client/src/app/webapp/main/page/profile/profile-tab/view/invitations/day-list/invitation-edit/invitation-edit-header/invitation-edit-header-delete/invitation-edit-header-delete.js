@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import "./invitation-edit-header-delete.scss";
+import React from "react"
+import "./invitation-edit-header-delete.scss"
 
 const InvitationEditHeaderDelete = (props) => {
-
+    /* JSX Output */
     return (
         <div
             onClick={() => props.setClickDelete(true)}
@@ -14,4 +14,4 @@ const InvitationEditHeaderDelete = (props) => {
     )
 }
 
-export default InvitationEditHeaderDelete;
+export default InvitationEditHeaderDelete

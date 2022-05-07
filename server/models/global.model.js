@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 const Global_Schema = mongoose.Schema({
     type: {
         type: String,
@@ -8,7 +8,7 @@ const Global_Schema = mongoose.Schema({
         type: Array,
         require: true
     }
-});
+})
 
-const Global_Model = mongoose.model('global', Global_Schema);
-module.exports = Global_Model;
+const Global_Model = mongoose.model("global", Global_Schema)
+module.exports = Global_Model

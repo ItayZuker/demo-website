@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
-import Button from "../../../../../../../../../../../components/button/button";
-import "./delete-invitation-confirmation.scss";
-import {GlobalContext} from "../../../../../../../../../../../context/global-context";
+import React, { useContext, useEffect, useRef, useState } from "react"
+import Button from "../../../../../../../../../../../components/button/button"
+import { GlobalContext } from "../../../../../../../../../../../context/global-context"
+import "./delete-invitation-confirmation.scss"
 
 const DeleteInvitationConfirmation = (props) => {
-
     /* Global Variables */
     const {
         setDetails
@@ -35,7 +34,8 @@ const DeleteInvitationConfirmation = (props) => {
     /* Functions */
     const updateInvitations = (data) => {
         setDetails(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 invitations: data.invitations
             }
         })
@@ -57,19 +57,19 @@ const DeleteInvitationConfirmation = (props) => {
 
     const deleteInvitation = async () => {
         try {
-            const token = window.localStorage.getItem('token');
-            const res = await fetch('/profile-view/delete-invitation', {
-                method: 'DELETE',
+            const token = window.localStorage.getItem("token")
+            const res = await fetch("/profile-view/delete-invitation", {
+                method: "DELETE",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    token: token,
+                    token,
                     invitationId: props.data.collectionId
-                }),
-            });
-            const data = await res.json();
-            handleData(data);
+                })
+            })
+            const data = await res.json()
+            handleData(data)
         } catch (err) {
             handleError()
         }
@@ -106,6 +106,6 @@ const DeleteInvitationConfirmation = (props) => {
             </div>
         </div>
     )
-};
+}
 
 export default DeleteInvitationConfirmation

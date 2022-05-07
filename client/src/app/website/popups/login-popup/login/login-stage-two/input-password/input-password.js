@@ -1,53 +1,52 @@
-import React, {useEffect, useContext} from "react";
-import InputCharacter from './input-character/input-character';
-import {LoginContext} from "../../../../../../../context/login-context";
-import './input-password.scss';
+import React, { useEffect, useContext } from "react"
+import InputCharacter from "./input-character/input-character"
+import { LoginContext } from "../../../../../../../context/login-context"
+import "./input-password.scss"
 
 const InputPassword = (props) => {
-
-    /* Import global state variables */
+    /* Global Variables */
     const {
         password,
         setPassword
-    } = useContext(LoginContext);
+    } = useContext(LoginContext)
 
-    /* Variable triggers */
+    /* Triggers */
     useEffect(() => {
-        if(password.size > 0) {
-            buildPasswordInput(password.size);
+        if (password.size > 0) {
+            buildPasswordInput(password.size)
         }
-    }, [password.size]);
+    }, [password.size])
 
-    /* Component functions */
+    /* Functions */
     const buildPasswordInput = async (size) => {
-        const newPasswordArray = await buildNewPasswordArray(size);
+        const newPasswordArray = await buildNewPasswordArray(size)
         setPassword(prevState => {
-            return {...prevState, array: newPasswordArray}
+            return { ...prevState, array: newPasswordArray }
         })
-    };
+    }
 
     const buildNewPasswordArray = (size) => {
         return new Promise(resolve => {
-            let array = [];
+            const array = [] // lint fix not sure - array to CONST from LET
             for (let i = 0; i < size; i++) {
-                array.push({character: '', index: i});
+                array.push({ character: "", index: i })
             }
-            resolve(array);
-        });
-    };
+            resolve(array)
+        })
+    }
 
-    /* JSX output */
+    /* JSX Output */
     return (
-        <div className={'input-password-container ' + (props.isActive ? 'active ' : '') + (props.loading ? 'loading' : '')}>
+        <div className={"input-password-container " + (props.isActive ? "active " : "") + (props.loading ? "loading" : "")}>
             {password.array.map((item, i) => {
                 return <InputCharacter
-                key={i}
-                index={i}
-                isActive={props.isActive}
+                    key={i}
+                    index={i}
+                    isActive={props.isActive}
                 />
             })}
         </div>
     )
 }
 
-export default InputPassword;
+export default InputPassword

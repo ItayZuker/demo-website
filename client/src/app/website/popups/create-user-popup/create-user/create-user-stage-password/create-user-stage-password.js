@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from "react";
-import {CreateUserContext} from "../../../../../../context/create-user-context";
-import InputPassword from './input-password/input-password';
-import SubmitButton from "../../../../../../components/submit-button/submit-button";
-import './create-user-stage-password.scss';
+import React, { useContext, useEffect, useState } from "react"
+import { CreateUserContext } from "../../../../../../context/create-user-context"
+import InputPassword from "./input-password/input-password"
+import SubmitButton from "../../../../../../components/submit-button/submit-button"
+import "./create-user-stage-password.scss"
 
 const CreateUserStagePassword = () => {
-
-    /* Import global state variables */
+    /* Global Variables */
     const {
         setStage,
         password,
@@ -14,154 +13,159 @@ const CreateUserStagePassword = () => {
         email,
         setEmail,
         setMessage,
-        stage,
-    } = useContext(CreateUserContext);
+        stage
+    } = useContext(CreateUserContext)
 
-    /* Locale state variables */
-    const [verifyActive, setVerifyActive] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [passwordActive, setPasswordActive] = useState(true);
+    /* Locale Variables */
+    const [verifyActive, setVerifyActive] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [passwordActive, setPasswordActive] = useState(true)
 
-    /* Variable triggers */
+    /* Triggers */
     useEffect(() => {
-        if(!!password.array) {
-            checkForPasswordString();
+        if (password.array) {
+            checkForPasswordString()
         }
-    }, [password.array]);
+    }, [password.array])
 
-    /* Component functions */
+    /* Functions */
     const checkForPasswordString = async () => {
-        const passwordString = await getPassword();
-        if(passwordString.length === password.array.length) {
-            setVerifyActive(true);
+        const passwordString = await getPassword()
+        if (passwordString.length === password.array.length) {
+            setVerifyActive(true)
         } else {
-            setVerifyActive(false);
+            setVerifyActive(false)
         }
     }
 
     const getCleanPasswordArray = () => {
         return new Promise(resolve => {
             const cleanPasswordArray = password.array.map((item, i) => {
-                return {character: '', index: i};
-            });
-            resolve(cleanPasswordArray);
-        });
-    };
+                return { character: "", index: i }
+            })
+            resolve(cleanPasswordArray)
+        })
+    }
 
     const clearPasswordArray = async () => {
-        const cleanPasswordArray = await getCleanPasswordArray();
+        const cleanPasswordArray = await getCleanPasswordArray()
         setPassword(prevState => {
-            return {...prevState, array: cleanPasswordArray}
-        });
-    };
+            return { ...prevState, array: cleanPasswordArray }
+        })
+    }
 
     const backStageOne = () => {
-        clearPasswordArray();
-        setStage('email');
-    };
+        clearPasswordArray()
+        setStage("email")
+    }
 
     const getPassword = () => {
         return new Promise(resolve => {
             const passwordCharactersArray = password.array.map(item => {
                 return item.character
             })
-            const passwordString = passwordCharactersArray.join('');
-            resolve(passwordString);
-        });
-    };
+            const passwordString = passwordCharactersArray.join("")
+            resolve(passwordString)
+        })
+    }
 
     const handleData = (data) => {
-        setLoading(false);
-        clearPasswordArray();
+        setLoading(false)
+        clearPasswordArray()
         setEmail({
             string: data.email,
-            verified: data.match,
-        });
-        if(data.expired) {
-            setPasswordActive(false);
+            verified: data.match
+        })
+        if (data.expired) {
+            setPasswordActive(false)
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Sorry, password expired',
-                        highlight: true,
+                        string: "Sorry, password expired",
+                        highlight: true
                     },
                     two: {
-                        string: '',
-                        highlight: false,
-                    }}
-            });
-        } else if(!data.match) {
+                        string: "",
+                        highlight: false
+                    }
+                }
+            })
+        } else if (!data.match) {
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Wrong Password, try again',
-                        highlight: true,
-                    }}
-            });
+                        string: "Wrong Password, try again",
+                        highlight: true
+                    }
+                }
+            })
             setTimeout(() => {
-                resetMessage();
-            }, 3000);
+                resetMessage()
+            }, 3000)
         } else {
-            setStage(data.stage);
+            setStage(data.stage)
         }
-    };
+    }
 
     const resetMessage = () => {
         setMessage(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 one: {
-                    string: 'Password was sent to your email',
-                    highlight: false,
-                }}
-        });
-    };
+                    string: "Password was sent to your email",
+                    highlight: false
+                }
+            }
+        })
+    }
 
     const verifyCode = async () => {
-        setLoading(true);
-        const password = await getPassword();
+        setLoading(true)
+        const password = await getPassword()
         const item = {
             email: email.string,
-            password: password,
-            date: new Date(),
-        };
+            password,
+            date: new Date()
+        }
         try {
-            const res = await fetch('/create-user/password-verification', {
-                method: 'POST',
+            const res = await fetch("/create-user/password-verification", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     email: item.email,
-                    password: item.password,
-                }),
-            });
-            const data = await res.json();
-            handleData(data);
-        } catch ( err ) {
-            console.log(err);
-            setLoading(false);
+                    password: item.password
+                })
+            })
+            const data = await res.json()
+            handleData(data)
+        } catch (err) {
+            setLoading(false)
         }
-    };
+    }
 
-    /* JSX output */
-    if (stage !== 'password') {
+    /* JSX Output */
+    if (stage !== "password") {
         return <></>
     } else {
         return (
-            <div className='create-user-stage-password-container'>
-                {passwordActive ?
-                    <InputPassword
+            <div className="create-user-stage-password-container">
+                {passwordActive
+                    ? <InputPassword
                         isActive={passwordActive}
                         loading={loading}/>
                     : <></> }
-                {passwordActive ?
-                    <SubmitButton
+                {passwordActive
+                    ? <SubmitButton
                         isActive={verifyActive}
                         value='Verify'
                         callback={() => verifyCode()}
                         loading={loading}/>
                     : <></> }
-                <p className={passwordActive ? '' : 'password-expired'}
+                <p className={passwordActive ? "" : "password-expired"}
                     onClick={() => backStageOne()}>
                     Send another password</p>
             </div>
@@ -169,4 +173,4 @@ const CreateUserStagePassword = () => {
     }
 }
 
-export default CreateUserStagePassword;
+export default CreateUserStagePassword

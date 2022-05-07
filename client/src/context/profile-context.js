@@ -1,79 +1,78 @@
-import React, {useState} from "react";
-const ProfileContext = React.createContext();
+import React, { useState } from "react"
+const ProfileContext = React.createContext()
 
 const ProfileContextComponent = (props) => {
-
-    /* Local State */
-    const [tab, setTab] = useState('');
-    const [enLetters] = useState(['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'L', 'm', 'M', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'r', 'R', 's', 'S', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z']);
+    /* Locale Variables */
+    const [tab, setTab] = useState("")
+    const [enLetters] = useState(["a", "A", "b", "B", "c", "C", "d", "D", "e", "E", "f", "F", "g", "G", "h", "H", "i", "I", "j", "J", "k", "K", "l", "L", "m", "M", "n", "N", "o", "O", "p", "P", "q", "r", "R", "s", "S", "t", "T", "u", "U", "v", "V", "w", "W", "x", "X", "y", "Y", "z", "Z"])
     const [monthList] = useState([
         {
-            name: 'january',
-            short: 'jan'
+            name: "january",
+            short: "jan"
         }, {
-            name: 'february',
-            short: 'feb',
+            name: "february",
+            short: "feb"
         }, {
-            name: 'march',
-            short: 'mar'
+            name: "march",
+            short: "mar"
         }, {
-            name: 'april',
-            short: 'apr'
+            name: "april",
+            short: "apr"
         }, {
-            name: 'may',
-            short: 'may'
+            name: "may",
+            short: "may"
         }, {
-            name: 'june',
-            short: 'jun'
+            name: "june",
+            short: "jun"
         }, {
-            name: 'july',
-            short: 'jul'
+            name: "july",
+            short: "jul"
         }, {
-            name: 'august',
-            short: 'aug'
+            name: "august",
+            short: "aug"
         }, {
-            name: 'september',
-            short: 'sep'
+            name: "september",
+            short: "sep"
         }, {
-            name: 'october',
-            short: 'oct'
+            name: "october",
+            short: "oct"
         }, {
-            name: 'november',
-            short: 'nov'
+            name: "november",
+            short: "nov"
         }, {
-            name: 'december',
-            short: 'dec'
+            name: "december",
+            short: "dec"
         }])
     const [daysList] = useState([
         {
-            name: 'sunday',
-            short: 'su',
+            name: "sunday",
+            short: "su"
         },
         {
-            name: 'monday',
-            short: 'mo',
+            name: "monday",
+            short: "mo"
         },
         {
-            name: 'tuesday',
-            short: 'tu'
+            name: "tuesday",
+            short: "tu"
         },
         {
-            name: 'wednesday',
-            short: 'we'
+            name: "wednesday",
+            short: "we"
         },
         {
-            name: 'thursday',
-            short: 'th'
+            name: "thursday",
+            short: "th"
         },
         {
-            name: 'friday',
-            short: 'fr'
+            name: "friday",
+            short: "fr"
         },
         {
-            name: 'saturday',
-            short: 'sa'
+            name: "saturday",
+            short: "sa"
         }
-    ]);
+    ])
 
     /* Context Payload */
     const contextValue = {
@@ -82,7 +81,7 @@ const ProfileContextComponent = (props) => {
         enLetters,
         monthList,
         daysList
-    };
+    }
 
     /* JSX Output */
     return (

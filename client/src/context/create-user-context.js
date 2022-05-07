@@ -1,107 +1,111 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "./global-context";
-const CreateUserContext = React.createContext();
+import React, { useContext, useEffect, useState } from "react"
+import { GlobalContext } from "./global-context"
+const CreateUserContext = React.createContext()
 
 const CreateUserContextComponent = (props) => {
-
     /* Global Variables */
     const {
-        geoData,
-    } = useContext(GlobalContext);
+        geoData
+    } = useContext(GlobalContext)
 
-    /* Local Variables */
-    const [yearList, setYearList] = useState([]);
-    const [monthList] = useState(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
-    const [today, satToday] = useState({});
-    const [title, setTitle] = useState('');
-    const [stage, setStage] = useState('age-limit');
-    const [subStage, setSubStage] = useState('legal');
-    const [error, setError] = useState(false);
+    /* Locale Variables */
+    const [yearList, setYearList] = useState([])
+    const [monthList] = useState(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+    const [today, satToday] = useState({})
+    const [title, setTitle] = useState("")
+    const [stage, setStage] = useState("age-limit")
+    const [subStage, setSubStage] = useState("legal")
+    const [error, setError] = useState(false)
     const [password, setPassword] = useState({
         array: [],
         size: null,
-        lifetime: null,
-    });
+        lifetime: null
+    })
     const [email, setEmail] = useState({
-        string: '',
-        verified: false,
-    });
+        string: "",
+        verified: false
+    })
     const [message, setMessage] = useState({
         one: {
-            string: '',
+            string: "",
             highlight: false
         },
         two: {
-            string: '',
+            string: "",
             highlight: false
         }
-    });
+    })
     const [birthday, setBirthday] = useState({
         confirmation: {
             age: null,
             limit: null,
-            isLegal: false,
+            isLegal: false
         },
         month: {
-            string: '',
-            short: '',
-            decimal: null,
+            string: "",
+            short: "",
+            decimal: null
         },
         day: {
-            string: '',
-            short: '',
-            decimal: null,
+            string: "",
+            short: "",
+            decimal: null
         },
         year: {
-            decimal: null,
+            decimal: null
         }
     })
     const [legal, setLegal] = useState({
-        content: 'appName will always be free, and all data stored is for optimization purpose only. ' +
-            'We will never share your information with any third party. ' +
-            'All conversations are permanently deleted when closing a chat, and appName will only have the last 10 messages while chat is active. ' +
-            'Deleted messages can not be restored, and if you choose to share your personal information, you do that on your sole responsibility. ',
-        agree: false,
+        content: `appName will always be free, and all data stored is for optimization purpose only.
+            We will never share your information with any third party.
+            All conversations are permanently deleted when closing a chat, and appName will only have the last 10 messages while chat is active.
+            Deleted messages can not be restored, and if you choose to share your personal information, you do that on your sole responsibility.`,
+        agree: false
     })
 
+    /* Triggers */
     useEffect(() => {
-        if (!!today.year) {
-            updateYearList(today.year - geoData.ageLimit);
+        if (today.year) {
+            updateYearList(today.year - geoData.ageLimit)
         }
-    }, [today]);
+    }, [today])
 
     useEffect(() => {
-        updateToday();
-        updateAgeLimit();
-    }, []);
+        updateToday()
+        updateAgeLimit()
+    }, [])
 
+    /* Functions */
     const updateAgeLimit = () => {
         setBirthday(prevState => {
-            return {...prevState,
-                confirmation: {...prevState.confirmation,
+            return {
+                ...prevState,
+                confirmation: {
+                    ...prevState.confirmation,
                     limit: geoData.ageLimit
-            }};
-        });
-    };
+                }
+            }
+        })
+    }
 
     const updateYearList = (minimumYear) => {
-        let array = [];
-        const limit = minimumYear + geoData.ageLimit - 120;
+        const array = [] // lint fix not sure - array to CONST from LET
+        const limit = minimumYear + geoData.ageLimit - 120
         for (let year = minimumYear; year >= limit; year--) {
             const yearString = String(year)
-            array.push(yearString);
+            array.push(yearString)
         }
-        setYearList(array);
-    };
+        setYearList(array)
+    }
 
     const updateToday = async () => {
-        const date = new Date();
+        const date = new Date()
         satToday({
             month: date.getMonth(),
-            day:date.getDate(),
-            year: date.getFullYear(),
+            day: date.getDate(),
+            year: date.getFullYear()
         })
-    };
+    }
 
     /* Context Payload */
     const contextValue = {
@@ -126,7 +130,7 @@ const CreateUserContextComponent = (props) => {
         monthList,
         today,
         yearList
-    };
+    }
 
     /* JSX Output */
     return (

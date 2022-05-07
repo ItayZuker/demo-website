@@ -1,14 +1,13 @@
-import React, {useEffect, useState, useContext} from "react";
-import {GlobalContext} from "../../../../../../../../context/global-context";
-import DayList from "./day-list/day-list";
-import "./invitations.scss";
+import React, { useEffect, useState, useContext } from "react"
+import { GlobalContext } from "../../../../../../../../context/global-context"
+import DayList from "./day-list/day-list"
+import "./invitations.scss"
 
 const Invitations = () => {
-
     /* Global Variables */
     const {
-        details,
-    } = useContext(GlobalContext);
+        details
+    } = useContext(GlobalContext)
 
     const [invitations, setInvitations] = useState([])
 
@@ -20,20 +19,20 @@ const Invitations = () => {
 
     /* Functions */
     const updateInvitationsList = (list) => {
-        let week = [
-            {index: 0, list: []},
-            {index: 1, list: []},
-            {index: 2, list: []},
-            {index: 3, list: []},
-            {index: 4, list: []},
-            {index: 5, list: []},
-            {index: 6, list: []},
-        ]
-        list.forEach((invitation => {
+        const week = [
+            { index: 0, list: [] },
+            { index: 1, list: [] },
+            { index: 2, list: [] },
+            { index: 3, list: [] },
+            { index: 4, list: [] },
+            { index: 5, list: [] },
+            { index: 6, list: [] }
+        ] // lint fix not sure - array to CONST from LET
+        list.forEach(invitation => {
             const date = new Date(invitation.start.timeStamp)
             const day = date.getDay()
             week[day].list.push(invitation)
-        }))
+        })
         const sortedWeek = week.sort((a, b) => a.index - b.index)
         const sortedWeekAndDays = sortedWeek.map(dayList => {
             const sortedDayList = dayList.list.sort((a, b) => a.start.timeStamp - b.start.timeStamp)
@@ -47,7 +46,7 @@ const Invitations = () => {
         return <></>
     } else {
         return (
-            <div className='invitations-container'>
+            <div className="invitations-container">
                 <div className="title-container">
                     <h2>Open invitations:</h2>
                 </div>
@@ -57,6 +56,6 @@ const Invitations = () => {
             </div>
         )
     }
-};
+}
 
-export default Invitations;
+export default Invitations

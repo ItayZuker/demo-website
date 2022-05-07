@@ -1,131 +1,134 @@
-import React, {useContext, useEffect, useState} from "react";
-import {CreateUserContext} from "../../../../../../context/create-user-context";
-import EmailInput from './input-email/input-email';
-import SubmitButton from "../../../../../../components/submit-button/submit-button";
-import './create-user-stage-email.scss';
+import React, { useContext, useEffect, useState } from "react"
+import { CreateUserContext } from "../../../../../../context/create-user-context"
+import EmailInput from "./input-email/input-email"
+import SubmitButton from "../../../../../../components/submit-button/submit-button"
+import "./create-user-stage-email.scss"
 
 const CreateUserStageEmail = () => {
-
-    /* Import global state variables */
+    /* Global Variables */
     const {
         email,
         setPassword,
         setStage,
         setMessage,
         stage,
-        setTitle,
-    } = useContext(CreateUserContext);
+        setTitle
+    } = useContext(CreateUserContext)
 
-    /* Locale state variables */
-    const [loading, setLoading] = useState(false);
+    /* Locale Variables */
+    const [loading, setLoading] = useState(false)
 
-    /* Variable triggers */
+    /* Triggers */
     useEffect(() => {
-        setTitle('Creat User');
+        setTitle("Creat User")
         setMessage({
             one: {
-                string: 'Please verify your email:',
+                string: "Please verify your email:",
                 highlight: false
             },
             two: {
-                string: '',
+                string: "",
                 highlight: false
-            }});
-    }, []);
+            }
+        })
+    }, [])
 
-    /* Component functions */
+    /* Functions */
     const getMinutesLifetime = (seconds) => {
         return new Promise(resolve => {
-            const minutes = Math.floor(seconds / 60000);
-            resolve(minutes);
-        });
-    };
+            const minutes = Math.floor(seconds / 60000)
+            resolve(minutes)
+        })
+    }
 
     const handleData = async (data) => {
-        setLoading(false);
-        if(data.passwordSent) {
+        setLoading(false)
+        if (data.passwordSent) {
             setPassword(prevState => {
-                return {...prevState, size: data.passwordSize, lifetime: data.passwordLifetime}
-            });
-        }
-        if(data.stage === 'password') {
-            const minutes = await getMinutesLifetime(data.passwordLifetime);
+                return { ...prevState, size: data.passwordSize, lifetime: data.passwordLifetime }
+            })
+            const minutes = await getMinutesLifetime(data.passwordLifetime)
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
                         string: data.message,
-                        highlight: false,
+                        highlight: false
                     },
                     two: {
-                        string: '(Valid for ' + minutes + ' minutes)',
-                        highlight: false,
-                    }}
-            });
-        } else if(data.registered) {
+                        string: "(Valid for " + minutes + " minutes)",
+                        highlight: false
+                    }
+                }
+            })
+            setStage(data.stage)
+        } else if (data.registered) {
             setMessage(prevState => {
-                return {...prevState,
+                return {
+                    ...prevState,
                     one: {
-                        string: 'Email is already registered',
-                        highlight: true,
+                        string: "Email is already registered",
+                        highlight: true
                     },
                     two: {
-                        string: '',
-                        highlight: true,
-                    }}
-            });
+                        string: "",
+                        highlight: true
+                    }
+                }
+            })
             setTimeout(() => {
-                resetMessage();
+                resetMessage()
             }, 5000)
+            setStage(data.stage)
         }
-        setStage(data.stage);
-    };
+    }
 
     const sendCode = async () => {
-        setLoading(true);
+        setLoading(true)
         try {
-            const res = await fetch('/create-user/email-verification', {
-                method: 'POST',
+            const res = await fetch("/create-user/email-verification", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    email: email.string,
-                }),
-            });
-            const data = await res.json();
-            handleData(data);
-        } catch ( err ) {
-            console.log(err);
-            setLoading(false);
+                    email: email.string
+                })
+            })
+            const data = await res.json()
+            handleData(data)
+        } catch (err) {
+            setLoading(false)
         }
-    };
+    }
 
     const resetMessage = () => {
         setMessage({
             one: {
-                string: 'Please enter your email:',
+                string: "Please enter your email:",
                 highlight: false
             },
             two: {
-                string: '',
+                string: "",
                 highlight: false
-            }});
-    };
+            }
+        })
+    }
 
-    /* JSX output */
-    if (stage !== 'email') {
+    /* JSX Output */
+    if (stage !== "email") {
         return <></>
     } else {
         return (
-            <div className='create-user-stage-email-container'>
+            <div className="create-user-stage-email-container">
                 <EmailInput
                     isActive={true}
-                    placeholder='example@email.com'
+                    placeholder="example@email.com"
                     loading={loading}
                     focusCallback={resetMessage}/>
                 <SubmitButton
                     isActive={!!email.string}
-                    value='Send password'
+                    value="Send password"
                     callback={() => sendCode()}
                     loading={loading}/>
             </div>
@@ -133,4 +136,4 @@ const CreateUserStageEmail = () => {
     }
 }
 
-export default CreateUserStageEmail;
+export default CreateUserStageEmail

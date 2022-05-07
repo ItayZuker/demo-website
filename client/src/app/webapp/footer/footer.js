@@ -1,9 +1,9 @@
-import React from "react";
-import FooterNavigation from "./footer-navigation/footer-navigation";
-import './footer.scss';
+import React from "react"
+import FooterNavigation from "./footer-navigation/footer-navigation"
+import "./footer.scss"
 
 const Footer = () => {
-
+    /* JSX Output */
     return (
         <div
             id='footer-container'
@@ -16,4 +16,4 @@ const Footer = () => {
     )
 }
 
-export default Footer;
+export default Footer

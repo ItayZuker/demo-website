@@ -1,45 +1,46 @@
-import React, {useContext, useEffect, useState} from "react";
-import {CreateUserContext} from "../../../../../../../context/create-user-context";
-import Button from "../../../../../../../components/button/button";
-import "./age-limit-legal-stage.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { CreateUserContext } from "../../../../../../../context/create-user-context"
+import Button from "../../../../../../../components/button/button"
+import "./age-limit-legal-stage.scss"
 
 const AgeLimitLegalStage = () => {
-
+    /* Global Variables */
     const {
-        subStage,
         setSubStage,
-        birthday,
-        setBirthday,
-    } = useContext(CreateUserContext);
+        setBirthday
+    } = useContext(CreateUserContext)
 
-    const [confirmationTrue, setConfirmationTrue] = useState(false);
-    const [confirmationFalse, setConfirmationFalse] = useState(false);
+    /* Locale Variables */
+    const [confirmationTrue, setConfirmationTrue] = useState(false)
+    const [confirmationFalse, setConfirmationFalse] = useState(false)
 
+    /* Triggers */
     useEffect(() => {
         if (confirmationFalse) {
-            setSubStage('reject');
+            setSubStage("reject")
         } else if (confirmationTrue) {
             setBirthday(prevState => {
-                return {...prevState, confirmation: {...prevState.confirmation, isLegal: true}};
-            });
-            setSubStage('birthday');
+                return { ...prevState, confirmation: { ...prevState.confirmation, isLegal: true } }
+            })
+            setSubStage("birthday")
         }
-    }, [confirmationTrue, confirmationFalse]);
+    }, [confirmationTrue, confirmationFalse])
 
+    /* JSX Output */
     return (
-        <div className='age-limit-legal-stage-container'>
+        <div className="age-limit-legal-stage-container">
             <Button
                 loading={false}
                 isActive={true}
                 callback={setConfirmationTrue}
-                value={'Yes'}/>
+                value={"Yes"}/>
             <Button
                 loading={false}
                 isActive={true}
                 callback={setConfirmationFalse}
-                value={'No'}/>
+                value={"No"}/>
         </div>
     )
-};
+}
 
-export default AgeLimitLegalStage;
+export default AgeLimitLegalStage

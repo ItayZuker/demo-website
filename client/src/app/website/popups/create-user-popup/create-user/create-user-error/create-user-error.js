@@ -1,43 +1,46 @@
-import React, {useContext, useEffect} from "react";
-import {CreateUserContext} from "../../../../../../context/create-user-context";
-import "./create-user-error.scss";
+import React, { useContext, useEffect } from "react"
+import { CreateUserContext } from "../../../../../../context/create-user-context"
+import "./create-user-error.scss"
 
 const CreateUserError = () => {
-
-    /* Import Global Variables */
+    /* Global Variables */
     const {
         setStage,
         setError,
         setMessage,
-        setSubStage,
-    } = useContext(CreateUserContext);
+        setSubStage
+    } = useContext(CreateUserContext)
 
+    /* Triggers */
     useEffect(() => {
-        setSubStage('legal');
+        setSubStage("legal")
         setMessage(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 one: {
-                    string: 'Something went wrong',
-                    highlight: true,
+                    string: "Something went wrong",
+                    highlight: true
                 },
                 two: {
-                    string: '',
-                    highlight: false,
-                }}
-        });
+                    string: "",
+                    highlight: false
+                }
+            }
+        })
     }, [])
 
-    /* Component Functions */
-    const tryAgain = () =>{
-        setStage('age-limit');
-        setError(false);
-    };
+    /* Functions */
+    const tryAgain = () => {
+        setStage("age-limit")
+        setError(false)
+    }
 
+    /* JSX Output */
     return (
-        <div className='create-user-error-container'>
+        <div className="create-user-error-container">
             <p onClick={() => tryAgain()}>Try again</p>
         </div>
     )
-};
+}
 
-export default CreateUserError;
+export default CreateUserError

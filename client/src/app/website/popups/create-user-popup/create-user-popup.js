@@ -1,22 +1,21 @@
-import React, {useContext} from "react";
-import {GlobalContext} from "../../../../context/global-context";
-import {CreateUserContextComponent} from "../../../../context/create-user-context";
-import CreateUser from "./create-user/create-user";
-import "./create-user-popup.scss";
+import React, { useContext } from "react"
+import { GlobalContext } from "../../../../context/global-context"
+import { CreateUserContextComponent } from "../../../../context/create-user-context"
+import CreateUser from "./create-user/create-user"
+import "./create-user-popup.scss"
 
 const CreateUserPopup = () => {
-
-    /* Import Global Variables */
+    /* Global Variables */
     const {
-        popup,
-    } = useContext(GlobalContext);
+        popup
+    } = useContext(GlobalContext)
 
     /* JSX Output */
-    if(popup !== 'create-user') {
+    if (popup !== "create-user") {
         return <></>
     } else {
         return (
-            <div className='create-user-popup-container'>
+            <div className="create-user-popup-container">
                 <CreateUserContextComponent>
                     <CreateUser />
                 </CreateUserContextComponent>
@@ -25,4 +24,4 @@ const CreateUserPopup = () => {
     }
 }
 
-export default CreateUserPopup;
+export default CreateUserPopup

@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../../../../context/global-context";
-import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
-import Button from "../../../../../../components/button/button";
-import InputTextArea from "../../../../../../components/input-text-area/input-text-area";
-import "./create-invitation-intro.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { GlobalContext } from "../../../../../../context/global-context"
+import { CreateInvitationContext } from "../../../../../../context/create-invitation-context"
+import Button from "../../../../../../components/button/button"
+import InputTextArea from "../../../../../../components/input-text-area/input-text-area"
+import "./create-invitation-intro.scss"
 
 const CreateInvitationIntro = () => {
-
     /* Global Variables */
     const {
         invitation,
@@ -14,8 +13,8 @@ const CreateInvitationIntro = () => {
         setTitle,
         setMessage,
         setStage,
-        setError,
-    } = useContext(CreateInvitationContext);
+        setError
+    } = useContext(CreateInvitationContext)
 
     const {
         setDetails,
@@ -23,56 +22,57 @@ const CreateInvitationIntro = () => {
     } = useContext(GlobalContext)
 
     /* Local Variables */
-    const [intro, setIntro] = useState('');
-    const [submit, setSubmit] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [intro, setIntro] = useState("")
+    const [submit, setSubmit] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     /* Triggers */
     useEffect(() => {
         if (submit) {
             submitInvitation()
         }
-    }, [submit]);
+    }, [submit])
 
     useEffect(() => {
-        updateIntro(intro);
-    }, [intro]);
+        updateIntro(intro)
+    }, [intro])
 
     useEffect(() => {
-        updateStageIntro();
-    }, []);
+        updateStageIntro()
+    }, [])
 
     /* Functions */
     const updateInvitations = (data) => {
         setDetails(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 invitations: data.invitations
             }
         })
     }
 
     const handleData = async (data) => {
-        setLoading(false);
+        setLoading(false)
         if (data.expiredAt) {
             logout()
         } else if (data.success) {
             updateInvitations(data)
-            setStage('invitation-success');
+            setStage("invitation-success")
         } else {
             setError(true)
         }
-    };
+    }
 
-    const handleErr = (err) => {
-        setLoading(false);
-        setStage('invitation-error')
-    };
+    const handleErr = () => {
+        setLoading(false)
+        setStage("invitation-error")
+    }
 
     const verifyData = () => {
         return new Promise((resolve) => {
-            resolve();
-        });
-    };
+            resolve()
+        })
+    }
 
     const getInvitation = () => {
         return {
@@ -91,49 +91,50 @@ const CreateInvitationIntro = () => {
     }
 
     const submitInvitation = async () => {
-        setLoading(true);
+        setLoading(true)
         try {
-            await verifyData();
-            const token = window.localStorage.getItem('token');
-            const res = await fetch('/profile-view/create-chat-invitation', {
-                method: 'POST',
+            await verifyData()
+            const token = window.localStorage.getItem("token")
+            const res = await fetch("/profile-view/create-chat-invitation", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    token: token,
-                    invitation: getInvitation(),
-                }),
-            });
-            const data = await res.json();
-            handleData(data);
+                    token,
+                    invitation: getInvitation()
+                })
+            })
+            const data = await res.json()
+            handleData(data)
         } catch (err) {
-            handleErr(err);
+            handleErr(err)
         }
     }
 
     const updateStageIntro = () => {
-        setTitle('Intro');
+        setTitle("Intro")
         setMessage({
-            string: 'Add an intro for your invitation:',
-            highlight: false,
-        });
-    };
+            string: "Add an intro for your invitation:",
+            highlight: false
+        })
+    }
 
     const updateIntro = (introString) => {
         setInvitation(prevState => {
-            return {...prevState,
+            return {
+                ...prevState,
                 intro: {
                     set: true,
-                    string: introString,
-                },
-            };
-        });
-    };
+                    string: introString
+                }
+            }
+        })
+    }
 
     /* JSX Output */
     return (
-        <div className={'create-invitation-intro-container ' + (loading ? 'loading' : '')}>
+        <div className={"create-invitation-intro-container " + (loading ? "loading" : "")}>
             <div className='selection-container'>
                 <InputTextArea
                     valueCallback={setIntro}
@@ -142,10 +143,10 @@ const CreateInvitationIntro = () => {
             <Button
                 isActive={true}
                 loading={false}
-                value={'Create Invitation'}
+                value={"Create Invitation"}
                 callback={setSubmit}/>
         </div>
     )
-};
+}
 
-export default CreateInvitationIntro;
+export default CreateInvitationIntro

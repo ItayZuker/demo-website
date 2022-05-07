@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 const Temporary_User_Schema = mongoose.Schema({
     email: {
         type: String,
@@ -20,7 +20,7 @@ const Temporary_User_Schema = mongoose.Schema({
         type: Number,
         require: true,
     },
-});
+})
 
-const Temporary_User_Model = mongoose.model('temporary-user', Temporary_User_Schema);
-module.exports = Temporary_User_Model;
+const Temporary_User_Model = mongoose.model("temporary-user", Temporary_User_Schema)
+module.exports = Temporary_User_Model

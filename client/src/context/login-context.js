@@ -1,29 +1,30 @@
-import React, {useState} from "react";
-const LoginContext = React.createContext();
+import React, { useState } from "react"
+const LoginContext = React.createContext()
 
 const LoginContextComponent = (props) => {
-
-    const [stage, setStage] = useState('email');
+    /* Locale Variables */
+    const [stage, setStage] = useState("email")
     const [password, setPassword] = useState({
         array: [],
         size: null,
-        lifetime: null,
-    });
+        lifetime: null
+    })
     const [email, setEmail] = useState({
-        string: '',
-        verified: false,
-    });
+        string: "",
+        verified: false
+    })
     const [message, setMessage] = useState({
         one: {
-            string: '',
+            string: "",
             highlight: false
         },
         two: {
-            string: '',
+            string: "",
             highlight: false
         }
-    });
+    })
 
+    /* Context Payload */
     const contextValue = {
         email,
         setEmail,
@@ -32,8 +33,8 @@ const LoginContextComponent = (props) => {
         password,
         setPassword,
         message,
-        setMessage,
-    };
+        setMessage
+    }
 
     /* JSX Output */
     return (

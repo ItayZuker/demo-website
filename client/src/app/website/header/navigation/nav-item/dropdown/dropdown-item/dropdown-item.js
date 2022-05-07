@@ -1,15 +1,16 @@
-import React from "react";
-import './dropdown-item.scss';
+import React from "react"
+import "./dropdown-item.scss"
 
 const DropdownItem = (props) => {
-
+    /* Functions */
     const getLink = () => {
-        const link = props.item.title;
-        const lowerCase = link.toLowerCase();
-        const split = lowerCase.split(' ');
-        return "/" + split.join("-");
+        const link = props.item.title
+        const lowerCase = link.toLowerCase()
+        const split = lowerCase.split(" ")
+        return "/" + split.join("-")
     }
 
+    /* JSX Output */
     return (
         <div className='dropdown-item-container'>
             <a href={getLink()}>
@@ -17,6 +18,6 @@ const DropdownItem = (props) => {
             </a>
         </div>
     )
-};
+}
 
-export default DropdownItem;
+export default DropdownItem

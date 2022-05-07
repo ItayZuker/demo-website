@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 const Invitation_Schema = mongoose.Schema({
     email: {
         type: String,
@@ -24,7 +24,7 @@ const Invitation_Schema = mongoose.Schema({
         type: Object,
         require: true
     }
-});
+})
 
-const Invitation_Model = mongoose.model('invitation', Invitation_Schema);
-module.exports = Invitation_Model;
+const Invitation_Model = mongoose.model("invitation", Invitation_Schema)
+module.exports = Invitation_Model

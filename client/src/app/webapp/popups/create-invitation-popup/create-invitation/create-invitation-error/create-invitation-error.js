@@ -1,35 +1,35 @@
-import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../../../../context/global-context";
-import {CreateInvitationContext} from "../../../../../../context/create-invitation-context";
-import Button from "../../../../../../components/button/button";
-import "./create-invitation-error.scss";
+import React, { useContext, useEffect, useState } from "react"
+import { GlobalContext } from "../../../../../../context/global-context"
+import { CreateInvitationContext } from "../../../../../../context/create-invitation-context"
+import Button from "../../../../../../components/button/button"
+import "./create-invitation-error.scss"
 
 const CreateInvitationError = () => {
-
+    /* Global Variables */
     const {
-        setPopup,
-    } = useContext(GlobalContext);
+        setPopup
+    } = useContext(GlobalContext)
 
     const {
         setTitle,
         setMessage,
         setStage,
         setError
-    } = useContext(CreateInvitationContext);
+    } = useContext(CreateInvitationContext)
 
-    const [tryAgain, setTryAgain] = useState(false);
-    const [close, setClose] = useState(false);
+    const [tryAgain, setTryAgain] = useState(false)
+    const [close, setClose] = useState(false)
 
     useEffect(() => {
         if (close) {
-            setPopup('');
+            setPopup("")
         }
-    }, [close]);
+    }, [close])
 
     useEffect(() => {
         if (tryAgain) {
-            setError(false);
-            setStage('invitation-start');
+            setError(false)
+            setStage("invitation-start")
         }
     }, [tryAgain])
 
@@ -38,33 +38,33 @@ const CreateInvitationError = () => {
     }, [])
 
     const updateStageSuccess = () => {
-        setTitle('');
+        setTitle("")
         setMessage({
-            string: '',
-            highlight: false,
-        });
+            string: "",
+            highlight: false
+        })
     }
 
     return (
-        <div className='create-invitation-error-container'>
-            <div className='title-container'>
+        <div className="create-invitation-error-container">
+            <div className="title-container">
                 <h1>Error...</h1>
                 <p>Something went wrong.</p>
             </div>
-            <div className='buttons-container'>
+            <div className="buttons-container">
                 <Button
                     isActive={true}
                     loading={false}
-                    value={'Try again'}
+                    value={"Try again"}
                     callback={setTryAgain}/>
                 <Button
                     isActive={true}
                     loading={false}
-                    value={'close'}
+                    value={"close"}
                     callback={setClose}/>
             </div>
         </div>
     )
-};
+}
 
-export default CreateInvitationError;
+export default CreateInvitationError
