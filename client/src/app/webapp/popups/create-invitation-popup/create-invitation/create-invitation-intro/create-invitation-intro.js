@@ -74,18 +74,87 @@ const CreateInvitationIntro = () => {
         })
     }
 
-    const getInvitation = () => {
+    const getTodayNextWeek = () => {
+        const date = new Date()
+        date.setDate(date.getDate() + 7)
+        return date.getDate()
+    }
+
+    const checkTodayNextWeek = () => {
+        return new Promise(resolve => {
+            const todayDate = new Date()
+            const invitationDate = new Date(invitation.start.timeStamp)
+            const todayDay = todayDate.getDate()
+            const invitationDay = invitationDate.getDate()
+            if (invitationDay === todayDay) {
+                const nowHour = todayDate.getHours()
+                const invitationHour = invitationDate.getHours()
+                if (invitationHour < nowHour) {
+                    resolve(true)
+                } else if (invitationHour === nowHour) {
+                    const nowMinute = todayDate.getMinutes()
+                    const invitationMinute = invitationDate.getMinutes()
+                    if (invitationMinute < nowMinute) {
+                        resolve(true)
+                    } else {
+                        resolve(false)
+                    }
+                } else {
+                    resolve(false)
+                }
+            } else {
+                resolve(false)
+            }
+        })
+    }
+
+    const getStartTimeStamp = (day) => {
+        const year = invitation.start.timeStamp.getFullYear()
+        const monthIndex = invitation.start.timeStamp.getMonth()
+        const hour = invitation.start.timeStamp.getHours()
+        const minute = invitation.start.timeStamp.getMinutes()
+        return new Date(year, monthIndex, day, hour, minute)
+    }
+
+    const getEndTimeStamp = (day) => {
+        if (invitation.end.timeStamp) {
+            const year = invitation.end.timeStamp.getFullYear()
+            const monthIndex = invitation.end.timeStamp.getMonth()
+            const hour = invitation.end.timeStamp.getHours()
+            const minute = invitation.end.timeStamp.getMinutes()
+            return new Date(year, monthIndex, day, hour, minute)
+        } else {
+            return null
+        }
+    }
+
+    const getInvitation = async () => {
+        const isNextWeek = await checkTodayNextWeek()
+        let startTimeStamp,
+            endTimeStamp
+        if (isNextWeek) {
+            const nextWeekDay = getTodayNextWeek()
+            startTimeStamp = getStartTimeStamp(nextWeekDay).getTime()
+            endTimeStamp = getEndTimeStamp(nextWeekDay).getTime()
+        } else {
+            startTimeStamp = invitation.start.timeStamp.getTime()
+            if (invitation.end.timeStamp) {
+                endTimeStamp = invitation.end.timeStamp.getTime()
+            } else {
+                endTimeStamp = null
+            }
+        }
         return {
             type: invitation.type,
             duration: invitation.duration,
             repeat: invitation.repeat,
             intro: invitation.intro.string,
             start: {
-                timeStamp: invitation.start.timeStamp.getTime()
+                timeStamp: startTimeStamp
             },
             end: {
                 unlimited: invitation.end.unlimited,
-                timeStamp: invitation.end.timeStamp ? invitation.end.timeStamp.getTime() : null
+                timeStamp: endTimeStamp
             }
         }
     }
@@ -95,14 +164,14 @@ const CreateInvitationIntro = () => {
         try {
             await verifyData()
             const token = window.localStorage.getItem("token")
-            const res = await fetch("/profile-view/create-chat-invitation", {
+            const res = await fetch("/profile-view/create-invitation", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     token,
-                    invitation: getInvitation()
+                    invitation: await getInvitation()
                 })
             })
             const data = await res.json()

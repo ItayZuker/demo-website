@@ -122,16 +122,16 @@ const InputTime = () => {
         const year = invitation.start.timeStamp.getFullYear()
         const monthIndex = invitation.start.timeStamp.getMonth()
         const day = invitation.start.timeStamp.getDate()
-        const hours = invitation.start.timeStamp.getHours()
-        return new Date(year, monthIndex, day, hours, minute)
+        const hour = invitation.start.timeStamp.getHours()
+        return new Date(year, monthIndex, day, hour, minute)
     }
 
-    const getNewHourTimeStamp = (hours) => {
+    const getNewHourTimeStamp = (hour) => {
         const year = invitation.start.timeStamp.getFullYear()
         const monthIndex = invitation.start.timeStamp.getMonth()
         const day = invitation.start.timeStamp.getDate()
         const minute = invitation.start.timeStamp.getMinutes()
-        return new Date(year, monthIndex, day, hours, minute)
+        return new Date(year, monthIndex, day, hour, minute)
     }
 
     const updateMinuteClick = (math) => {

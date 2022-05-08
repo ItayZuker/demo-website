@@ -22,8 +22,8 @@ const DayList = (props) => {
 
     /* Functions */
     const getDayReference = (date) => {
-        const invitationDay = date.getDay()
-        const today = new Date().getDay()
+        const invitationDay = date.getDate()
+        const today = new Date().getDate()
         if (invitationDay === today) {
             return "(Today)"
         } else if (invitationDay - today === 1) {

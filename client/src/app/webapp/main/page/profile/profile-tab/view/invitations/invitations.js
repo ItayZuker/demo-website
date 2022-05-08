@@ -18,7 +18,28 @@ const Invitations = () => {
     }, [details])
 
     /* Functions */
-    const updateInvitationsList = (list) => {
+    const getFollowingWeekFromToday = (arr, start, total) => {
+        const followingWeekIndex = []
+        const followingWeek = []
+        for (let i = 0; i < total; i++) {
+            if (start + i >= total) {
+                followingWeekIndex.push((i + start) - total)
+            } else {
+                followingWeekIndex.push(start + i)
+            }
+        }
+        followingWeekIndex.forEach(item => {
+            const day = arr.find(arrItem => arrItem.index === item)
+            followingWeek.push(day)
+        })
+        return followingWeek
+    }
+    const getTodayNextWeek = () => {
+        const date = new Date()
+        date.setDate(date.getDate() + 7)
+        return date.getDate()
+    }
+    const updateInvitationsList = async (list) => {
         const week = [
             { index: 0, list: [] },
             { index: 1, list: [] },
@@ -26,15 +47,23 @@ const Invitations = () => {
             { index: 3, list: [] },
             { index: 4, list: [] },
             { index: 5, list: [] },
-            { index: 6, list: [] }
+            { index: 6, list: [] },
+            { index: 7, list: [] }
         ] // lint fix not sure - array to CONST from LET
         list.forEach(invitation => {
             const date = new Date(invitation.start.timeStamp)
             const day = date.getDay()
-            week[day].list.push(invitation)
+            const nextWeekDate = getTodayNextWeek()
+            const invitationDate = date.getDate()
+            if (invitationDate === nextWeekDate) {
+                week[week.length - 1].list.push(invitation)
+            } else {
+                week[day].list.push(invitation)
+            }
         })
-        const sortedWeek = week.sort((a, b) => a.index - b.index)
-        const sortedWeekAndDays = sortedWeek.map(dayList => {
+        const today = new Date().getDay()
+        const followingWeek = getFollowingWeekFromToday(week, today, week.length)
+        const sortedWeekAndDays = followingWeek.map(dayList => {
             const sortedDayList = dayList.list.sort((a, b) => a.start.timeStamp - b.start.timeStamp)
             return { index: dayList.index, list: sortedDayList }
         })

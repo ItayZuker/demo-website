@@ -44,14 +44,12 @@ const addInvitationToUser = (invitation, data) => {
             {email: data.email},
             {"$push": {"invitations": invitation} },
             {},
-            (err, user)=> {
+                    async  (err, docs)=> {
                 if (err) {
                     resolve({err: err})
-                } else if (!!user) {
-                    let array = []
-                    user.invitations.forEach(invitation => array.push(invitation))
-                    array.push(invitation)
-                    resolve({success: true, array: array})
+                } else if (!!docs) {
+                    const user = await getUser(data.email)
+                    resolve({success: true, array: user.data.invitations})
                 } else {
                     resolve({success: false})
                 }});
@@ -174,7 +172,7 @@ router.delete("/delete-invitation", verifyToken, async (req, res) => {
     }
 })
 
-router.post('/create-chat-invitation', verifyToken, async (req, res) => {
+router.post('/create-invitation', verifyToken, async (req, res) => {
     try {
         Invitation_Model
             .create({
