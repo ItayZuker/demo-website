@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
-const Invitation_Schema = mongoose.Schema({
+
+const InvitationSchema = mongoose.Schema({
     email: {
         type: String,
         require: true
@@ -18,7 +19,7 @@ const Invitation_Schema = mongoose.Schema({
     },
     start: {
         type: Object,
-        require: true,
+        require: true
     },
     end: {
         type: Object,
@@ -26,5 +27,5 @@ const Invitation_Schema = mongoose.Schema({
     }
 })
 
-const Invitation_Model = mongoose.model("invitation", Invitation_Schema)
-module.exports = Invitation_Model
+const InvitationModel = mongoose.model("invitation", InvitationSchema)
+module.exports = InvitationModel

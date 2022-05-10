@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
-const User_Schema = mongoose.Schema({
-    login : {
+
+const UserSchema = mongoose.Schema({
+    login: {
         type: Boolean,
         require: true
     },
@@ -14,6 +15,10 @@ const User_Schema = mongoose.Schema({
     },
     name: {
         type: String,
+        require: true
+    },
+    images: {
+        type: Array,
         require: true
     },
     about: {
@@ -46,5 +51,5 @@ const User_Schema = mongoose.Schema({
     }
 })
 
-const User_Model = mongoose.model("User", User_Schema)
-module.exports = User_Model
+const UserModel = mongoose.model("User", UserSchema)
+module.exports = UserModel

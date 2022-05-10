@@ -1,35 +1,36 @@
 const express = require("express")
+
 const router = express.Router()
-const User_Model = require("../models/user.model.js")
-const Country_Model = require("../models/country.model.js")
-const jwt = require("jsonwebtoken")
-const generator = require("generate-password")
-const bcrypt = require("bcrypt")
-const validator = require("email-validator")
-const nodemailer = require("nodemailer")
+// const jwt = require("jsonwebtoken")
+// const generator = require("generate-password")
+// const bcrypt = require("bcrypt")
+// const validator = require("email-validator")
+// const nodemailer = require("nodemailer")
+const CountryModel = require("../models/country.model")
+// const User_Model = require("../models/user.model")
 require("dotenv").config()
 
 /* Website Routs */
-router.post("/get-country-data", async ( req, res) => {
-    console.log(req.body)
+router.post("/get-country-data", async (req, res) => {
     try {
-        Country_Model
+        CountryModel
             .findOne(
-                {countryName: req.body.countryName},
+                { countryName: req.body.countryName },
                 (err, country) => {
                     if (err) {
-                        res.status(500).send(err);
+                        res.send(err)
                     } else {
                         const data = {
                             countryName: country.countryName,
                             countryCode: country.countryCode,
-                            ageLimit: country.ageLimit,
+                            ageLimit: country.ageLimit
                         }
                         res.status(200).json(data)
                     }
-                })
+                }
+            )
     } catch (err) {
-        res.status(500).send(err)
+        res.send(err)
     }
 })
 

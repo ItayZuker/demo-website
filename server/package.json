@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1131.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^15.0.0",
@@ -18,11 +19,14 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.3.1",
     "mongoose": "^6.1.9",
+    "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }

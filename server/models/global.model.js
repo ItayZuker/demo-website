@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
-const Global_Schema = mongoose.Schema({
+
+const GlobalSchema = mongoose.Schema({
     type: {
         type: String,
         require: true
@@ -10,5 +11,5 @@ const Global_Schema = mongoose.Schema({
     }
 })
 
-const Global_Model = mongoose.model("global", Global_Schema)
-module.exports = Global_Model
+const GlobalModel = mongoose.model("global", GlobalSchema)
+module.exports = GlobalModel

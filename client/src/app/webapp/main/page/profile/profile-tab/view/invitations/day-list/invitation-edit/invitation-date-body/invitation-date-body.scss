@@ -13,6 +13,7 @@ html {
                 width: 30%;
                 align-items: center;
                 justify-content: center;
+                padding: 1rem 0;
                 > svg {
                     height: fit-content;
                     width: 70px;
@@ -22,28 +23,58 @@ html {
                 }
                 > .info-container {
                     margin-top: 0.5rem;
-                    > p {
-                        color: $gray_color_08;
-                        display: flex;
-                        line-height: 1;
-                        > span.start {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    > .time-container {
+                        > p {
+                            color: $gray_color_08;
                             display: flex;
-                            align-items: center;
-                            &:after {
-                                content: "";
-                                width: 5px;
-                                height: 5px;
-                                background-color: $gray_color_08;
-                                border-radius: 50%;
-                                margin: 0 0.5rem;
+                            line-height: 1;
+                            > span.start {
+                                display: flex;
+                                align-items: center;
+                                &:after {
+                                    content: "";
+                                    width: 5px;
+                                    height: 5px;
+                                    background-color: $gray_color_08;
+                                    border-radius: 50%;
+                                    margin: 0 0.5rem;
+                                }
+                            }
+                            > span.duration {
+                                text-transform: capitalize;
+                            }
+                            > span.type {
+                                text-transform: capitalize;
+                                margin-left: 0.3rem;
                             }
                         }
-                        > span.duration {
-                            text-transform: capitalize;
-                        }
-                        > span.type {
-                            text-transform: capitalize;
-                            margin-left: 0.3rem;
+                    }
+                    > .day-container {
+                        margin-top: 0.5rem;
+                        width: 100%;
+                        > .check-box-container {
+                            margin: 0;
+                            &.check {
+                                > .check-box {
+                            //        &:after {
+                            //            background-color: $gray_color_08;
+                            //        }
+                                }
+                            }
+                            > .check-box {
+                                border-color: $gray_color_08;
+                                border-width: 2px;
+                            //    &:after {
+                            //        background-color: transparent;
+                            //    }
+                            }
+                            > p.check-box-text {
+                                color: $gray_color_08;
+                                font-weight: 400;
+                            }
                         }
                     }
                 }

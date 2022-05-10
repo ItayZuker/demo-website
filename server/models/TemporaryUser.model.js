@@ -1,26 +1,27 @@
 const mongoose = require("mongoose")
-const Temporary_User_Schema = mongoose.Schema({
+
+const TemporaryUserSchema = mongoose.Schema({
     email: {
         type: String,
-        require: true,
+        require: true
     },
     verified: {
         type: Boolean,
-        require: true,
+        require: true
     },
     hash: {
         type: String,
-        require: true,
+        require: true
     },
     lifeTime: {
         type: Number,
-        require: true,
+        require: true
     },
     timeStamp: {
         type: Number,
-        require: true,
-    },
+        require: true
+    }
 })
 
-const Temporary_User_Model = mongoose.model("temporary-user", Temporary_User_Schema)
-module.exports = Temporary_User_Model
+const TemporaryUserModel = mongoose.model("temporary-user", TemporaryUserSchema)
+module.exports = TemporaryUserModel

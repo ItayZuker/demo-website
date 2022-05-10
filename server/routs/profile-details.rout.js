@@ -1,19 +1,20 @@
 const express = require("express")
+
 const router = express.Router()
-const User_Model = require("../models/user.model.js")
-const Country_Model = require("../models/country.model.js")
-const Global_Model = require("../models/global.model")
 const jwt = require("jsonwebtoken")
-const generator = require("generate-password")
-const bcrypt = require("bcrypt")
-const validator = require("email-validator")
-const nodemailer = require("nodemailer")
+// const generator = require("generate-password")
+// const bcrypt = require("bcrypt")
+// const validator = require("email-validator")
+// const nodemailer = require("nodemailer")
+const GlobalModel = require("../models/global.model")
+const CountryModel = require("../models/country.model")
+const UserModel = require("../models/user.model")
 require("dotenv").config()
 
 /* Router functions */
 const verifyToken = (req, res, next) => {
-    const token = req.body.token
-    if (!!token) {
+    const { token } = req.body
+    if (token) {
         const secretKey = process.env.ACCESS_TOKEN_SECRET
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
@@ -30,10 +31,10 @@ const verifyToken = (req, res, next) => {
 
 /* Profile Details Routs */
 router.post("/globals", verifyToken, async (req, res) => {
-    const type = req.body.type
+    const { type } = req.body
     try {
-        Global_Model
-            .findOne({type: type}, (err, data) => {
+        GlobalModel
+            .findOne({ type }, (err, data) => {
                 if (err) {
                     res.status(500).send(err)
                 } else {
@@ -51,21 +52,24 @@ router.post("/globals", verifyToken, async (req, res) => {
 
 router.put("/update-about", verifyToken, async (req, res) => {
     try {
-        User_Model
+        UserModel
             .findOneAndUpdate(
-                {email: req.email},
-                {about: req.body.about},
+                { email: req.email },
+                { about: req.body.about },
                 {},
-                (err)=> {
+                (err) => {
                     if (err) {
                         res.status(500).send(err)
                     } else {
                         res.status(200).json(
                             {
                                 success: true,
-                                message: "About updated successfully",
-                            })
-                    }})
+                                message: "About updated successfully"
+                            }
+                        )
+                    }
+                }
+            )
     } catch (err) {
         res.status(500).send(err)
     }
@@ -73,12 +77,12 @@ router.put("/update-about", verifyToken, async (req, res) => {
 
 router.put("/update-gender", verifyToken, async (req, res) => {
     try {
-        User_Model
+        UserModel
             .findOneAndUpdate(
-                {email: req.email},
-                {gender: req.body.gender},
+                { email: req.email },
+                { gender: req.body.gender },
                 {},
-                (err)=> {
+                (err) => {
                     if (err) {
                         res.status(500).send(err)
                     } else {
@@ -86,9 +90,12 @@ router.put("/update-gender", verifyToken, async (req, res) => {
                             {
                                 success: true,
                                 message: "Gender updated successfully",
-                                gender: req.body.gender,
-                            })
-                    }})
+                                gender: req.body.gender
+                            }
+                        )
+                    }
+                }
+            )
     } catch (err) {
         res.status(500).send(err)
     }
@@ -96,12 +103,12 @@ router.put("/update-gender", verifyToken, async (req, res) => {
 
 router.put("/update-country", verifyToken, async (req, res) => {
     try {
-        User_Model
+        UserModel
             .findOneAndUpdate(
-                {email: req.email},
-                {geoData: req.body.geoData},
+                { email: req.email },
+                { geoData: req.body.geoData },
                 {},
-                (err)=> {
+                (err) => {
                     if (err) {
                         res.status(500).send(err)
                     } else {
@@ -109,9 +116,12 @@ router.put("/update-country", verifyToken, async (req, res) => {
                             {
                                 success: true,
                                 message: "GeoData updated successfully",
-                                geoData: req.body.geoData,
-                            })
-                    }})
+                                geoData: req.body.geoData
+                            }
+                        )
+                    }
+                }
+            )
     } catch (err) {
         res.status(500).send(err)
     }
@@ -119,12 +129,12 @@ router.put("/update-country", verifyToken, async (req, res) => {
 
 router.put("/update-name", verifyToken, async (req, res) => {
     try {
-        User_Model
+        UserModel
             .findOneAndUpdate(
-                {email: req.email},
-                {name: req.body.name},
+                { email: req.email },
+                { name: req.body.name },
                 {},
-                (err)=> {
+                (err) => {
                     if (err) {
                         res.status(500).send(err)
                     } else {
@@ -132,18 +142,21 @@ router.put("/update-name", verifyToken, async (req, res) => {
                             {
                                 success: true,
                                 message: "User name updated successfully",
-                                name: req.body.name,
-                            })
-                    }})
+                                name: req.body.name
+                            }
+                        )
+                    }
+                }
+            )
     } catch (err) {
         res.status(500).send(err)
     }
 })
 
-router.post('/', verifyToken, async ( req, res) => {
+router.post("/", verifyToken, async (req, res) => {
     try {
-        User_Model
-            .findOne({email: req.email}, (err, user) => {
+        UserModel
+            .findOne({ email: req.email }, (err, user) => {
                 if (err) {
                     res.send(err)
                 } else {
@@ -154,7 +167,7 @@ router.post('/', verifyToken, async ( req, res) => {
                         email: user.email,
                         birthday: user.birthday,
                         gender: user.gender,
-                        invitations: user.invitations,
+                        invitations: user.invitations
                     }
                     res.status(200).json(userDetails)
                 }
@@ -164,18 +177,18 @@ router.post('/', verifyToken, async ( req, res) => {
     }
 })
 
-router.post("/get-countries", verifyToken, async ( req, res) => {
+router.post("/get-countries", verifyToken, async (req, res) => {
     try {
-        Country_Model
+        CountryModel
             .find({}, (err, countries) => {
                 if (err) {
-                    res.status(500).send(err)
+                    res.send(err)
                 } else {
                     res.status(200).json(countries)
                 }
             })
     } catch (err) {
-        res.status(500).send(err)
+        res.send(err)
     }
 })
 

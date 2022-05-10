@@ -17,15 +17,15 @@ html {
                 align-items: center;
                 justify-content: center;
                 position: relative;
-                transition: .1s ease-in-out;
                 &:after {
                     content: '';
                     position: absolute;
-                    width: 0.5rem;
-                    height: 0.5rem;
-                    border-radius: 50%;
-                    background-color: transparent;
-                    transition: .1s ease-in-out;
+                    transform: translateY(-1px) rotate(45deg);
+                    height: 10px;
+                    width: 4px;
+                    border-bottom: 2px solid transparent;
+                    border-right: 2px solid transparent;
+
                 }
             }
             > p.check-box-text {
@@ -38,27 +38,26 @@ html {
                     color: $gray_color_05;
                 }
                 > .check-box {
-                    border-color: $gray_color_05;
                     &:after {
-                        background-color: $gray_color_05;
+                        border-color: $gray_color_08;
                     }
                 }
             }
             &:hover {
                 cursor: pointer;
                 > p {
-                    color: $gray_color_02;
+                    //color: $gray_color_02;
                 }
                 > .check-box {
-                    border-color: $gray_color_02;
+                    //border-color: $gray_color_02;
                     &:after {
-                        background-color: $gray_color_05;
+                        //background-color: $gray_color_05;
                     }
                 }
                 &.check {
                     > .check-box {
                         &:after {
-                            background-color: $gray_color_02;
+                            //background-color: $gray_color_02;
                         }
                     }
                 }

@@ -19,8 +19,8 @@ const Invitations = () => {
 
     /* Functions */
     const getFollowingWeekFromToday = (arr, start, total) => {
-        const followingWeekIndex = []
         const followingWeek = []
+        const followingWeekIndex = []
         for (let i = 0; i < total; i++) {
             if (start + i >= total) {
                 followingWeekIndex.push((i + start) - total)

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import CheckBox from "../../../../../../../../../../../components/check-box/check-box"
 import "./invitation-date-body.scss"
 
 const InvitationDateBody = (props) => {
@@ -65,11 +66,17 @@ const InvitationDateBody = (props) => {
                     </defs>
                 </svg>
                 <div className="info-container">
-                    <p>
-                        <span className="start">{start}</span>
-                        <span className="duration">{duration}</span>
-                        <span className="type">{props.data.type}</span>
-                    </p>
+                    <div className="time-container">
+                        <p>
+                            <span className="start">{start}</span>
+                            <span className="duration">{duration}</span>
+                            <span className="type">{props.data.type}</span>
+                        </p>
+                    </div>
+                    <div className="day-container">
+                        <CheckBox
+                            text="Repeat"/>
+                    </div>
                 </div>
             </div>
             <div className={"intro-container " + (props.data.intro ? "" : "no-content")}>

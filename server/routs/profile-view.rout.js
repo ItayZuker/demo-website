@@ -1,123 +1,126 @@
 const express = require("express")
+
 const router = express.Router()
-const User_Model = require("../models/user.model")
-const Invitation_Model = require("../models/invitation.model")
-const Country_Model = require("../models/country.model")
-const Global_Model = require("../models/global.model")
 const jwt = require("jsonwebtoken")
-const generator = require("generate-password")
-const bcrypt = require("bcrypt")
-const validator = require("email-validator")
-const nodemailer = require("nodemailer")
-const { v4: uuidv4 } = require("uuid")
+// const generator = require("generate-password")
+// const bcrypt = require("bcrypt")
+// const validator = require("email-validator")
+// const nodemailer = require("nodemailer")
+// const { v4: uuidv4 } = require("uuid")
 const { ObjectId } = require("mongodb")
+// const Global_Model = require("../models/global.model")
+// const Country_Model = require("../models/country.model")
+const InvitationModel = require("../models/invitation.model")
+const UserModel = require("../models/user.model")
 require("dotenv").config()
 
 /* Router functions */
 const verifyToken = (req, res, next) => {
-    const token = req.body.token;
-    if (!!token) {
-        const secretKey = process.env.ACCESS_TOKEN_SECRET;
+    const { token } = req.body
+    if (token) {
+        const secretKey = process.env.ACCESS_TOKEN_SECRET
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.send(err);
+                res.send(err)
             } else if (decodedUser.email) {
-                req.email = decodedUser.email;
-                next();
+                req.email = decodedUser.email
+                next()
             } else {
                 res.status(403).send({
                     success: false,
                     message: "Forbidden: Token was bad"
-                });
+                })
             }
         })
     }
 }
 
-const addInvitationToUser = (invitation, data) => {
-    return new Promise((resolve) => {
-        invitation.collectionId = data._id
-        invitation.accepted = false
-        invitation.freeze = false
-        User_Model
-            .findOneAndUpdate(
-            {email: data.email},
-            {"$push": {"invitations": invitation} },
+const getUser = (email) => new Promise((resolve) => {
+    UserModel
+        .findOne(
+            { email },
             {},
-                    async  (err, docs)=> {
+            {},
+            (err, user) => {
                 if (err) {
-                    resolve({err: err})
-                } else if (!!docs) {
-                    const user = await getUser(data.email)
-                    resolve({success: true, array: user.data.invitations})
+                    resolve({
+                        success: false,
+                        user: {},
+                        err
+                    })
+                } else if (user) {
+                    resolve({
+                        success: true,
+                        data: user,
+                        err: false
+                    })
                 } else {
-                    resolve({success: false})
-                }});
-    })
-}
-
-const getUser = (email) => {
-    return new  Promise((resolve) => {
-        User_Model
-            .findOne(
-                {email: email},
-                {},
-                {},
-                (err, user) => {
-                    if (err) {
-                        resolve({
-                            success: false,
-                            user: {},
-                            err: err
-                        })
-                    } else if (!!user) {
-                        resolve({
-                            success: true,
-                            data: user,
-                            err: false
-                        })
-                    } else {
-                        resolve({
-                            success: false,
-                            user: {},
-                            err: false
-                        })
-                    }
-                })
-    })
-}
-
-const deleteInvitationFromCollection = (id) => {
-    return new Promise((resolve) =>  {
-        Invitation_Model
-            .findOneAndDelete(
-                {_id: id},
-                {},
-                (err) => {
-                    if (err) {
-                        resolve({err: err})
-                    } else {
-                        resolve(true)
-                    }
+                    resolve({
+                        success: false,
+                        user: {},
+                        err: false
+                    })
                 }
-            )
-    })
-}
+            }
+        )
+})
+
+const addInvitationToUser = (invitation, data) => new Promise((resolve) => {
+    // eslint-disable-next-line no-underscore-dangle,no-param-reassign
+    invitation.collectionId = data._id
+    // eslint-disable-next-line no-param-reassign
+    invitation.accepted = false
+    // eslint-disable-next-line no-param-reassign
+    invitation.freeze = false
+    UserModel
+        .findOneAndUpdate(
+            { email: data.email },
+            { $push: { invitations: invitation } },
+            {},
+            async (err, docs) => {
+                if (err) {
+                    resolve({ err })
+                } else if (docs) {
+                    const user = await getUser(data.email)
+                    resolve({ success: true, array: user.data.invitations })
+                } else {
+                    resolve({ success: false })
+                }
+            }
+        )
+})
+
+const deleteInvitationFromCollection = (id) => new Promise((resolve) => {
+    InvitationModel
+        .findOneAndDelete(
+            { _id: id },
+            {},
+            (err) => {
+                if (err) {
+                    resolve({ err })
+                } else {
+                    resolve(true)
+                }
+            }
+        )
+})
 
 /* Profile Details Routs */
 router.put("/update-repeat-invitation", verifyToken, async (req, res) => {
     try {
         const id = ObjectId.createFromHexString(req.body.invitationId)
-        User_Model
+        UserModel
             .findOneAndUpdate(
                 {
                     email: req.email,
-                    "invitations.collectionId": id },
-                { $set: {
-                        "invitations.$.repeat": req.body.repeat } },
+                    "invitations.collectionId": id
+                },
+                {
+                    $set: { "invitations.$.repeat": req.body.repeat }
+                },
                 {},
-                async ( err) => {
-                    if ( err ) {
+                async (err) => {
+                    if (err) {
                         res.send(err)
                     } else {
                         const user = await getUser(req.email)
@@ -130,7 +133,8 @@ router.put("/update-repeat-invitation", verifyToken, async (req, res) => {
                                 message: `Invitation repeat updated to: ${req.body.repeat}`
                             })
                         }
-                    }}
+                    }
+                }
             )
     } catch (err) {
         res.send(err)
@@ -140,11 +144,11 @@ router.put("/update-repeat-invitation", verifyToken, async (req, res) => {
 router.delete("/delete-invitation", verifyToken, async (req, res) => {
     try {
         const id = ObjectId.createFromHexString(req.body.invitationId)
-        User_Model
+        UserModel
             .findOneAndUpdate(
-                {email: req.email},
-                { $pull: { "invitations": {collectionId: id } }},
-            {},
+                { email: req.email },
+                { $pull: { invitations: { collectionId: id } } },
+                {},
                 async (err) => {
                     if (err) {
                         res.send(err)
@@ -162,19 +166,20 @@ router.delete("/delete-invitation", verifyToken, async (req, res) => {
                                     deletedFromGlobalCollection: isDeletedFromCollection,
                                     invitations: user.data.invitations,
                                     message: "Invitation was deleted"
-                                });
+                                })
                             }
                         }
-                    }}
-            );
+                    }
+                }
+            )
     } catch (err) {
         res.send(err)
     }
 })
 
-router.post('/create-invitation', verifyToken, async (req, res) => {
+router.post("/create-invitation", verifyToken, async (req, res) => {
     try {
-        Invitation_Model
+        InvitationModel
             .create({
                 email: req.email,
                 iat: new Date(),
@@ -196,8 +201,8 @@ router.post('/create-invitation', verifyToken, async (req, res) => {
                     } else if (invitationAdded.success) {
                         res.status(201).send({
                             success: true,
-                            message: 'Invitation created and added successfully',
-                            invitations: invitationAdded.array,
+                            message: "Invitation created and added successfully",
+                            invitations: invitationAdded.array
                         })
                     } else {
                         res.status(417).send({
@@ -210,6 +215,6 @@ router.post('/create-invitation', verifyToken, async (req, res) => {
     } catch (err) {
         res.send(err)
     }
-});
+})
 
 module.exports = router
