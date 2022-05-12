@@ -61,14 +61,13 @@ const Images = () => {
     /* JSX Output */
     return (
         <div className="images-container">
-            <p>Edit Picture</p>
+            <ImageList />
             <DragAndDrop setImage={setImage}/>
             <Button
                 isActive={!!image}
                 loading={loading}
                 callback={setClickSave}
                 value="Save"/>
-            <ImageList />
         </div>
     )
 }

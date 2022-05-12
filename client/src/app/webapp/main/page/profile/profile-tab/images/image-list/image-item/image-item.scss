@@ -3,8 +3,8 @@
 html {
     body {
         .image-item-container {
-            width: 400px;
-            margin: 1rem;
+            width: 100%;
+            margin-bottom: 1rem;
             position: relative;
             > img {
                 width: 100%;
@@ -13,13 +13,18 @@ html {
                 position: absolute;
                 top: 0.5rem;
                 right: 0.5rem;
-                background-color: $gray_color_04_opacity;
+                background-color: $gray_color_02;
                 padding: 0.5rem;
                 display: flex;
                 border-radius: 50%;
                 box-shadow: 0 0 15px rgb(200 200 200 / 80%);
-            &:hover {
-                    cursor: pointer;
+                transition: .1s ease-in-out;
+                &:hover {
+                        cursor: pointer;
+                        background-color: $gray_color_03;
+                    }
+                &:active {
+                    background-color: $gray_color_02;
                 }
                 > svg {
                     height: 0.9rem;
@@ -28,7 +33,6 @@ html {
                         fill: $gray_color_08;
                     }
                 }
-
             }
         }
     }

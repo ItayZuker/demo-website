@@ -112,7 +112,7 @@ const getImagesQuantity = async (email) => {
     return user.data.images.length
 }
 
-/* Profile Details Routs */
+/* Profile Images Routs */
 router.post("/get-image/:key", async (req, res) => {
     try {
         const imageKey = req.params.key
@@ -125,21 +125,6 @@ router.post("/get-image/:key", async (req, res) => {
         res.send(err)
     }
 })
-
-// router.post("/", verifyToken, async (req, res) => {
-//     try {
-//         const user = await getUser(req.email)
-//         if (user.err) {
-//             res.send(user.err)
-//         } else {
-//             res.status(200).json({
-//                 message: "test"
-//             })
-//         }
-//     } catch (err) {
-//         res.send(err)
-//     }
-// })
 
 router.delete("/delete-image", verifyToken, async (req, res) => {
     try {
@@ -164,7 +149,6 @@ router.delete("/delete-image", verifyToken, async (req, res) => {
                     }
                 }
             )
-        // deleteFile()
     } catch (err) {
         res.send(err)
     }
