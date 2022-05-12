@@ -2,10 +2,6 @@ const express = require("express")
 
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-// const generator = require("generate-password")
-// const bcrypt = require("bcrypt")
-// const validator = require("email-validator")
-// const nodemailer = require("nodemailer")
 const GlobalModel = require("../models/global.model")
 const CountryModel = require("../models/country.model")
 const UserModel = require("../models/user.model")
@@ -167,13 +163,14 @@ router.post("/", verifyToken, async (req, res) => {
                         email: user.email,
                         birthday: user.birthday,
                         gender: user.gender,
-                        invitations: user.invitations
+                        invitations: user.invitations,
+                        images: user.images
                     }
                     res.status(200).json(userDetails)
                 }
             })
     } catch (err) {
-        res.status(500).send(err)
+        res.send(err)
     }
 })
 

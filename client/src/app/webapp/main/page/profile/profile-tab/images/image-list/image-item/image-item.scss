@@ -1,0 +1,35 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .image-item-container {
+            width: 400px;
+            margin: 1rem;
+            position: relative;
+            > img {
+                width: 100%;
+            }
+            > .close-icon-container {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                background-color: $gray_color_04_opacity;
+                padding: 0.5rem;
+                display: flex;
+                border-radius: 50%;
+                box-shadow: 0 0 15px rgb(200 200 200 / 80%);
+            &:hover {
+                    cursor: pointer;
+                }
+                > svg {
+                    height: 0.9rem;
+                    width: 0.9rem;
+                    path {
+                        fill: $gray_color_08;
+                    }
+                }
+
+            }
+        }
+    }
+}

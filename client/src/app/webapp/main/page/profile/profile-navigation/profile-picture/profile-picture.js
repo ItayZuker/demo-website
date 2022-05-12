@@ -10,8 +10,9 @@ const ProfilePicture = () => {
         setTab
     } = useContext(ProfileContext)
 
+    /* Functions */
     const goToTab = () => {
-        setTab("picture")
+        setTab("images")
     }
 
     /* JSX Output */

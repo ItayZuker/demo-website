@@ -8,13 +8,13 @@ const ProfileNavigation = () => {
     /* Local Variables */
     const profileNavigationContainerRef = useRef()
 
-    /* Trigger Functions */
+    /* Triggers */
     useEffect(() => {
         updateNavigationPosition()
         document.addEventListener("scroll", () => updateNavigationPosition())
     }, [])
 
-    /* Component Functions */
+    /* Functions */
     const updateNavigationPosition = () => {
         const navigationContainer = profileNavigationContainerRef.current
         const navigationTop = navigationContainer.getBoundingClientRect().top

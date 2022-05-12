@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react"
-import "./picture.scss"
+import React, { useEffect, useState, useContext } from "react"
+import { GlobalContext } from "../../../../../../../context/global-context"
 import DragAndDrop from "./drag-and-drop/drag-and-drop"
 import Button from "../../../../../../../components/button/button"
+import ImageList from "./image-list/image-list"
+import "./images.scss"
 
-const Picture = () => {
+const Images = () => {
+    /* Global Variables */
+    const {
+        setDetails
+    } = useContext(GlobalContext)
+
     /* Locale Variables */
     const [image, setImage] = useState(null)
     const [clickSave, setClickSave] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    /* Triggers */
     useEffect(() => {
         if (clickSave) {
             setLoading(true)
@@ -16,14 +24,19 @@ const Picture = () => {
         }
     }, [clickSave])
 
+    /* Functions */
     const handleErr = () => {
         setClickSave(false)
         setLoading(false)
     }
 
     const handleData = (data) => {
-        console.log(123)
-        console.log(data)
+        setDetails(prevState => {
+            return {
+                ...prevState,
+                images: data.images
+            }
+        })
         setClickSave(false)
         setLoading(false)
     }
@@ -47,15 +60,17 @@ const Picture = () => {
 
     /* JSX Output */
     return (
-        <div className="picture-container">
+        <div className="images-container">
             <p>Edit Picture</p>
             <DragAndDrop setImage={setImage}/>
             <Button
                 isActive={!!image}
                 loading={loading}
-                callback={setClickSave}/>
+                callback={setClickSave}
+                value="Save"/>
+            <ImageList />
         </div>
     )
 }
 
-export default Picture
+export default Images
