@@ -5,7 +5,7 @@ import "./edit-birthday.scss"
 const EditBirthday = () => {
     /* Global Variables */
     const {
-        details,
+        user,
         setTab
     } = useContext(GlobalContext)
 
@@ -38,7 +38,7 @@ const EditBirthday = () => {
                 <h2>Birthday</h2>
             </div>
             <div className="birthday-container">
-                <p>{details.birthday.month.string + "." + details.birthday.day.decimal + "." + details.birthday.year.decimal}</p>
+                <p>{user.birthday.month.string + "." + user.birthday.day.decimal + "." + user.birthday.year.decimal}</p>
             </div>
             <div className="edit-container">
                 <p>To edit your birthday, Please contact <span className="support-button" onClick={() => goToSupport()}>support</span></p>

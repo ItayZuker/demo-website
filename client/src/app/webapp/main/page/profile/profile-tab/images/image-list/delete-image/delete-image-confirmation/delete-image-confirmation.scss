@@ -20,6 +20,19 @@ html {
                 display: flex;
                 > .button-container {
                     margin: 1rem 0.5rem;
+                    &.no {
+                        &:hover {
+                            background-color: $gray_color_07;
+                            > p {
+                                color: $gray_color_02;
+                            }
+                        }
+                    }
+                    &.yes {
+                        &:hover {
+                            background-color: $warning_color_01;
+                        }
+                    }
                 }
             }
         }

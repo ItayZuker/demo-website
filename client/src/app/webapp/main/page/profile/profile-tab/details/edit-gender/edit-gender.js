@@ -9,30 +9,29 @@ const EditGender = () => {
     /* Global Variables */
     const {
         globals,
-        details,
-        setDetails
+        user,
+        setUser
     } = useContext(GlobalContext)
 
     /* Locale Variables */
     const [indicateSuccess, setIndicateSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [gender, setGender] = useState(details.gender || "")
-    const [gendersArray, setGendersArray] = useState(globals.gender || [])
+    const [gender, setGender] = useState(user.gender || "")
+    const [gendersArray] = useState(() => {
+        const gender = globals.find(item => item.type === "gender")
+        return gender.list
+    })
     const [edit, setEdit] = useState(false)
     const [save, setSave] = useState(false)
 
     /* Triggers */
     useEffect(() => {
-        setGendersArray(globals.gender)
-    }, [globals.gender])
-
-    useEffect(() => {
-        if (!!gender && gender !== details.gender) {
+        if (!!gender && gender !== user.gender) {
             setEdit(true)
         } else {
             setEdit(false)
         }
-    }, [gender, details.geoData.countryName])
+    }, [gender, user.geoData.countryName])
 
     useEffect(async () => {
         if (save) {
@@ -49,7 +48,7 @@ const EditGender = () => {
     }
 
     const handleData = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return { ...prevState, gender: data.gender }
         })
         setLoading(false)
@@ -85,7 +84,7 @@ const EditGender = () => {
 
     /* JSX Output */
     return (
-        <div className={"edit-gender-container " + (details.gender ? "" : "missing-value")}>
+        <div className={"edit-gender-container " + (user.gender ? "" : "missing-value")}>
             <div className='title-container'>
                 <h2>Gender</h2>
                 <SuccessIndicator

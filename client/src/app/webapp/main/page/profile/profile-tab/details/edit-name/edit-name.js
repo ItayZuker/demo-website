@@ -8,8 +8,8 @@ import "./edit-name.scss"
 const EditName = () => {
     /* Global Variables */
     const {
-        details,
-        setDetails
+        user,
+        setUser
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -27,12 +27,12 @@ const EditName = () => {
     }, [save])
 
     useEffect(() => {
-        if (!!name && name !== details.name) {
+        if (!!name && name !== user.name) {
             setEdit(true)
         } else {
             setEdit(false)
         }
-    }, [name, details.name])
+    }, [name, user.name])
 
     /* Functions */
     const verifyValue = (value) => {
@@ -53,7 +53,7 @@ const EditName = () => {
     }
 
     const handleData = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return { ...prevState, name: data.name }
         })
         setLoading(false)
@@ -99,7 +99,7 @@ const EditName = () => {
             <div className="input-container">
                 <InputString
                     loading={loading}
-                    value={details.name}
+                    value={user.name}
                     typeLimit={15}
                     valueCallback={setName}/>
             </div>

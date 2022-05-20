@@ -72,8 +72,8 @@ const Dropdown = (props) => {
     }
 
     const highlightIndex = (index) => {
-        const country = props.array[index - 1]
-        setHighlight(country)
+        const string = props.array[index - 1]
+        setHighlight(string)
     }
 
     const handleKeyDownEvent = (e) => {
@@ -96,8 +96,8 @@ const Dropdown = (props) => {
 
     const pressEnter = () => {
         if (index > 0) {
-            const country = props.array[index - 1]
-            props.valueCallback(country)
+            const string = props.array[index - 1]
+            props.valueCallback(string)
             setIndex(0)
         }
     }
@@ -142,9 +142,9 @@ const Dropdown = (props) => {
         }
     }
 
-    const handleClick = (country) => {
+    const handleClick = (string) => {
         setIndex(0)
-        props.valueCallback(country)
+        props.valueCallback(string)
     }
 
     /* JSX Output */
@@ -153,12 +153,12 @@ const Dropdown = (props) => {
             ref={dropdownContainerRef}
             className={"dropdown-container " + (props.isActive ? "active" : "")}>
             <ul ref={dropdownUlRef}>
-                {array.map((country, index) => {
+                {array.map((string, index) => {
                     return <li
                         key={index}
-                        className={highlight === country ? "highlight" : ""}
-                        onClick={() => handleClick(country)}>
-                        <p>{country}</p></li>
+                        className={highlight === string ? "highlight" : ""}
+                        onClick={() => handleClick(string)}>
+                        <p>{string}</p></li>
                 })}
             </ul>
         </div>

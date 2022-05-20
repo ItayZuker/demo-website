@@ -1,8 +1,14 @@
-import React from "react"
-import defaultProfilePicture from "../../../../../assets/images/default-profile-picture.jpg"
+import React, { useContext } from "react"
+import placeholderAvatar from "../../../../../assets/images/placeholder-avatar.jpg"
+import { GlobalContext } from "../../../../../context/global-context"
 import "./profile-thumbnail-button.scss"
 
 const ProfileThumbnailButton = () => {
+    /* Global Variables */
+    const {
+        user
+    } = useContext(GlobalContext)
+
     /* Functions */
     const goToProfilePage = () => {
         window.location = "/profile"
@@ -14,7 +20,9 @@ const ProfileThumbnailButton = () => {
             onClick={() => goToProfilePage()}
             className="profile-thumbnail-button-container">
             <div className="image-container">
-                <img src={defaultProfilePicture} alt="profile-picture"/>
+                {user.images.length > 0
+                    ? <img src={`/profile-images/get-image/${user.images[0].key}`} alt="profile-picture"/>
+                    : <img src={placeholderAvatar} alt="profile-picture-placeholder"/>}
             </div>
         </div>
     )

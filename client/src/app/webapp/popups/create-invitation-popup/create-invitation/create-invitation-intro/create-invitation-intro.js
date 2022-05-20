@@ -17,7 +17,7 @@ const CreateInvitationIntro = () => {
     } = useContext(CreateInvitationContext)
 
     const {
-        setDetails,
+        setUser,
         logout
     } = useContext(GlobalContext)
 
@@ -43,7 +43,7 @@ const CreateInvitationIntro = () => {
 
     /* Functions */
     const updateInvitations = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return {
                 ...prevState,
                 invitations: data.invitations

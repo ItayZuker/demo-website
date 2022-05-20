@@ -26,18 +26,17 @@ const verifyToken = (req, res, next) => {
 }
 
 /* Profile Details Routs */
-router.post("/globals", verifyToken, async (req, res) => {
-    const { type } = req.body
+router.post("/globals", async (req, res) => {
     try {
         GlobalModel
-            .findOne({ type }, (err, data) => {
+            .find({}, (err, docs) => {
                 if (err) {
                     res.status(500).send(err)
                 } else {
-                    const payload = {
-                        type: data.type,
-                        list: data.list
-                    }
+                    const payload = docs.map((item) => ({
+                        type: item.type,
+                        list: item.list
+                    }))
                     res.status(200).json(payload)
                 }
             })

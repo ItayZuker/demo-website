@@ -13,10 +13,13 @@ const Webapp = () => {
     const {
         login,
         popup,
-        setDetails,
+        setUser,
         setCountries,
         setGlobals,
-        logout
+        logout,
+        getCountries,
+        getUserData,
+        getGlobals
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -34,88 +37,29 @@ const Webapp = () => {
 
     useEffect(async () => {
         if (login) {
-            await getProfileDetails()
-            await getCountries()
-            await getGlobals()
+            updateUser()
+            updateCountries()
+            updateGlobals()
         } else {
             logout()
         }
     }, [])
 
     /* Functions */
-    const getGlobals = async () => {
-        const token = window.localStorage.getItem("token")
-        try {
-            const res = await fetch("/profile-details/globals", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token,
-                    type: "gender"
-                })
-            })
-            const data = await res.json()
-            if (data.expiredAt) {
-                logout()
-            } else {
-                setGlobals(prevState => {
-                    return { ...prevState, gender: data.list }
-                })
-                setGlobalsReady(true)
-            }
-        } catch (err) {
-            logout()
-        }
+    const updateGlobals = async () => {
+        const data = await getGlobals()
+        setGlobals(data)
+        setGlobalsReady(true)
     }
-
-    const getCountries = async () => {
-        const token = window.localStorage.getItem("token")
-        try {
-            const res = await fetch("/profile-details/get-countries", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token
-                })
-            })
-            const data = await res.json()
-            if (data.expiredAt) {
-                logout()
-            } else {
-                setCountries(data)
-                setCountriesReady(true)
-            }
-        } catch (err) {
-            logout()
-        }
+    const updateUser = async () => {
+        const data = await getUserData()
+        setUser(data)
+        setProfileDetailsReady(true)
     }
-
-    const getProfileDetails = async () => {
-        const token = window.localStorage.getItem("token")
-        try {
-            const res = await fetch("/profile-details", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token
-                })
-            })
-            const data = await res.json()
-            if (data.expiredAt) {
-                logout()
-            } else {
-                setDetails(data)
-                setProfileDetailsReady(true)
-            }
-        } catch (err) {
-            logout()
-        }
+    const updateCountries = async () => {
+        const data = await getCountries()
+        setCountries(data)
+        setCountriesReady(true)
     }
 
     /* JSX Output */

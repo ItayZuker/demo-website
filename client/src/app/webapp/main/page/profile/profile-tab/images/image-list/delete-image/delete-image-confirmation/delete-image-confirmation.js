@@ -6,7 +6,7 @@ import "./delete-image-confirmation.scss"
 const DeleteImageConfirmation = (props) => {
     /* Global Variables */
     const {
-        setDetails
+        setUser
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -22,41 +22,47 @@ const DeleteImageConfirmation = (props) => {
 
     useEffect(() => {
         if (clickNo) {
-            props.setClickDelete(false)
+            props.setDeleteClick(false)
         }
     }, [clickNo])
 
     /* Functions */
     const handleData = (data) => {
-        console.log(data)
-        setDetails(prevState => {
+        setUser(prevState => {
             return {
                 ...prevState,
                 images: data.images
             }
         })
+        // props.setLoadingIndex(null)
         props.setClickDelete(false)
     }
 
     const handleError = () => {
+        props.setLoadingIndex(null)
+        /* TODO: Indicate that something went wrong */
     }
 
     const deleteImage = async () => {
         try {
+            props.setLoadingIndex(props.imageIndex)
             const token = window.localStorage.getItem("token")
-            const res = await fetch("/profile-images/delete-image", {
+            const res = await fetch(`/profile-images/delete-image/${props.imageKey}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    token,
-                    imageKey: props.imageKey
+                    token
                 })
             })
             const data = await res.json()
+            console.log(111)
+            console.log(data)
             handleData(data)
         } catch (err) {
+            console.log(222)
+            console.log(err)
             handleError()
         }
     }
@@ -78,7 +84,6 @@ const DeleteImageConfirmation = (props) => {
                     loading={false}
                     isActive={true}
                     value="No"/>
-
             </div>
         </div>
     )

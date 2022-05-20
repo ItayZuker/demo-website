@@ -6,16 +6,16 @@ import "./invitations.scss"
 const Invitations = () => {
     /* Global Variables */
     const {
-        details
+        user
     } = useContext(GlobalContext)
 
     const [invitations, setInvitations] = useState([])
 
     useEffect(() => {
-        if (details.invitations) {
-            updateInvitationsList(details.invitations)
+        if (user.invitations) {
+            updateInvitationsList(user.invitations)
         }
-    }, [details])
+    }, [user])
 
     /* Functions */
     const getFollowingWeekFromToday = (arr, start, total) => {

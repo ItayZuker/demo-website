@@ -8,13 +8,13 @@ import "./view.scss"
 const View = () => {
     /* Global Variables */
     const {
-        details
+        user
     } = useContext(GlobalContext)
 
     return (
         <div className="view-container">
             <EditAbout />
-            {details.invitations.length > 0
+            {user.invitations.length > 0
                 ? <Invitations />
                 : <ZeroInvitations />}
         </div>

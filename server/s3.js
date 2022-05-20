@@ -14,7 +14,7 @@ const s3 = new S3({
 })
 
 // eslint-disable-next-line
-const uploadFile = (file) => new Promise(resolve => {
+const uploadFile = (file) => new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path)
 
     const params = {
@@ -25,37 +25,23 @@ const uploadFile = (file) => new Promise(resolve => {
 
     s3.upload(params, (err, data) => {
         if (err) {
-            resolve({
-                err
-            })
+            reject(new Error(err))
         } else {
-            resolve({
-                key: data.key
-            })
+            resolve(data.key)
         }
     })
 })
 
-const getFile = (fileKey) => new Promise((resolve) => {
+const getFileStream = (key) => {
     const params = {
         Bucket: bucketName,
-        Key: fileKey
+        Key: key
     }
 
-    s3.getObject(params, (err, data) => {
-        if (err) {
-            resolve({
-                err
-            })
-        } else {
-            resolve({
-                data
-            })
-        }
-    })
-})
+    return s3.getObject(params).createReadStream()
+}
 
-const deleteFile = (fileKey) => new Promise((resolve) => {
+const deleteFile = (fileKey) => new Promise((resolve, reject) => {
     const params = {
         Bucket: bucketName,
         Key: fileKey
@@ -63,13 +49,9 @@ const deleteFile = (fileKey) => new Promise((resolve) => {
 
     s3.deleteObject(params, (err, data) => {
         if (err) {
-            resolve({
-                err
-            })
+            reject(new Error(err))
         } else {
-            resolve({
-                data
-            })
+            resolve(data)
         }
     })
 })
@@ -77,6 +59,6 @@ const deleteFile = (fileKey) => new Promise((resolve) => {
 // eslint-disable-next-line import/prefer-default-export
 module.exports = {
     uploadFile,
-    getFile,
+    getFileStream,
     deleteFile
 }

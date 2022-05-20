@@ -14,9 +14,10 @@ const GlobalContextComponent = (props) => {
     const [geoData, setGeoData] = useState({})
     const [login, setLogin] = useState(false)
     const [globalMessage, setGlobalMessage] = useState("")
-    const [details, setDetails] = useState({})
+    const [user, setUser] = useState({})
     const [globals, setGlobals] = useState({
-        gender: []
+        gender: [],
+        imageMax: null
     })
 
     /* Import Custom Hooks */
@@ -51,6 +52,29 @@ const GlobalContextComponent = (props) => {
     }, [])
 
     /* Functions */
+    const getCountries = async () => {
+        const token = window.localStorage.getItem("token")
+        try {
+            const res = await fetch("/profile-details/get-countries", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token
+                })
+            })
+            const data = await res.json()
+            if (data.expiredAt) {
+                logout()
+            } else {
+                return data
+            }
+        } catch (err) {
+            logout()
+        }
+    }
+
     const logout = () => {
         setLogin(false)
         localStorage.removeItem("token")
@@ -132,6 +156,52 @@ const GlobalContextComponent = (props) => {
         }
     }
 
+    const getUserData = async () => {
+        const token = window.localStorage.getItem("token")
+        try {
+            const res = await fetch("/profile-details", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token
+                })
+            })
+            const data = await res.json()
+            if (data.expiredAt) {
+                logout()
+            } else {
+                return data
+            }
+        } catch (err) {
+            logout()
+        }
+    }
+
+    const getGlobals = async () => {
+        const token = window.localStorage.getItem("token")
+        try {
+            const res = await fetch("/profile-details/globals", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token
+                })
+            })
+            const data = await res.json()
+            if (data.expiredAt) {
+                logout()
+            } else {
+                return data
+            }
+        } catch (err) {
+            logout()
+        }
+    }
+
     /* Context Payload */
     const contextValue = {
         media,
@@ -146,13 +216,16 @@ const GlobalContextComponent = (props) => {
         setLogin,
         globalMessage,
         setGlobalMessage,
-        details,
-        setDetails,
+        user,
+        setUser,
         countries,
         setCountries,
         globals,
         setGlobals,
-        logout
+        logout,
+        getUserData,
+        getCountries,
+        getGlobals
         // socket
     }
 

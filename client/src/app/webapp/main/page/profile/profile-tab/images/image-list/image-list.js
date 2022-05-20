@@ -1,27 +1,36 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext } from "react"
+import placeholderAvatar from "../../../../../../../../assets/images/placeholder-avatar.jpg"
 import { GlobalContext } from "../../../../../../../../context/global-context"
-import ImageItem from "./image-item/image-item"
+import Loading from "./loading/loading"
+import DeleteImage from "./delete-image/delete-image"
 import "./image-list.scss"
 
-const ImageList = () => {
+const ImageList = (props) => {
     /* Global Variables */
     const {
-        details
+        user
     } = useContext(GlobalContext)
-
-    /* Locale Variables */
-    const [images, setImages] = useState(details.images || [])
-
-    useEffect(() => {
-        setImages(details.images || [])
-    }, [details.images])
 
     /* JSX Output */
     return (
-        <div className="image-list-container">
-            {images.map((key, index) => {
-                return <ImageItem key={index} imageKey={key}/>
-            })}
+        <div
+            id="image-list-container"
+            className="image-list-container">
+            <ul>
+                {user.images.length > 0
+                    ? user.images.map((item, index) => {
+                        return <li
+                            key={index} >
+                            <Loading loading={props.loadingIndex === index}/>
+                            <DeleteImage
+                                imageIndex={index}
+                                imageKey={user.images[index].key}
+                                setLoadingIndex={props.setLoadingIndex}/>
+                            <img src={`/profile-images/get-image/${user.images[index].key}`} alt="Image"/>
+                        </li>
+                    })
+                    : <li><img src={placeholderAvatar} alt="Placeholder" /></li>}
+            </ul>
         </div>
     )
 }

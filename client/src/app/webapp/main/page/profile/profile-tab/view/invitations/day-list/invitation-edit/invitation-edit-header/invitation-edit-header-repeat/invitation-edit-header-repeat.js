@@ -5,11 +5,11 @@ import "./invitation-edit-header-repeat.scss"
 const InvitationEditHeaderRepeat = (props) => {
     /* Global Variables */
     const {
-        setDetails
+        setUser
     } = useContext(GlobalContext)
 
     const updateInvitations = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return {
                 ...prevState,
                 invitations: data.invitations

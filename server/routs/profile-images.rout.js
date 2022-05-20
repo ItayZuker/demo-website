@@ -1,14 +1,14 @@
 const express = require("express")
 
 const multer = require("multer")
-
 const fs = require("fs")
 
 const upload = multer({ dest: "images/" })
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const { uploadFile, getFile, deleteFile } = require("../s3")
+const { uploadFile, getFileStream, deleteFile } = require("../s3")
 const UserModel = require("../models/user.model")
+const GlobalModel = require("../models/global.model")
 
 require("dotenv").config()
 
@@ -20,15 +20,12 @@ const verifyFormDataUserToken = (token) => new Promise((resolve, reject) => {
             if (err) {
                 reject(new Error(err))
             } else if (decodedUser.email) {
-                resolve({
-                    success: true,
-                    email: decodedUser.email
-                })
+                resolve(decodedUser.email)
             } else {
-                resolve({
+                reject(new Error({
                     success: false,
                     message: "Forbidden: Token was bad"
-                })
+                }))
             }
         })
     } else {
@@ -59,7 +56,7 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-const getUser = (email) => new Promise((resolve) => {
+const getUser = (email) => new Promise((resolve, reject) => {
     UserModel
         .findOne(
             { email },
@@ -67,41 +64,27 @@ const getUser = (email) => new Promise((resolve) => {
             {},
             (err, user) => {
                 if (err) {
-                    resolve({
-                        success: false,
-                        user: {},
-                        err
-                    })
+                    reject(new Error(err))
                 } else if (user) {
-                    resolve({
-                        success: true,
-                        data: user,
-                        err: false
-                    })
+                    resolve(user)
                 } else {
-                    resolve({
-                        success: false,
-                        user: {},
-                        err: false
-                    })
+                    reject(new Error("User was not found"))
                 }
             }
         )
 })
 
-const addUserImage = (userEmail, imageKey) => new Promise((resolve, reject) => {
+const addUserImage = (userEmail, key) => new Promise((resolve, reject) => {
     UserModel
         .findOneAndUpdate(
             { email: userEmail },
-            { $push: { images: imageKey } },
+            { $push: { images: { key, comment: "" } } },
             {},
             async (err) => {
                 if (err) {
-                    reject(err)
+                    reject(new Error(err))
                 } else {
-                    resolve({
-                        success: true
-                    })
+                    resolve(true)
                 }
             }
         )
@@ -109,43 +92,53 @@ const addUserImage = (userEmail, imageKey) => new Promise((resolve, reject) => {
 
 const getImagesQuantity = async (email) => {
     const user = await getUser((email))
-    return user.data.images.length
+    return user.images.length
 }
 
+const getImageMax = () => new Promise((resolve, reject) => {
+    GlobalModel.findOne(
+        { type: "imageMax" },
+        (err, docs) => {
+            if (err) {
+                reject(new Error(err))
+            } else {
+                const data = docs.list.find((item) => item.type === "max")
+                resolve(data.value)
+            }
+        }
+    )
+})
+
 /* Profile Images Routs */
-router.post("/get-image/:key", async (req, res) => {
+router.get("/get-image/:key", async (req, res) => {
     try {
-        const imageKey = req.params.key
-        const file = await getFile(imageKey)
-        res.status(200).json({
-            buffer: file.data.Body,
-            key: imageKey
+        const fileReadStream = await getFileStream(req.params.key)
+        fileReadStream.on("error", () => {
+            const stream = fs.createReadStream("./assets/images/placeholder-image-not-available.jpg")
+            stream.pipe(res)
         })
+        fileReadStream.pipe(res)
     } catch (err) {
         res.send(err)
     }
 })
 
-router.delete("/delete-image", verifyToken, async (req, res) => {
+router.delete("/delete-image/:key", verifyToken, async (req, res) => {
     try {
         UserModel
             .findOneAndUpdate(
                 { email: req.email },
-                { $pull: { images: req.body.imageKey } },
-                {},
+                { $pull: { images: { key: req.params.key } } },
+                { new: true },
                 async (err) => {
                     if (err) {
                         res.send(err)
                     } else {
                         const user = await getUser(req.email)
-                        if (user.err) {
-                            res.send(user.err)
-                        } else {
-                            deleteFile(req.body.imageKey)
-                            res.status(200).send({
-                                images: user.data.images || []
-                            })
-                        }
+                        deleteFile(req.params.key)
+                        res.status(200).json({
+                            images: user.images || []
+                        })
                     }
                 }
             )
@@ -154,53 +147,51 @@ router.delete("/delete-image", verifyToken, async (req, res) => {
     }
 })
 
-router.post("/save", upload.single("image"), async (req, res) => {
+router.put("/rearrange", verifyToken, async (req, res) => {
     try {
-        const imageMax = 3
-        const user = await verifyFormDataUserToken(req.body.token)
-        if (user.success) {
-            const imageQuantity = await getImagesQuantity(user.email)
-            if (imageQuantity >= imageMax) {
-                res.status(405).json({
-                    message: `Not Allowed: Max image quantity is ${imageMax}`
-                })
-            } else {
-                const data = await uploadFile(req.file)
-                fs.unlinkSync(req.file.path)
-                if (data.err) {
-                    res.send(data.err)
-                } else {
-                    const imageSaved = await addUserImage(user.email, data.key)
-                    if (imageSaved.success) {
-                        const userData = await getUser(user.email)
-                        if (userData.success) {
-                            res.status(201).json({
-                                message: "Image was saved successfully",
-                                images: userData.data.images
-                            })
-                        } else if (userData.data.err) {
-                            res.send(userData.data.err)
-                        } else {
-                            res.status(404).json({
-                                message: "User not found"
-                            })
-                        }
-                    } else if (imageSaved.err) {
-                        res.send(imageSaved.err)
+        UserModel
+            .findOneAndUpdate(
+                { email: req.email },
+                { images: req.body.images },
+                {},
+                async (err) => {
+                    if (err) {
+                        res.send(err)
                     } else {
-                        res.status(400).json({
-                            message: "Image was not saved because there are too many images"
+                        const user = await getUser(req.email)
+                        res.status(200).json({
+                            images: user.images
                         })
                     }
                 }
-            }
+            )
+    } catch (err) {
+        fs.unlinkSync(req.file.path)
+        res.send(err)
+    }
+})
+
+router.post("/upload", upload.single("image"), async (req, res) => {
+    try {
+        const imageMax = await getImageMax()
+        const userEmail = await verifyFormDataUserToken(req.body.token)
+        const imageQuantity = await getImagesQuantity(userEmail)
+        if (imageQuantity >= imageMax) {
+            res.status(405).json({
+                message: `Not Allowed: Max image quantity is ${imageMax}`
+            })
         } else {
+            const key = await uploadFile(req.file)
             fs.unlinkSync(req.file.path)
-            res.status(403).json({
-                message: "Forbidden: Token was bad"
+            await addUserImage(userEmail, key)
+            const user = await getUser(userEmail)
+            res.status(201).json({
+                message: "Image was saved successfully",
+                images: user.images
             })
         }
     } catch (err) {
+        fs.unlinkSync(req.file.path)
         res.send(err)
     }
 })

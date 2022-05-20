@@ -7,8 +7,8 @@ import "./edit-about.scss"
 const EditAbout = () => {
     /* Global Variables */
     const {
-        details,
-        setDetails
+        user,
+        setUser
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -35,7 +35,7 @@ const EditAbout = () => {
     }
 
     const handleData = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return { ...prevState, about: data.about }
         })
         setLoading(false)
@@ -73,14 +73,14 @@ const EditAbout = () => {
     return (
         <div className={"edit-about-container " + (loading ? "loading" : "")}>
             <div className="title-container">
-                <h2>About {details.name}</h2>
+                <h2>About {user.name}</h2>
                 <SuccessIndicator
                     isActive={indicateSuccess}/>
             </div>
             <div className="input-container">
                 <InputTextArea
                     reset={reset}
-                    resetValue={details.about}
+                    resetValue={user.about}
                     blurCallback={setTextAreaBlur}
                     valueCallback={setAbout}/>
             </div>

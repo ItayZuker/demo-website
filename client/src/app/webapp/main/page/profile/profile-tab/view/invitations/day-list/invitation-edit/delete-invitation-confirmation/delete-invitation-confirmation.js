@@ -6,7 +6,7 @@ import "./delete-invitation-confirmation.scss"
 const DeleteInvitationConfirmation = (props) => {
     /* Global Variables */
     const {
-        setDetails
+        setUser
     } = useContext(GlobalContext)
 
     /* Local Variables */
@@ -33,7 +33,7 @@ const DeleteInvitationConfirmation = (props) => {
 
     /* Functions */
     const updateInvitations = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return {
                 ...prevState,
                 invitations: data.invitations

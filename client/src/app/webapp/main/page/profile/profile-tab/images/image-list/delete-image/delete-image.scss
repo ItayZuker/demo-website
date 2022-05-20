@@ -2,15 +2,13 @@
 
 html {
     body {
-        .image-item-container {
+        .delete-image-container {
+            position: absolute;
             width: 100%;
-            margin-bottom: 1rem;
-            position: relative;
-            > img {
-                width: 100%;
-            }
-            > .close-icon-container {
+            height: 100%;
+            > .delete-icon-container {
                 position: absolute;
+                z-index: 1;
                 top: 0.5rem;
                 right: 0.5rem;
                 background-color: $gray_color_02;
@@ -20,9 +18,9 @@ html {
                 box-shadow: 0 0 15px rgb(200 200 200 / 80%);
                 transition: .1s ease-in-out;
                 &:hover {
-                        cursor: pointer;
-                        background-color: $gray_color_03;
-                    }
+                    cursor: pointer;
+                    background-color: $gray_color_03;
+                }
                 &:active {
                     background-color: $gray_color_02;
                 }

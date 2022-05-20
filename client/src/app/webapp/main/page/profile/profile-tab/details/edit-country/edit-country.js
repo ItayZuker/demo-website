@@ -8,8 +8,8 @@ import "./edit-country.scss"
 const EditCountry = () => {
     /* Global Variables */
     const {
-        details,
-        setDetails,
+        user,
+        setUser,
         countries
     } = useContext(GlobalContext)
 
@@ -17,18 +17,18 @@ const EditCountry = () => {
     const [save, setSave] = useState(false)
     const [indicateSuccess, setIndicateSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [country, setCountry] = useState(details.geoData.countryName || "")
+    const [country, setCountry] = useState(user.geoData.countryName || "")
     const [edit, setEdit] = useState(false)
     const [countriesArray, setCountriesArray] = useState([])
 
     /* Triggers */
     useEffect(() => {
-        if (!!country && country !== details.geoData.countryName) {
+        if (!!country && country !== user.geoData.countryName) {
             setEdit(true)
         } else {
             setEdit(false)
         }
-    }, [country, details.geoData.countryName])
+    }, [country, user.geoData.countryName])
 
     useEffect(() => {
         if (save) {
@@ -60,7 +60,7 @@ const EditCountry = () => {
     }
 
     const handleData = (data) => {
-        setDetails(prevState => {
+        setUser(prevState => {
             return { ...prevState, geoData: data.geoData }
         })
         setLoading(false)
@@ -102,7 +102,7 @@ const EditCountry = () => {
 
     /* JSX Output */
     return (
-        <div className={"edit-country-container " + (details.geoData.countryName ? "" : "missing-value")}>
+        <div className={"edit-country-container " + (user.geoData.countryName ? "" : "missing-value")}>
             <div className="title-container">
                 <h2>Country</h2>
                 <SuccessIndicator
