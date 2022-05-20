@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react"
-import { GlobalContext } from "../../../../../../../../../../context/global-context"
-import Button from "../../../../../../../../../../components/button/button"
+import { GlobalContext } from "../../../../../../../../../context/global-context"
+import Button from "../../../../../../../../../components/button/button"
 import "./delete-image-confirmation.scss"
 
 const DeleteImageConfirmation = (props) => {
     /* Global Variables */
     const {
+        user,
         setUser
     } = useContext(GlobalContext)
 
@@ -22,7 +23,7 @@ const DeleteImageConfirmation = (props) => {
 
     useEffect(() => {
         if (clickNo) {
-            props.setDeleteClick(false)
+            props.setDeleteConfirmation(null)
         }
     }, [clickNo])
 
@@ -35,7 +36,7 @@ const DeleteImageConfirmation = (props) => {
             }
         })
         props.setLoadingIndex(null)
-        props.setClickDelete(false)
+        props.setDeleteConfirmation(null)
     }
 
     const handleError = () => {
@@ -47,7 +48,7 @@ const DeleteImageConfirmation = (props) => {
         try {
             props.setLoadingIndex(props.imageIndex)
             const token = window.localStorage.getItem("token")
-            const res = await fetch(`/profile-images/delete-image/${props.imageKey}`, {
+            const res = await fetch(`/profile-images/delete-image/${user.images[props.imageIndex].key}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"

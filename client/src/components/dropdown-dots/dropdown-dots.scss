@@ -1,0 +1,46 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .dropdown-dots-container {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            > .icon-container {
+                background-color: $gray_color_02_opacity;
+                height: 3rem;
+                width: 3rem;
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: .1s ease-in-out;
+                > svg {
+                    width: 2rem;
+                }
+                &:hover {
+                    cursor: pointer;
+                    background-color: $gray_color_02;
+                }
+                &:active {
+                    background-color: $gray_color_02_opacity;
+                }
+            }
+            > .menu-container {
+                max-height: 0;
+                overflow: hidden;
+                transition: .2s ease-in-out;
+            }
+            &.active {
+                > .icon-container {
+                    border-radius: 3px 3px 0 0;
+                }
+                > .menu-container {
+                    max-height: 500px;
+
+                }
+            }
+        }
+    }
+}

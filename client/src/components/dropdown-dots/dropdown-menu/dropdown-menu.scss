@@ -1,0 +1,50 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        ul.dropdown-menu-container {
+            list-style: none;
+            padding: 0;
+            border-radius: 3px 0 3px 3px;
+            overflow: hidden;
+            > li {
+                padding: 1rem 2rem;
+                color: $gray_color_07;
+                background-color: $gray_color_02;
+                display: flex;
+                align-items: center;
+                &:hover {
+                    cursor: pointer;
+                    background-color: $gray_color_04;
+                }
+                &:active {
+                    background-color: $gray_color_02;
+                }
+                &.can-be-active {
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        left: .9rem;
+                        transform: rotate(45deg);
+                        height: .9rem;
+                        width: .3rem;
+                        margin-bottom: .3rem;
+                        border-bottom: 2px solid transparent;
+                        border-right: 2px solid transparent;
+                        transition: .1s ease-in-out;
+                    }
+                    &:hover {
+                        &:before {
+                            border-color: $gray_color_05;
+                        }
+                    }
+                    &.active {
+                        &:before {
+                            border-color: $gray_color_07;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
