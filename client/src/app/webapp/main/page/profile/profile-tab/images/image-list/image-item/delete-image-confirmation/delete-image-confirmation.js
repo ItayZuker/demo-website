@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
-import { GlobalContext } from "../../../../../../../../../context/global-context"
-import Button from "../../../../../../../../../components/button/button"
+import { GlobalContext } from "../../../../../../../../../../context/global-context"
+import Button from "../../../../../../../../../../components/button/button"
 import "./delete-image-confirmation.scss"
 
 const DeleteImageConfirmation = (props) => {
@@ -35,18 +35,16 @@ const DeleteImageConfirmation = (props) => {
                 images: data.images
             }
         })
-        props.setLoadingIndex(null)
         props.setDeleteConfirmation(null)
     }
 
     const handleError = () => {
-        props.setLoadingIndex(null)
         /* TODO: Indicate that something went wrong */
     }
 
     const deleteImage = async () => {
         try {
-            props.setLoadingIndex(props.imageIndex)
+            // props.setLoadingIndex(props.imageIndex)
             const token = window.localStorage.getItem("token")
             const res = await fetch(`/profile-images/delete-image/${user.images[props.imageIndex].key}`, {
                 method: "DELETE",

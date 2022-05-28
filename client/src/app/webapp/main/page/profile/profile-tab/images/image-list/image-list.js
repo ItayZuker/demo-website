@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react"
-import placeholderAvatar from "../../../../../../../../assets/images/placeholder-avatar.jpg"
 import { GlobalContext } from "../../../../../../../../context/global-context"
-import Loading from "./loading/loading"
-import DropdownDots from "../../../../../../../../components/dropdown-dots/dropdown-dots"
-import DeleteImageConfirmation from "./delete-image-confirmation/delete-image-confirmation"
-// import DeleteImage from "./delete-image/delete-image"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+// import DropdownDots from "../../../../../../../../components/dropdown-dots/dropdown-dots"
+// import DeleteImageConfirmation from "./delete-image-confirmation/delete-image-confirmation"
+import Dnd from "./dnd/dnd"
+import ImageItem from "./image-item/image-item"
+
 import "./image-list.scss"
 
 const ImageList = (props) => {
@@ -15,70 +16,91 @@ const ImageList = (props) => {
     } = useContext(GlobalContext)
 
     /* Locale Variables */
-    const [deleteConfirmation, setDeleteConfirmation] = useState(false)
-    const [dropdownList] = useState([
-        { title: "Profile picture", active: false },
-        { title: "Delete", active: false }
-    ])
+    const [dragging, setDragging] = useState(false)
 
     /* Functions */
-    const clickMenuItem = (object) => {
-        switch (object.title) {
-        case "Profile picture":
-            selectProfileImage(object)
-            break
-        case "Delete":
-            clickDelete(object.imageIndex)
-            break
-        }
+    const onDragStart = () => {
+        setDragging(true)
     }
 
-    const selectProfileImage = (object) => {
-        if (object.imageIndex !== 0) {
-            const newImagesArray = user.images
-            const newProfileImage = newImagesArray[object.imageIndex]
-            newImagesArray.splice(object.imageIndex, 1)
-            newImagesArray.splice(0, 0, newProfileImage)
-            setUser(prevState => {
-                return {
-                    ...prevState,
-                    images: newImagesArray
-                }
+    const onDragEnd = (e) => {
+        setDragging(false)
+        const images = user.images
+        const sourceIndex = e.source.index
+        const destinationIndex = e.destination.index
+        const element = images.splice(sourceIndex, 1)[0]
+        images.splice(destinationIndex, 0, element)
+        updateDB(images)
+    }
+
+    const handleData = (data) => {
+        setUser(prevState => {
+            return {
+                ...prevState,
+                images: data.images
+            }
+        })
+    }
+
+    const handleErr = () => {
+
+    }
+
+    const updateDB = async (images) => {
+        try {
+            const token = window.localStorage.getItem("token")
+            const res = await fetch("/profile-images/rearrange", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token,
+                    images
+                })
             })
+            const data = await res.json()
+            handleData(data)
+        } catch (err) {
+            handleErr()
         }
     }
-
-    const clickDelete = (imageIndex) => {
-        setDeleteConfirmation(imageIndex)
-    }
-
     /* JSX Output */
     return (
         <div
-            id="image-list-container"
             className="image-list-container">
-            <ul>
-                {user.images.length > 0
-                    ? user.images.map((item, index) => {
-                        return <li
-                            key={index} >
-                            <Loading loading={props.loadingIndex === index}/>
-                            <DropdownDots
-                                dropdownList={dropdownList}
-                                clickMenuItem={clickMenuItem}
-                                imageIndex={index}/>
-                            {deleteConfirmation === index
-                                ? <DeleteImageConfirmation
-                                    imageIndex={index}
-                                    setLoadingIndex={props.setLoadingIndex}
-                                    setDeleteConfirmation={setDeleteConfirmation}/>
-                                : <></>
-                            }
-                            <img src={`/profile-images/get-image/${user.images[index].key}`} alt="Image"/>
-                        </li>
-                    })
-                    : <li><img src={placeholderAvatar} alt="Placeholder" /></li>}
-            </ul>
+            {user.images.length < 3 ? <Dnd dragging={dragging}/> : <></>}
+            <DragDropContext
+                onDragStart={() => onDragStart()}
+                onDragEnd={(e) => onDragEnd(e)}>
+                <Droppable droppableId="droppable-1" type="PERSON">
+                    {(provided) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}>
+                            {user.images.map((image, index) => (
+                                <Draggable
+                                    key={"key-" + image.key}
+                                    draggableId={"droppable-" + image.key}
+                                    index={index}>
+                                    {(provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            className="draggable-item">
+                                            <ImageItem
+                                                dragging={dragging}
+                                                index={index}
+                                                provided={provided}/>
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
         </div>
     )
 }

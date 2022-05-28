@@ -5,6 +5,7 @@ html {
         .delete-image-confirmation-container {
             background-color: $gray_color_01_opacity;
             position: absolute;
+            z-index: 2;
             top: 0;
             right: 0;
             bottom: 0;

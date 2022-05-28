@@ -5,6 +5,14 @@ html {
         .images-container {
             padding: 50px;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            > h2 {
+                font-size: 1.4rem;
+                line-height: 1;
+                font-weight: 400;
+                color: #a0a0a0;
+            }
         }
     }
 }

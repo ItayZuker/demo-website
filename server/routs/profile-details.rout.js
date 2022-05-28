@@ -49,17 +49,22 @@ router.put("/update-about", verifyToken, async (req, res) => {
     try {
         UserModel
             .findOneAndUpdate(
-                { email: req.email },
-                { about: req.body.about },
-                {},
-                (err) => {
+                {
+                    email: req.email
+                },
+                {
+                    about: req.body.about
+                },
+                {
+                    new: true
+                },
+                (err, docs) => {
                     if (err) {
                         res.status(500).send(err)
                     } else {
                         res.status(200).json(
                             {
-                                success: true,
-                                message: "About updated successfully"
+                                about: docs.about
                             }
                         )
                     }

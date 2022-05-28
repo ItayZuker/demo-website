@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { GlobalContext } from "../../../../../../../context/global-context"
+import { ProfileContext } from "../../../../../../../context/profile-context"
 import "./create-invitation-button.scss"
 
 const CreateInvitationButton = () => {
@@ -8,10 +9,20 @@ const CreateInvitationButton = () => {
         setPopup
     } = useContext(GlobalContext)
 
+    const {
+        setTab
+    } = useContext(ProfileContext)
+
+    /* Functions */
+    const clickCreateInvitation = () => {
+        setPopup("create-invitation")
+        setTab("profile")
+    }
+
     /* JSX Output */
     return (
         <div
-            onClick={() => setPopup("create-invitation")}
+            onClick={() => clickCreateInvitation()}
             className="create-invitation-button-container">
             <div className='icon-container'>
                 <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">

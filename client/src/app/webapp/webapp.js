@@ -3,6 +3,7 @@ import { GlobalContext } from "../../context/global-context"
 import LoadingPopup from "./popups/loading-popup/loading-popup"
 import DeleteAccountPopup from "./popups/delete-account-popup/delete-account-popup"
 import CreateInvitationPopup from "./popups/create-invitation-popup/create-invitation-popup"
+import MyGalleryPopup from "./popups/my-gallery-popup/my-gallery-popup"
 import Header from "./header/header"
 import Footer from "./footer/footer"
 import Main from "./main/main"
@@ -71,6 +72,7 @@ const Webapp = () => {
                 {popup === "loading" ? <LoadingPopup/> : <></>}
                 {popup === "delete-account" ? <DeleteAccountPopup/> : <></>}
                 {popup === "create-invitation" ? <CreateInvitationPopup/> : <></>}
+                {popup === "my-gallery" ? <MyGalleryPopup/> : <></>}
                 <Header/>
                 <Main/>
                 <Footer/>

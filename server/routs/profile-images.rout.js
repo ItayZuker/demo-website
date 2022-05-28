@@ -3,9 +3,10 @@ const express = require("express")
 const multer = require("multer")
 const fs = require("fs")
 
-const upload = multer({ dest: "images/" })
 const router = express.Router()
 const jwt = require("jsonwebtoken")
+const sharp = require("sharp")
+const { v4: uuidv4 } = require("uuid")
 const { uploadFile, getFileStream, deleteFile } = require("../s3")
 const UserModel = require("../models/user.model")
 const GlobalModel = require("../models/global.model")
@@ -109,7 +110,128 @@ const getImageMax = () => new Promise((resolve, reject) => {
     )
 })
 
+const fileStorageEngine = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./images")
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`)
+    }
+})
+
+const upload = multer({ storage: fileStorageEngine })
+
+const getSmall = (file) => new Promise((resolve, reject) => {
+    const name = `${uuidv4()}.webp`
+    const path = `images/${name}`
+    sharp(file.path)
+        .resize(50, 50)
+        .toFile(
+            path,
+            (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve({
+                        name,
+                        path
+                    })
+                }
+            }
+        )
+})
+
+const getMedium = (file) => new Promise((resolve, reject) => {
+    const name = `${uuidv4()}.webp`
+    const path = `images/${name}`
+    sharp(file.path)
+        .resize(200, 200)
+        .toFile(
+            path,
+            (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve({
+                        name,
+                        path
+                    })
+                }
+            }
+        )
+})
+
+const getLarge = (file) => new Promise((resolve, reject) => {
+    const name = `${uuidv4()}.webp`
+    const path = `images/${name}`
+    sharp(file.path)
+        .resize(500, 500, {
+            fit: "contain",
+            background: {
+                r: 255,
+                g: 255,
+                b: 255,
+                alpha: 0
+            }
+        })
+        .toFile(
+            path,
+            (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve({
+                        name,
+                        path
+                    })
+                }
+            }
+        )
+})
+
+const getSizes = async (file) => {
+    const small = await getSmall(file)
+    const medium = await getMedium(file)
+    const large = await getLarge(file)
+    return {
+        small,
+        medium,
+        large
+    }
+}
+
 /* Profile Images Routs */
+router.put("/update-comment/:key", verifyToken, async (req, res) => {
+    try {
+        UserModel
+            .findOneAndUpdate(
+                {
+                    email: req.email,
+                    "images.key": req.params.key
+                },
+                {
+                    $set: { "images.$.comment": req.body.comment }
+                },
+                {
+                    new: true
+                },
+                (err, docs) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        const imageItem = docs.images.find((item) => item.key === req.params.key)
+                        res.status(200).json({
+                            comment: imageItem.comment,
+                            key: imageItem.key
+                        })
+                    }
+                }
+            )
+    } catch (err) {
+        res.send(err)
+    }
+})
+
 router.get("/get-image/:key", async (req, res) => {
     try {
         const fileReadStream = await getFileStream(req.params.key)
@@ -153,14 +275,13 @@ router.put("/rearrange", verifyToken, async (req, res) => {
             .findOneAndUpdate(
                 { email: req.email },
                 { images: req.body.images },
-                {},
-                async (err) => {
+                { new: true },
+                async (err, docs) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        const user = await getUser(req.email)
                         res.status(200).json({
-                            images: user.images
+                            images: docs.images
                         })
                     }
                 }
@@ -181,6 +302,8 @@ router.post("/upload", upload.single("image"), async (req, res) => {
                 message: `Not Allowed: Max image quantity is ${imageMax}`
             })
         } else {
+            const sizes = await getSizes(req.file)
+            console.log(sizes)
             const key = await uploadFile(req.file)
             fs.unlinkSync(req.file.path)
             await addUserImage(userEmail, key)

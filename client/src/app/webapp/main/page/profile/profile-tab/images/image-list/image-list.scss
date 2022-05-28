@@ -3,43 +3,15 @@
 html {
     body {
         .image-list-container {
-            width: 50%;
+            width: 100%;
             height: fit-content;
-            position: relative;
-            > ul {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                list-style: none;
-                display: flex;
-                flex-direction: column;
-                > li {
-                    margin-bottom: 1rem;
-                    min-height: 200px;
-                    width: inherit;
-                    overflow: hidden;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 3px;
-                    position: relative;
-                    background-color: $gray_color_07;
-                    &.loading {
-                        background-color: $gray_color_02;
-
-                    }
-                    > .dropdown-dots-container {
-                        top: .5rem;
-                        right: .5rem;
-                    }
-                    > img {
-                        height: 100%;
-                        width: 100%;
-                        max-height: 100%;
-                        max-width: 100%;
-                        object-fit: cover;
-                    }
-                }
+            margin: 1rem 0 0 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            .draggable-item {
+                margin-top: 1rem;
             }
         }
     }

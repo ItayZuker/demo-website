@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react"
-import { GlobalContext } from "../../../../../../../../context/global-context"
-import SuccessIndicator from "../../../../../../../../components/success-indicator/success-indicator"
-import InputTextArea from "../../../../../../../../components/input-text-area/input-text-area"
-import "./edit-about.scss"
+import React, { useState, useEffect, useContext } from "react"
+import { GlobalContext } from "../../../../../../../../../../context/global-context"
+import InputTextArea from "../../../../../../../../../../components/input-text-area/input-text-area"
+import SuccessIndicator from "../../../../../../../../../../components/success-indicator/success-indicator"
+import Button from "../../../../../../../../../../components/button/button"
+import "./image-comment.scss"
 
-const EditAbout = () => {
+const ImageComment = (props) => {
     /* Global Variables */
     const {
         user,
@@ -12,7 +13,7 @@ const EditAbout = () => {
     } = useContext(GlobalContext)
 
     /* Locale Variables */
-    const [about, setAbout] = useState("")
+    const [comment, setComment] = useState(props.image.comment)
     const [loading, setLoading] = useState(false)
     const [indicateSuccess, setIndicateSuccess] = useState(false)
     const [textAreaBlur, setTextAreaBlur] = useState(false)
@@ -36,16 +37,26 @@ const EditAbout = () => {
 
     const handleData = (data) => {
         setReset(false)
-        setUser(prevState => {
-            return { ...prevState, about: data.about }
-        })
         setLoading(false)
         successIndicator()
+        const images = user.images.map(image => {
+            if (image.key === data.key) {
+                return data
+            } else {
+                return image
+            }
+        })
+        setUser(prevState => {
+            return {
+                ...prevState,
+                images
+            }
+        })
     }
 
     const handleErr = () => {
-        setReset(true)
-        setLoading(false)
+    //     setReset(true)
+    //     setLoading(false)
     }
 
     const saveNewValue = async () => {
@@ -53,14 +64,14 @@ const EditAbout = () => {
         setLoading(true)
         try {
             const token = window.localStorage.getItem("token")
-            const res = await fetch("/profile-details/update-about", {
+            const res = await fetch(`/profile-images/update-comment/${props.image.key}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     token,
-                    about
+                    comment
                 })
             })
             const data = await res.json()
@@ -72,22 +83,28 @@ const EditAbout = () => {
 
     /* JSX Output */
     return (
-        <div className={"edit-about-container " + (loading ? "loading" : "")}>
+        <div className={"image-comment-container " + (loading ? "loading" : "")}>
             <div className="title-container">
-                <h2>About {user.name}</h2>
+                <p>Comment:</p>
                 <SuccessIndicator
                     isActive={indicateSuccess}/>
             </div>
             <div className="input-container">
+                <Button
+                    value={"Delete"}
+                    loading={false}
+                    isActive={true}
+                    callback={props.setDeleteConfirmation}/>
                 <InputTextArea
-                    value={user.about}
+                    typeLimit={100}
+                    value={comment}
                     reset={reset}
-                    resetValue={user.about}
+                    resetValue={comment}
                     blurCallback={setTextAreaBlur}
-                    valueCallback={setAbout}/>
+                    valueCallback={setComment}/>
             </div>
         </div>
     )
 }
 
-export default EditAbout
+export default ImageComment

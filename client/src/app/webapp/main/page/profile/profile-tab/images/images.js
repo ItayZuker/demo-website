@@ -1,17 +1,27 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import { GlobalContext } from "../../../../../../../context/global-context"
 import ImageList from "./image-list/image-list"
-import UploadImages from "./upload-images/upload-images"
 import "./images.scss"
 
 const Images = () => {
-    /* Locale State */
+    /* Global Variables */
+    const {
+        user,
+        globals
+    } = useContext(GlobalContext)
+
+    /* Locale Variables */
+    const [imageMax] = useState(() => {
+        const imageMaxData = globals.find(item => item.type === "imageMax")
+        return imageMaxData.list.find(item => item.type === "max").value
+    })
     const [loadingIndex, setLoadingIndex] = useState(null)
 
     /* JSX Output */
     return (
         <div className="images-container">
+            <h2>You have {user.images.length} / {imageMax} Images</h2>
             <ImageList loadingIndex={loadingIndex} setLoadingIndex={setLoadingIndex}/>
-            <UploadImages setLoadingIndex={setLoadingIndex}/>
         </div>
     )
 }

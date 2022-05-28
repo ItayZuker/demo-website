@@ -1,0 +1,57 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .image-comment-container {
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-right: 4px solid $gray_color_09;
+            > .title-container {
+                display: flex;
+                margin: 1rem 1rem 0 1rem;
+                > p {
+                    font-size: 1rem;
+                    line-height: 1.3rem;
+                    color: $gray_color_07;
+                }
+            }
+            > .input-container {
+                height: 100%;
+                > .button-container {
+                    position: absolute;
+                    top: 1rem;
+                    right: 5.5rem;
+                    padding: 0;
+                    background-color: transparent;
+                    &:hover {
+                        > p {
+                            color: $gray_color_04;
+                        }
+                    }
+                    &:active {
+                        > p {
+                            color: $gray_color_07;
+                        }
+                    }
+                }
+                > .input-text-area-container {
+                    height: 100%;
+                    position: unset;
+                    > textarea {
+                        height: 100%;
+                    }
+                    > .character-counter-container {
+                        position: absolute;
+                        top: 0;
+                        > p {
+                            color: $gray_color_07;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
