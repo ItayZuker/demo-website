@@ -12,8 +12,8 @@ const Images = () => {
 
     /* Locale Variables */
     const [imageMax] = useState(() => {
-        const imageMaxData = globals.find(item => item.type === "imageMax")
-        return imageMaxData.list.find(item => item.type === "max").value
+        const imageMaxData = globals.find(item => item.type === "images")
+        return imageMaxData.data.max
     })
     const [loadingIndex, setLoadingIndex] = useState(null)
 

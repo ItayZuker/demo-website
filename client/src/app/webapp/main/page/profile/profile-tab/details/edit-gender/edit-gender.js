@@ -19,7 +19,7 @@ const EditGender = () => {
     const [gender, setGender] = useState(user.gender || "")
     const [gendersArray] = useState(() => {
         const gender = globals.find(item => item.type === "gender")
-        return gender.list
+        return gender.data.options
     })
     const [edit, setEdit] = useState(false)
     const [save, setSave] = useState(false)

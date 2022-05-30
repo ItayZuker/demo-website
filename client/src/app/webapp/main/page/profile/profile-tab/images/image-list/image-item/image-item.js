@@ -21,7 +21,7 @@ const ImageItem = (props) => {
     /* Triggers */
     useEffect(() => {
         updateProfileSrc()
-    }, [user.images[props.index].key])
+    }, [user.images[props.index].mediumKey])
 
     useEffect(() => {
         if (!props.dragging) {
@@ -31,12 +31,14 @@ const ImageItem = (props) => {
 
     /* Functions */
     const updateProfileSrc = async () => {
-        setLoading(true)
-        const res = await fetch(`/profile-images/get-image/${user.images[props.index].key}`)
-        const blob = await res.blob()
-        const src = await URL.createObjectURL(blob)
-        setImageSrc(src)
-        setLoading(false)
+        if (user.images[props.index]) {
+            setLoading(true)
+            const res = await fetch(`/profile-images/get-image/${user.images[props.index].mediumKey}`)
+            const blob = await res.blob()
+            const src = await URL.createObjectURL(blob)
+            setImageSrc(src)
+            setLoading(false)
+        }
     }
 
     const openGallery = () => {

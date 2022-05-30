@@ -64,7 +64,7 @@ const ImageComment = (props) => {
         setLoading(true)
         try {
             const token = window.localStorage.getItem("token")
-            const res = await fetch(`/profile-images/update-comment/${props.image.key}`, {
+            const res = await fetch(`/profile-images/update-comment/${props.image.smallKey}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

@@ -2,7 +2,6 @@ const express = require("express")
 
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-const GlobalModel = require("../models/global.model")
 const CountryModel = require("../models/country.model")
 const UserModel = require("../models/user.model")
 require("dotenv").config()
@@ -26,25 +25,6 @@ const verifyToken = (req, res, next) => {
 }
 
 /* Profile Details Routs */
-router.post("/globals", async (req, res) => {
-    try {
-        GlobalModel
-            .find({}, (err, docs) => {
-                if (err) {
-                    res.status(500).send(err)
-                } else {
-                    const payload = docs.map((item) => ({
-                        type: item.type,
-                        list: item.list
-                    }))
-                    res.status(200).json(payload)
-                }
-            })
-    } catch (err) {
-        res.status(500).send(err)
-    }
-})
-
 router.put("/update-about", verifyToken, async (req, res) => {
     try {
         UserModel

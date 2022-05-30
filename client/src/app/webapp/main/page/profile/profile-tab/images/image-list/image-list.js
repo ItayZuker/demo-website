@@ -5,7 +5,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 // import DeleteImageConfirmation from "./delete-image-confirmation/delete-image-confirmation"
 import Dnd from "./dnd/dnd"
 import ImageItem from "./image-item/image-item"
-
 import "./image-list.scss"
 
 const ImageList = (props) => {
@@ -80,8 +79,8 @@ const ImageList = (props) => {
                             {...provided.droppableProps}>
                             {user.images.map((image, index) => (
                                 <Draggable
-                                    key={"key-" + image.key}
-                                    draggableId={"droppable-" + image.key}
+                                    key={"key-" + image.smallKey}
+                                    draggableId={"droppable-" + image.smallKey}
                                     index={index}>
                                     {(provided) => (
                                         <div

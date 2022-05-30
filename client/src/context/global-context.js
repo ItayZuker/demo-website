@@ -15,10 +15,7 @@ const GlobalContextComponent = (props) => {
     const [login, setLogin] = useState(false)
     const [globalMessage, setGlobalMessage] = useState("")
     const [user, setUser] = useState({})
-    const [globals, setGlobals] = useState({
-        gender: [],
-        imageMax: null
-    })
+    const [globals, setGlobals] = useState({})
 
     /* Import Custom Hooks */
     const { mediaFix } = useMediaFix()
@@ -182,7 +179,7 @@ const GlobalContextComponent = (props) => {
     const getGlobals = async () => {
         const token = window.localStorage.getItem("token")
         try {
-            const res = await fetch("/profile-details/globals", {
+            const res = await fetch("/global/data", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -37,10 +37,10 @@ const ProfilePicture = () => {
     }
 
     const updateProfileSrc = async () => {
-        if (user.images[0].key !== profileImageKey) {
-            setProfileImageKey(user.images[0].key)
+        if (user.images[0].mediumKey !== profileImageKey) {
+            setProfileImageKey(user.images[0].mediumKey)
             setLoading(true)
-            const res = await fetch(`/profile-images/get-image/${user.images[0].key}`)
+            const res = await fetch(`/profile-images/get-image/${user.images[0].mediumKey}`)
             const blob = await res.blob()
             const src = await URL.createObjectURL(blob)
             setProfileSrc(src)

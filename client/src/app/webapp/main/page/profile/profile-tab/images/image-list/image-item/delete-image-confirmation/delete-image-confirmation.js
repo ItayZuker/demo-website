@@ -46,7 +46,7 @@ const DeleteImageConfirmation = (props) => {
         try {
             // props.setLoadingIndex(props.imageIndex)
             const token = window.localStorage.getItem("token")
-            const res = await fetch(`/profile-images/delete-image/${user.images[props.imageIndex].key}`, {
+            const res = await fetch(`/profile-images/delete-image/${user.images[props.imageIndex].smallKey}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"

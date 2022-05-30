@@ -14,13 +14,13 @@ const s3 = new S3({
 })
 
 // eslint-disable-next-line
-const uploadFile = (file) => new Promise((resolve, reject) => {
-    const fileStream = fs.createReadStream(file.path)
+const uploadFile = (filePath, fileName) => new Promise((resolve, reject) => {
+    const fileStream = fs.createReadStream(filePath)
 
     const params = {
         Bucket: bucketName,
         Body: fileStream,
-        Key: file.filename
+        Key: fileName
     }
 
     s3.upload(params, (err, data) => {

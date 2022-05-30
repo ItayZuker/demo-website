@@ -75,17 +75,26 @@ const getUser = (email) => new Promise((resolve, reject) => {
         )
 })
 
-const addUserImage = (userEmail, key) => new Promise((resolve, reject) => {
+const addUserImage = (userEmail, keys) => new Promise((resolve, reject) => {
     UserModel
         .findOneAndUpdate(
             { email: userEmail },
-            { $push: { images: { key, comment: "" } } },
-            {},
-            async (err) => {
+            {
+                $push: {
+                    images: {
+                        smallKey: keys.smallKey,
+                        mediumKey: keys.mediumKey,
+                        largeKey: keys.largeKey,
+                        comment: ""
+                    }
+                }
+            },
+            { new: true },
+            async (err, docs) => {
                 if (err) {
                     reject(new Error(err))
                 } else {
-                    resolve(true)
+                    resolve(docs)
                 }
             }
         )
@@ -96,18 +105,18 @@ const getImagesQuantity = async (email) => {
     return user.images.length
 }
 
-const getImageMax = () => new Promise((resolve, reject) => {
-    GlobalModel.findOne(
-        { type: "imageMax" },
-        (err, docs) => {
-            if (err) {
-                reject(new Error(err))
-            } else {
-                const data = docs.list.find((item) => item.type === "max")
-                resolve(data.value)
+const getGlobalImages = () => new Promise((resolve, reject) => {
+    GlobalModel
+        .findOne(
+            { type: "images" },
+            (err, docs) => {
+                if (err) {
+                    reject(new Error(err))
+                } else {
+                    resolve(docs.data)
+                }
             }
-        }
-    )
+        )
 })
 
 const fileStorageEngine = multer.diskStorage({
@@ -121,11 +130,11 @@ const fileStorageEngine = multer.diskStorage({
 
 const upload = multer({ storage: fileStorageEngine })
 
-const getSmall = (file) => new Promise((resolve, reject) => {
+const getSmall = (file, size) => new Promise((resolve, reject) => {
     const name = `${uuidv4()}.webp`
     const path = `images/${name}`
     sharp(file.path)
-        .resize(50, 50)
+        .resize(Number(size.x), Number(size.y))
         .toFile(
             path,
             (err) => {
@@ -141,11 +150,11 @@ const getSmall = (file) => new Promise((resolve, reject) => {
         )
 })
 
-const getMedium = (file) => new Promise((resolve, reject) => {
+const getMedium = (file, size) => new Promise((resolve, reject) => {
     const name = `${uuidv4()}.webp`
     const path = `images/${name}`
     sharp(file.path)
-        .resize(200, 200)
+        .resize(Number(size.x), Number(size.y))
         .toFile(
             path,
             (err) => {
@@ -161,11 +170,11 @@ const getMedium = (file) => new Promise((resolve, reject) => {
         )
 })
 
-const getLarge = (file) => new Promise((resolve, reject) => {
+const getLarge = (file, size) => new Promise((resolve, reject) => {
     const name = `${uuidv4()}.webp`
     const path = `images/${name}`
     sharp(file.path)
-        .resize(500, 500, {
+        .resize(Number(size.x), Number(size.y), {
             fit: "contain",
             background: {
                 r: 255,
@@ -189,10 +198,10 @@ const getLarge = (file) => new Promise((resolve, reject) => {
         )
 })
 
-const getSizes = async (file) => {
-    const small = await getSmall(file)
-    const medium = await getMedium(file)
-    const large = await getLarge(file)
+const getImages = async (file, globalImages) => {
+    const small = await getSmall(file, globalImages.sizes.small)
+    const medium = await getMedium(file, globalImages.sizes.medium)
+    const large = await getLarge(file, globalImages.sizes.large)
     return {
         small,
         medium,
@@ -207,7 +216,7 @@ router.put("/update-comment/:key", verifyToken, async (req, res) => {
             .findOneAndUpdate(
                 {
                     email: req.email,
-                    "images.key": req.params.key
+                    "images.smallKey": req.params.key
                 },
                 {
                     $set: { "images.$.comment": req.body.comment }
@@ -250,16 +259,15 @@ router.delete("/delete-image/:key", verifyToken, async (req, res) => {
         UserModel
             .findOneAndUpdate(
                 { email: req.email },
-                { $pull: { images: { key: req.params.key } } },
+                { $pull: { images: { smallKey: req.params.key } } },
                 { new: true },
-                async (err) => {
+                async (err, docs) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        const user = await getUser(req.email)
                         deleteFile(req.params.key)
                         res.status(200).json({
-                            images: user.images || []
+                            images: docs.images || []
                         })
                     }
                 }
@@ -294,20 +302,23 @@ router.put("/rearrange", verifyToken, async (req, res) => {
 
 router.post("/upload", upload.single("image"), async (req, res) => {
     try {
-        const imageMax = await getImageMax()
+        const globalImages = await getGlobalImages()
         const userEmail = await verifyFormDataUserToken(req.body.token)
         const imageQuantity = await getImagesQuantity(userEmail)
-        if (imageQuantity >= imageMax) {
+        if (imageQuantity >= globalImages.max) {
             res.status(405).json({
-                message: `Not Allowed: Max image quantity is ${imageMax}`
+                message: `Not Allowed: Max image quantity is ${globalImages.max}`
             })
         } else {
-            const sizes = await getSizes(req.file)
-            console.log(sizes)
-            const key = await uploadFile(req.file)
+            const sizes = await getImages(req.file, globalImages)
+            const smallKey = await uploadFile(sizes.small.path, sizes.small.name)
+            const mediumKey = await uploadFile(sizes.medium.path, sizes.medium.name)
+            const largeKey = await uploadFile(sizes.large.path, sizes.large.name)
             fs.unlinkSync(req.file.path)
-            await addUserImage(userEmail, key)
-            const user = await getUser(userEmail)
+            fs.unlinkSync(sizes.small.path)
+            fs.unlinkSync(sizes.medium.path)
+            fs.unlinkSync(sizes.large.path)
+            const user = await addUserImage(userEmail, { smallKey, mediumKey, largeKey })
             res.status(201).json({
                 message: "Image was saved successfully",
                 images: user.images

@@ -5,8 +5,8 @@ const GlobalSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    list: {
-        type: Array,
+    data: {
+        type: Object,
         require: true
     }
 })
