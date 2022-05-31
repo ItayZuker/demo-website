@@ -40,8 +40,8 @@ const ImageComment = (props) => {
         setLoading(false)
         successIndicator()
         const images = user.images.map(image => {
-            if (image.key === data.key) {
-                return data
+            if (image.smallKey === data.imageItem.smallKey) {
+                return data.imageItem
             } else {
                 return image
             }

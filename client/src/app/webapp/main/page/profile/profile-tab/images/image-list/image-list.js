@@ -11,11 +11,16 @@ const ImageList = (props) => {
     /* Global Variables */
     const {
         user,
-        setUser
+        setUser,
+        globals
     } = useContext(GlobalContext)
 
     /* Locale Variables */
     const [dragging, setDragging] = useState(false)
+    const [imageMax] = useState(() => {
+        const imageMaxData = globals.find(item => item.type === "images")
+        return imageMaxData.data.max
+    })
 
     /* Functions */
     const onDragStart = () => {
@@ -68,7 +73,7 @@ const ImageList = (props) => {
     return (
         <div
             className="image-list-container">
-            {user.images.length < 3 ? <Dnd dragging={dragging}/> : <></>}
+            {user.images.length < imageMax ? <Dnd dragging={dragging}/> : <></>}
             <DragDropContext
                 onDragStart={() => onDragStart()}
                 onDragEnd={(e) => onDragEnd(e)}>

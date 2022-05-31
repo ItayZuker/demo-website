@@ -9,7 +9,6 @@ html {
             label {
                 width: 100%;
                 height: auto;
-                background-color: $gray_color_09;
                 border: 4px dashed $gray_color_07;
                 box-sizing: border-box;
                 border-radius: 3px;
@@ -75,8 +74,8 @@ html {
                     }
                 }
                 > .icon-container {
-                    width: 6rem;
-                    height: 6rem;
+                    width: 4rem;
+                    height: 4rem;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -84,15 +83,15 @@ html {
                     > svg {
                         height: auto;
                         path {
-                            fill: $gray_color_06;
+                            fill: $gray_color_06_opacity;
                             transition: .1s ease-in-out;
                         }
                     }
                 }
                 > p {
-                    color: $gray_color_06;
-                    font-weight: 500;
-                    font-size: 2rem;
+                    color: $gray_color_06_opacity;
+                    font-weight: 400;
+                    font-size: 1.6rem;
                     transition: .1s ease-in-out;
                 }
             }

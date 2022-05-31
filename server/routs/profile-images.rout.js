@@ -212,11 +212,12 @@ const getImages = async (file, globalImages) => {
 /* Profile Images Routs */
 router.put("/update-comment/:key", verifyToken, async (req, res) => {
     try {
+        const { key } = req.params
         UserModel
             .findOneAndUpdate(
                 {
                     email: req.email,
-                    "images.smallKey": req.params.key
+                    "images.smallKey": key
                 },
                 {
                     $set: { "images.$.comment": req.body.comment }
@@ -228,10 +229,9 @@ router.put("/update-comment/:key", verifyToken, async (req, res) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        const imageItem = docs.images.find((item) => item.key === req.params.key)
+                        const imageItem = docs.images.find((item) => item.smallKey === key)
                         res.status(200).json({
-                            comment: imageItem.comment,
-                            key: imageItem.key
+                            imageItem
                         })
                     }
                 }
