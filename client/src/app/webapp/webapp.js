@@ -4,6 +4,7 @@ import LoadingPopup from "./popups/loading-popup/loading-popup"
 import DeleteAccountPopup from "./popups/delete-account-popup/delete-account-popup"
 import CreateInvitationPopup from "./popups/create-invitation-popup/create-invitation-popup"
 import MyGalleryPopup from "./popups/my-gallery-popup/my-gallery-popup"
+import CropImagePopup from "./popups/crop-image-popup/crop-image-popup"
 import Header from "./header/header"
 import Footer from "./footer/footer"
 import Main from "./main/main"
@@ -73,6 +74,7 @@ const Webapp = () => {
                 {popup === "delete-account" ? <DeleteAccountPopup/> : <></>}
                 {popup === "create-invitation" ? <CreateInvitationPopup/> : <></>}
                 {popup === "my-gallery" ? <MyGalleryPopup/> : <></>}
+                {popup === "crop-image" ? <CropImagePopup/> : <></>}
                 <Header/>
                 <Main/>
                 <Footer/>

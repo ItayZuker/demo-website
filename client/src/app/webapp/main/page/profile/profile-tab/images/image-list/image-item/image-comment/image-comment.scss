@@ -8,10 +8,8 @@ html {
             display: flex;
             flex-direction: column;
             border-right: 4px solid $gray_color_09;
-            //border-right: 4px solid red;
             > .input-container {
                 height: 100%;
-                background-color: red;
                 > .input-text-area-container {
                     height: 100%;
                     position: unset;

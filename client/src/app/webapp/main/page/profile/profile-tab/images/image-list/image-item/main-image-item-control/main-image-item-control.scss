@@ -20,6 +20,21 @@ html {
             > .main-image-item-button-container {
                 padding: 0;
                 margin-left: 2rem;
+                display: flex;
+                .icon-container {
+                    height: 1rem;
+                    display: flex;
+                    align-items: center;
+                    margin-right: .2rem;
+                    > svg {
+                        height: 100%;
+                        width: 100%;
+                        path {
+                            fill: $gray_color_07;
+                            transition: .1s ease-in-out;
+                        }
+                    }
+                }
                 > p {
                     color: $gray_color_07;
                     user-select: none;
@@ -27,11 +42,25 @@ html {
                 }
                 &:hover {
                     cursor: pointer;
+                    .icon-container {
+                        > svg {
+                            path {
+                                fill: $gray_color_06;
+                            }
+                        }
+                    }
                     > p {
                         color: $gray_color_06;
                     }
                 }
                 &:active {
+                    .icon-container {
+                        > svg {
+                            path {
+                                fill: $gray_color_07;
+                            }
+                        }
+                    }
                     > p {
                         color: $gray_color_07;
                     }
