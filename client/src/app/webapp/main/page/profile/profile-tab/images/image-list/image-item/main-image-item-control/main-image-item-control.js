@@ -8,7 +8,8 @@ const MainImageItemControl = (props) => {
     /* Global Variables */
     const {
         globals,
-        setPopup
+        setPopup,
+        setAction
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -23,6 +24,9 @@ const MainImageItemControl = (props) => {
     }
 
     const clickCrop = () => {
+        setAction({
+            imageIndex: props.imageIndex
+        })
         setPopup("crop-image")
     }
 

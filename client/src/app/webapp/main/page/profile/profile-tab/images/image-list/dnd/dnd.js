@@ -76,9 +76,7 @@ const Dnd = (props) => {
 
     const uploadFile = async (file) => {
         try {
-            console.log(1)
             if (file) {
-                console.log(2)
                 setLoading(true)
                 const token = window.localStorage.getItem("token")
                 const formData = new FormData()
@@ -88,14 +86,10 @@ const Dnd = (props) => {
                     method: "post",
                     body: formData
                 })
-                console.log(3)
                 const data = await res.json()
                 handleData(data)
-                console.log(4)
             }
         } catch (err) {
-            console.log(5)
-            console.log(err)
             handleErr()
         }
     }

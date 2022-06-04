@@ -77,7 +77,26 @@ const getUser = (res, email) => new Promise((resolve) => {
         )
 })
 
-const addUserImage = (res, userEmail, keys) => new Promise((resolve) => {
+const updateUserImageCrop = (res, userEmail, keys) => new Promise((resolve, reject) => {
+    UserModel
+        .findOneAndUpdate(
+            {
+                email: userEmail,
+                "images.originalKey": keys.originalKey
+            },
+            { $set: { "images.$.smallKey": keys.smallKey, "images.$.mediumKey": keys.mediumKey } },
+            { new: true },
+            (err, docs) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(docs)
+                }
+            }
+        )
+})
+
+const addUserImage = (res, userEmail, keys) => new Promise((resolve, reject) => {
     UserModel
         .findOneAndUpdate(
             { email: userEmail },
@@ -93,9 +112,9 @@ const addUserImage = (res, userEmail, keys) => new Promise((resolve) => {
                 }
             },
             { new: true },
-            async (err, docs) => {
+            (err, docs) => {
                 if (err) {
-                    res.status(400).send(err)
+                    reject(err)
                 } else {
                     resolve(docs)
                 }
@@ -151,7 +170,7 @@ const getDimensions = (file, size) => {
     return { width: Number(size.x), height: Number(size.y) }
 }
 
-const getSmall = (res, file, size) => new Promise((resolve) => {
+const getSmall = (res, file, size) => new Promise((resolve, reject) => {
     const name = `${uuidv4()}.webp`
     const path = `images/${name}`
     sharp(file.path)
@@ -160,7 +179,7 @@ const getSmall = (res, file, size) => new Promise((resolve) => {
             path,
             (err) => {
                 if (err) {
-                    res.status(400).send(err)
+                    reject(err)
                 } else {
                     resolve({
                         name,
@@ -231,6 +250,15 @@ const getImages = async (res, file, globalImages) => {
     }
 }
 
+const getCropImages = async (res, file, globalImages) => {
+    const small = await getSmall(res, file, globalImages.sizes.small)
+    const medium = await getMedium(res, file, globalImages.sizes.medium)
+    return {
+        small,
+        medium
+    }
+}
+
 const imageMaxValidation = (res, user, imageMax) => new Promise((resolve) => {
     if (user.images.length >= imageMax) {
         res.status(405).json({
@@ -279,7 +307,7 @@ router.put("/update-comment/:key", verifyToken, async (req, res) => {
                 }
             )
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).send(err.message)
     }
 })
 
@@ -292,7 +320,7 @@ router.get("/get-image/:key", async (req, res) => {
         })
         fileReadStream.pipe(res)
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).send(err.message)
     }
 })
 
@@ -318,7 +346,7 @@ router.delete("/delete-image", verifyToken, async (req, res) => {
                 }
             )
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).send(err.message)
     }
 })
 
@@ -340,7 +368,31 @@ router.put("/rearrange", verifyToken, async (req, res) => {
                 }
             )
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).send(err.message)
+    }
+})
+
+router.put("/crop-image", upload.single("image"), async (req, res) => {
+    try {
+        const imageIndex = Number(req.body.imageIndex)
+        const userEmail = await verifyFormDataUserToken(res, req.body.token)
+        const user = await getUser(res, userEmail)
+        const globalImages = await getGlobalImages(res)
+        await imageSizeValidation(res, req.file.size, globalImages.maxImageSize)
+        const cropSizes = await getCropImages(res, req.file, globalImages)
+        await deleteFile(res, user.images[imageIndex].smallKey)
+        await deleteFile(res, user.images[imageIndex].mediumKey)
+        const smallKey = await uploadFile(res, cropSizes.small.path, cropSizes.small.name)
+        const mediumKey = await uploadFile(res, cropSizes.medium.path, cropSizes.medium.name)
+        const docs = await updateUserImageCrop(res, userEmail, {
+            smallKey, mediumKey, originalKey: user.images[imageIndex].originalKey
+        })
+        res.status(201).json({
+            message: "Image crop was updated successfully",
+            images: docs.images
+        })
+    } catch (err) {
+        res.status(400).send(err.message)
     }
 })
 
@@ -364,7 +416,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
             images: docs.images
         })
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).send(err.message)
     }
 })
 

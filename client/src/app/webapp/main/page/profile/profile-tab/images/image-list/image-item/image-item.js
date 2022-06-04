@@ -89,6 +89,7 @@ const ImageItem = (props) => {
             </div>
             <div className="main-image-item-container">
                 <MainImageItemControl
+                    imageIndex={props.index}
                     charactersLength={charactersLength}
                     setStopTyping={setStopTyping}
                     indicateUpdateSuccess={indicateUpdateSuccess}

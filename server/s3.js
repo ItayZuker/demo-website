@@ -14,7 +14,7 @@ const s3 = new S3({
 })
 
 // eslint-disable-next-line
-const uploadFile = (res, filePath, fileName) => new Promise((resolve) => {
+const uploadFile = (res, filePath, fileName) => new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(filePath)
 
     const params = {
@@ -26,7 +26,7 @@ const uploadFile = (res, filePath, fileName) => new Promise((resolve) => {
     s3.upload(params, (err, data) => {
         if (err) {
             fs.unlinkSync(filePath)
-            res.status(400).send(err)
+            reject(err)
         } else {
             fs.unlinkSync(filePath)
             resolve(data.key)
@@ -43,7 +43,7 @@ const getFileStream = (key) => {
     return s3.getObject(params).createReadStream()
 }
 
-const deleteFile = (res, fileKey) => new Promise((resolve) => {
+const deleteFile = (res, fileKey) => new Promise((resolve, reject) => {
     const params = {
         Bucket: bucketName,
         Key: fileKey
@@ -51,7 +51,7 @@ const deleteFile = (res, fileKey) => new Promise((resolve) => {
 
     s3.deleteObject(params, (err, data) => {
         if (err) {
-            res.status(400).send(err)
+            reject(err)
         } else {
             resolve(data)
         }
