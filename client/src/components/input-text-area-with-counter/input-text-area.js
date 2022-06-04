@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
+import CharactersCounter from "../characters-counter/characters-counter"
 import "./input-text-area.scss"
 
 const InputTextArea = (props) => {
     /* Locale Variables */
     const [value, setValue] = useState(props.value || "")
-    const [stopTyping, setStopTyping] = useState(false)
+    const [typeLimit, setTypeLimit] = useState(false)
 
     /* Triggers */
     useEffect(() => {
@@ -17,16 +18,9 @@ const InputTextArea = (props) => {
         props.valueCallback(value)
     }, [value])
 
-    useEffect(() => {
-        if (props.stopTyping) {
-            setStopTyping(true)
-        } else {
-            setStopTyping(false)
-        }
-    }, [props.stopTyping])
     /* Functions */
     const handleKeyPress = (e) => {
-        if (stopTyping) {
+        if (typeLimit) {
             e.preventDefault()
         }
     }
@@ -66,6 +60,15 @@ const InputTextArea = (props) => {
                 onPaste={(e) => handlePast(e)}
                 onKeyPress={(e) => handleKeyPress(e)}
                 onChange={(e) => handleChange(e)} />
+            {props.typeLimit
+                ? <CharactersCounter
+                    isActive={!!props.typeLimit}
+                    value={value.length}
+                    topLimit={props.typeLimit}
+                    callBack={setTypeLimit}/>
+                : <></>
+            }
+
         </div>
     )
 }

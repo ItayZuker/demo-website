@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { GlobalContext } from "../../../../../../../../../context/global-context"
 import Loading from "../../../../../../../../../components/loading/loading"
+import MainImageItemControl from "./main-image-item-control/main-image-item-control"
 import ImageComment from "./image-comment/image-comment"
 import DeleteImageConfirmation from "./delete-image-confirmation/delete-image-confirmation"
 import "./image-item.scss"
@@ -18,6 +19,9 @@ const ImageItem = (props) => {
     const [imageSrc, setImageSrc] = useState(null)
     const [loading, setLoading] = useState(false)
     const [deleteConfirmation, setDeleteConfirmation] = useState()
+    const [indicateUpdateSuccess, setIndicateUpdateSuccess] = useState(false)
+    const [stopTyping, setStopTyping] = useState(false)
+    const [charactersLength, setCharactersLength] = useState(0)
 
     /* Triggers */
     useEffect(() => {
@@ -83,9 +87,16 @@ const ImageItem = (props) => {
                     src={imageSrc}
                     alt="Image"/>
             </div>
-            <div className="comment-container">
+            <div className="main-image-item-container">
+                <MainImageItemControl
+                    charactersLength={charactersLength}
+                    setStopTyping={setStopTyping}
+                    indicateUpdateSuccess={indicateUpdateSuccess}
+                    setDeleteConfirmation={setDeleteConfirmation}/>
                 <ImageComment
-                    setDeleteConfirmation={setDeleteConfirmation}
+                    setCharactersLength={setCharactersLength}
+                    stopTyping={stopTyping}
+                    setIndicateUpdateSuccess={setIndicateUpdateSuccess}
                     image={user.images[props.index]}/>
             </div>
             <div

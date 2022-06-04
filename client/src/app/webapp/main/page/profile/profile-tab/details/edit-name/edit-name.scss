@@ -5,7 +5,6 @@ html {
         .edit-name-container {
             margin: 2rem 0;
             width: 100%;
-            //max-width: 500px;
             > .title-container {
                 display: flex;
                 justify-content: flex-start;
@@ -19,6 +18,12 @@ html {
             }
             > .input-container {
                 margin: 1rem 0;
+                > .input-string-container {
+                    > .character-counter-container {
+                        position: absolute;
+                        right: 1rem;
+                    }
+                }
             }
         }
     }

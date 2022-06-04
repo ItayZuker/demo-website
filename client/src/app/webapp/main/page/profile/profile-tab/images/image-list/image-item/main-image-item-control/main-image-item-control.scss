@@ -1,0 +1,42 @@
+@import "./src/assets/styles/colors.scss";
+
+html {
+    body {
+        .main-image-item-control-container {
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            > .title-container {
+                display: flex;
+                align-items: center;
+                margin-right: auto;
+                > p.title {
+                    font-size: 1rem;
+                    line-height: 1.3rem;
+                    color: $gray_color_07;
+                }
+            }
+            > .main-image-item-button-container {
+                padding: 0;
+                margin-left: 2rem;
+                > p {
+                    color: $gray_color_07;
+                    user-select: none;
+                    transition: .1s ease-in-out;
+                }
+                &:hover {
+                    cursor: pointer;
+                    > p {
+                        color: $gray_color_06;
+                    }
+                }
+                &:active {
+                    > p {
+                        color: $gray_color_07;
+                    }
+                }
+            }
+        }
+    }
+}

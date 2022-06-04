@@ -3,51 +3,32 @@
 html {
     body {
         .image-comment-container {
-            height: 100%;
+            height: calc(100% - 3rem);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
             border-right: 4px solid $gray_color_09;
-            > .title-container {
-                display: flex;
-                margin: 1rem 1rem 0 1rem;
-                > p {
-                    font-size: 1rem;
-                    line-height: 1.3rem;
-                    color: $gray_color_07;
-                }
-            }
+            //border-right: 4px solid red;
             > .input-container {
                 height: 100%;
-                > .button-container {
-                    position: absolute;
-                    top: 1rem;
-                    right: 5.5rem;
-                    padding: 0;
-                    background-color: transparent;
-                    &:hover {
-                        > p {
-                            color: $gray_color_04;
-                        }
-                    }
-                    &:active {
-                        > p {
-                            color: $gray_color_07;
-                        }
-                    }
-                }
+                background-color: red;
                 > .input-text-area-container {
                     height: 100%;
                     position: unset;
                     > textarea {
+                        padding: 0 1rem 1rem 1rem;
                         height: 100%;
                     }
                     > .character-counter-container {
                         position: absolute;
                         top: 0;
+                        margin: 0;
+                        height: 3rem;
+                        display: flex;
+                        align-items: center;
                         > p {
                             color: $gray_color_07;
+                            font-size: .9rem;
                         }
                     }
                 }

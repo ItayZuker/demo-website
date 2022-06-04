@@ -1,25 +1,31 @@
 import React, { useState, useEffect, useContext } from "react"
 import { GlobalContext } from "../../../../../../../../../../context/global-context"
 import InputTextArea from "../../../../../../../../../../components/input-text-area/input-text-area"
-import SuccessIndicator from "../../../../../../../../../../components/success-indicator/success-indicator"
-import Button from "../../../../../../../../../../components/button/button"
 import "./image-comment.scss"
 
 const ImageComment = (props) => {
     /* Global Variables */
     const {
         user,
-        setUser
+        setUser,
+        globals
     } = useContext(GlobalContext)
 
     /* Locale Variables */
     const [comment, setComment] = useState(props.image.comment)
     const [loading, setLoading] = useState(false)
-    const [indicateSuccess, setIndicateSuccess] = useState(false)
     const [textAreaBlur, setTextAreaBlur] = useState(false)
     const [reset, setReset] = useState(false)
+    const [typeLimit] = useState(() => {
+        const imageMaxData = globals.find(item => item.type === "images")
+        return imageMaxData.data.comment.typeLimit
+    })
 
     /* Triggers */
+    useEffect(() => {
+        props.setCharactersLength(comment.length)
+    }, [comment])
+
     useEffect(() => {
         if (textAreaBlur) {
             setTextAreaBlur(false)
@@ -29,9 +35,9 @@ const ImageComment = (props) => {
 
     /* Functions */
     const successIndicator = () => {
-        setIndicateSuccess(true)
+        props.setIndicateUpdateSuccess(true)
         setTimeout(() => {
-            setIndicateSuccess(false)
+            props.setIndicateUpdateSuccess(false)
         }, 2000)
     }
 
@@ -80,23 +86,13 @@ const ImageComment = (props) => {
             handleErr(err)
         }
     }
-
     /* JSX Output */
     return (
         <div className={"image-comment-container " + (loading ? "loading" : "")}>
-            <div className="title-container">
-                <p>Comment:</p>
-                <SuccessIndicator
-                    isActive={indicateSuccess}/>
-            </div>
             <div className="input-container">
-                <Button
-                    value={"Delete"}
-                    loading={false}
-                    isActive={true}
-                    callback={props.setDeleteConfirmation}/>
                 <InputTextArea
-                    typeLimit={100}
+                    typeLimit={typeLimit}
+                    stopTyping={props.stopTyping}
                     value={comment}
                     reset={reset}
                     resetValue={comment}

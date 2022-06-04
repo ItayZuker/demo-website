@@ -30,6 +30,10 @@ html {
                     color: $gray_color_07;
                 }
             }
+            > .character-counter-container {
+                margin-top: 1rem;
+                position: relative;
+            }
         }
     }
 }

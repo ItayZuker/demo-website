@@ -3,6 +3,7 @@ import { GlobalContext } from "../../../../../../context/global-context"
 import { CreateInvitationContext } from "../../../../../../context/create-invitation-context"
 import Button from "../../../../../../components/button/button"
 import InputTextArea from "../../../../../../components/input-text-area/input-text-area"
+import CharactersCounter from "../../../../../../components/characters-counter/characters-counter"
 import "./create-invitation-intro.scss"
 
 const CreateInvitationIntro = () => {
@@ -18,13 +19,19 @@ const CreateInvitationIntro = () => {
 
     const {
         setUser,
-        logout
+        logout,
+        globals
     } = useContext(GlobalContext)
 
     /* Local Variables */
     const [intro, setIntro] = useState("")
     const [submit, setSubmit] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [stopTyping, setStopTyping] = useState(false)
+    const [typeLimit] = useState(() => {
+        const imageMaxData = globals.find(item => item.type === "invitation")
+        return imageMaxData.data.intro.typeLimit
+    })
 
     /* Triggers */
     useEffect(() => {
@@ -206,8 +213,16 @@ const CreateInvitationIntro = () => {
         <div className={"create-invitation-intro-container " + (loading ? "loading" : "")}>
             <div className='selection-container'>
                 <InputTextArea
-                    valueCallback={setIntro}
-                    typeLimit={300}/>
+                    typeLimit={typeLimit}
+                    stopTyping={stopTyping}
+                    value={intro}
+                    resetValue={intro}
+                    valueCallback={setIntro}/>
+                <CharactersCounter
+                    isActive={true}
+                    typeLimit={typeLimit}
+                    value={intro.length}
+                    callBack={setStopTyping}/>
             </div>
             <Button
                 isActive={true}

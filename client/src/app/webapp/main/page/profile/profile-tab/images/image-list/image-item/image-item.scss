@@ -76,8 +76,11 @@ html {
                     object-fit: cover;
                 }
             }
-            > .comment-container {
-                width: calc(100% - 12rem - 2rem)
+            > .main-image-item-container {
+                width: calc(100% - 12rem - 2rem);
+                display: flex;
+                flex-direction: column;
+                position: relative;
             }
             > .handle-container {
                 background-color: $gray_color_07;

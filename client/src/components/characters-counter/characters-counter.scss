@@ -3,27 +3,25 @@
 html {
     body {
         .character-counter-container {
-            position: absolute;
-            right: 0;
             width: fit-content;
             height: fit-content;
             display: flex;
             pointer-events: none;
             > p {
+                font-size: 1rem;
+                line-height: 1;
                 color: transparent;
+                user-select: none;
                 &.current-count {
 
                 }
                 &.separator {
                     margin: 0 0.2rem;
                 }
-                &.limit-count {
-                    margin-right: 1rem;
-                }
             }
             &.active {
                 > p {
-                    color: $gray_color_06;
+                    color: $gray_color_07;
                 }
             }
         }
