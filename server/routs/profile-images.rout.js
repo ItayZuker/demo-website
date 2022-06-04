@@ -128,10 +128,10 @@ const fileStorageEngine = multer.diskStorage({
 
 const upload = multer({ storage: fileStorageEngine })
 
-const getDimensions = (file, size, ratioFrame) => {
+const getDimensions = (file, size) => {
     const imageDimensions = sizeOf(file.path)
     const imageRatio = imageDimensions.width / imageDimensions.height
-    const refRatio = ratioFrame.x / ratioFrame.y
+    const refRatio = Number(size.x) / Number(size.y)
     if (imageRatio < refRatio) {
         if (imageDimensions.height > Number(size.y)) {
             const height = Number(size.y)
@@ -191,8 +191,8 @@ const getMedium = (res, file, size) => new Promise((resolve) => {
         )
 })
 
-const getLarge = (res, file, size, ratioFrame) => new Promise((resolve) => {
-    const dimensions = getDimensions(file, size, ratioFrame)
+const getLarge = (res, file, size) => new Promise((resolve) => {
+    const dimensions = getDimensions(file, size)
     const name = `${uuidv4()}.webp`
     const path = `images/${name}`
     sharp(file.path)
@@ -223,7 +223,7 @@ const getLarge = (res, file, size, ratioFrame) => new Promise((resolve) => {
 const getImages = async (res, file, globalImages) => {
     const small = await getSmall(res, file, globalImages.sizes.small)
     const medium = await getMedium(res, file, globalImages.sizes.medium)
-    const large = await getLarge(res, file, globalImages.sizes.large, globalImages.ratioFrame)
+    const large = await getLarge(res, file, globalImages.sizes.large)
     return {
         small,
         medium,
