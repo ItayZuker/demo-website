@@ -6,13 +6,12 @@ const generator = require("generate-password")
 const bcrypt = require("bcrypt")
 const validator = require("email-validator")
 const nodemailer = require("nodemailer")
-// const CountryModel = require("../models/country.model")
 const UserModel = require("../models/user.model")
 const TemporaryUserModel = require("../models/TemporaryUser.model")
 require("dotenv").config()
 
 /* Router functions */
-const getTemporaryPassword = () => new Promise((resolve, reject) => {
+const getTemporaryPassword = (res) => new Promise((resolve) => {
     const password = generator.generate({
         length: 6,
         numbers: true
@@ -20,22 +19,24 @@ const getTemporaryPassword = () => new Promise((resolve, reject) => {
     if (password) {
         resolve(password)
     } else {
-        reject(new Error("Problem generating password"))
+        res.status(400).json({
+            message: "Problem generating password"
+        })
     }
 })
 
-const getEncryptedPassword = (passwordString) => new Promise((resolve, reject) => {
+const getEncryptedPassword = (res, passwordString) => new Promise((resolve) => {
     const saltRounds = 10
     bcrypt.hash(passwordString, saltRounds, (err, hash) => {
         if (err) {
-            reject(err)
+            res.status(400).send(err)
         } else {
             resolve(hash)
         }
     })
 })
 
-const getUserToken = (data) => new Promise((resolve, reject) => {
+const getUserToken = (res, data) => new Promise((resolve) => {
     const secretKey = process.env.ACCESS_TOKEN_SECRET
 
     const user = {
@@ -54,21 +55,25 @@ const getUserToken = (data) => new Promise((resolve, reject) => {
 
     jwt.sign(user, secretKey, options, (err, token) => {
         if (err) {
-            reject(err)
+            res.status(400).send(err)
         } else if (!token) {
-            reject(new Error("Something went wrong: Token was not created"))
+            res.status(400).json({
+                message: "Something went wrong: Token was not created"
+            })
         } else {
             resolve(token)
         }
     })
 })
 
-const validateEmail = (emailString) => new Promise((resolve, reject) => {
+const validateEmail = (res, emailString) => new Promise((resolve) => {
     const validation = validator.validate(emailString)
     if (validation) {
         resolve(true)
     } else {
-        reject(new Error("Problem with email"))
+        res.status(405).json({
+            message: "Not Allowed: Email was not validated"
+        })
     }
 })
 
@@ -97,17 +102,17 @@ const sendPassword = (email, password) => new Promise((resolve) => {
     })
 })
 
-const checkPassword = (emailPassword, encryptedPassword) => new Promise((resolve, reject) => {
+const checkPassword = (res, emailPassword, encryptedPassword) => new Promise((resolve) => {
     bcrypt.compare(emailPassword, encryptedPassword, (err, result) => {
         if (err) {
-            reject(err)
+            res.status(400).send(err)
         } else {
             resolve(result)
         }
     })
 })
 
-const createUser = (data) => new Promise((resolve, reject) => {
+const createUser = (res, data) => new Promise((resolve) => {
     /* Create new user item, in permanent app database */
     UserModel
         .create({
@@ -129,7 +134,7 @@ const createUser = (data) => new Promise((resolve, reject) => {
             }
         }, async (err, user) => {
             if (err) {
-                reject(err)
+                res.status(400).send(err)
             } else if (user) {
                 resolve(user)
             } else {
@@ -138,11 +143,15 @@ const createUser = (data) => new Promise((resolve, reject) => {
         })
 })
 
-const validateRegisterData = (data) => new Promise((resolve, reject) => {
+const validateRegisterData = (res, data) => new Promise((resolve) => {
     if (!data.legal.agree) {
-        reject(new Error("User did not agree to terms"))
+        res.status(405).json({
+            message: "Not Allowed: User did not agree to terms"
+        })
     } else if (!data.email) {
-        reject(new Error("Email is missing"))
+        res.status(405).json({
+            message: "Not Allowed: Email is missing"
+        })
     } else {
         resolve()
     }
@@ -178,7 +187,7 @@ const deleteTemporaryUser = (user) => {
 router.post("/email-verification", async (req, res) => {
     try {
         /* Verify email */
-        await validateEmail(req.body.email)
+        await validateEmail(res, req.body.email)
 
         /* Define verification item lifetime in database */
         const second = 1000
@@ -186,8 +195,8 @@ router.post("/email-verification", async (req, res) => {
         const lifeTime = minute * 2
 
         /* Generate new password and encrypted password */
-        const password = await getTemporaryPassword()
-        const hash = await getEncryptedPassword(password)
+        const password = await getTemporaryPassword(res)
+        const hash = await getEncryptedPassword(res, password)
 
         /* Build a new data item */
         const data = {
@@ -221,7 +230,7 @@ router.post("/email-verification", async (req, res) => {
                     },
                     (err, verificationItem) => {
                         if (err) {
-                            res.send(err)
+                            res.status(400).send(err)
                         } else if (verificationItem) {
                             // eslint-disable-next-line no-console
                             console.log("Email duplication was found in temporary database, and was deleted")
@@ -255,7 +264,7 @@ router.post("/email-verification", async (req, res) => {
                 })
         }
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err)
     }
 })
 
@@ -289,7 +298,7 @@ router.post("/password-verification", async (req, res) => {
                 })
             } else {
                 /* Decrypt password and compare */
-                const match = await checkPassword(data.password, user.hash)
+                const match = await checkPassword(res, data.password, user.hash)
 
                 if (match) {
                     /* Update temporary user to confirm this email is verified */
@@ -333,14 +342,14 @@ router.post("/password-verification", async (req, res) => {
             })
         }
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err)
     }
 })
 
 router.post("/submit", async (req, res) => {
     try {
         /* Verify req data */
-        await validateRegisterData(req.body)
+        await validateRegisterData(res, req.body)
 
         /* Build a new data item */
         const data = {
@@ -362,12 +371,12 @@ router.post("/submit", async (req, res) => {
                 },
                 async (err, docs) => {
                     if (err) {
-                        res.send(err)
+                        res.status(400).send(err)
                     } else if (docs) {
                         /* Create new user */
-                        const token = await getUserToken(data)
+                        const token = await getUserToken(res, data)
                         if (token) {
-                            const newUser = await createUser(data)
+                            const newUser = await createUser(res, data)
                             if (newUser) {
                                 res.status(201).json({
                                     token,
@@ -393,7 +402,7 @@ router.post("/submit", async (req, res) => {
                 }
             )
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err)
     }
 })
 

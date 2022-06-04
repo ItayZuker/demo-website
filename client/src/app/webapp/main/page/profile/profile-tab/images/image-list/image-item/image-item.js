@@ -9,7 +9,8 @@ const ImageItem = (props) => {
     /* Global Variables */
     const {
         user,
-        setPopup
+        setPopup,
+        setAction
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -42,6 +43,7 @@ const ImageItem = (props) => {
     }
 
     const openGallery = () => {
+        setAction({ openImageIndex: props.index })
         setPopup("my-gallery")
     }
 

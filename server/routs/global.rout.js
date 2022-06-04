@@ -12,12 +12,14 @@ const verifyToken = (req, res, next) => {
         const secretKey = process.env.ACCESS_TOKEN_SECRET
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.send(err)
+                res.status(400).send(err)
             } else if (decodedUser.email) {
                 req.email = decodedUser.email
                 next()
             } else {
-                res.status(400).send("Token not good")
+                res.status(403).json({
+                    message: "Forbidden: Token was not authorized"
+                })
             }
         })
     }
@@ -29,7 +31,7 @@ router.post("/data", verifyToken, async (req, res) => {
         GlobalModel
             .find({}, (err, docs) => {
                 if (err) {
-                    res.status(500).send(err)
+                    res.status(400).send(err)
                 } else {
                     const payload = docs.map((item) => ({
                         type: item.type,
@@ -39,7 +41,7 @@ router.post("/data", verifyToken, async (req, res) => {
                 }
             })
     } catch (err) {
-        res.status(500).send(err)
+        res.status(400).send(err)
     }
 })
 

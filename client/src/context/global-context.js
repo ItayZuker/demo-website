@@ -16,6 +16,7 @@ const GlobalContextComponent = (props) => {
     const [globalMessage, setGlobalMessage] = useState("")
     const [user, setUser] = useState({})
     const [globals, setGlobals] = useState({})
+    const [action, setAction] = useState({})
 
     /* Import Custom Hooks */
     const { mediaFix } = useMediaFix()
@@ -219,6 +220,8 @@ const GlobalContextComponent = (props) => {
         setCountries,
         globals,
         setGlobals,
+        action,
+        setAction,
         logout,
         getUserData,
         getCountries,

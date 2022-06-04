@@ -24,7 +24,6 @@
     &.loading {
         animation: loading 1s ease-in-out infinite;
         pointer-events: none;
-
     }
     > p {
         font-weight: 400;
@@ -32,16 +31,13 @@
         user-select: none;
         margin: 0;
         transition: .1s ease-in-out;
-
     }
     &:hover {
         cursor: pointer;
         background-color: $gray_color_02_opacity;
-
     }
     &:active {
         background-color: $gray_color_02;
-
     }
 
     /* Warning Button Start */
@@ -50,15 +46,12 @@
         background-color: $warning_color_01;
         > p {
             color: $gray_color_08;
-
         }
         &:hover {
             background-color: $warning_color_01_opacity;
-
         }
         &:active {
             background-color: $warning_color_01;
-
         }
     }
 

@@ -51,12 +51,14 @@ const getUserToken = (data) => new Promise((resolve, reject) => {
     })
 })
 
-const validateEmail = (emailString) => new Promise((resolve, reject) => {
+const validateEmail = (res, emailString) => new Promise((resolve) => {
     const validation = validator.validate(emailString)
     if (validation) {
         resolve(true)
     } else {
-        reject(new Error("Problem with email"))
+        res.status(401).json({
+            message: "Unauthorized: Email was not validated"
+        })
     }
 })
 
@@ -126,7 +128,7 @@ const login = async (user) => {
 router.put("/email-verification", async (req, res) => {
     try {
         /* Verify email */
-        await validateEmail(req.body.email)
+        await validateEmail(res, req.body.email)
 
         /* Define lifetime */
         const second = 1000
@@ -191,7 +193,7 @@ router.put("/email-verification", async (req, res) => {
                 }
             )
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err)
     }
 })
 
@@ -267,7 +269,7 @@ router.post("/password-verification", async (req, res) => {
             })
         }
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err)
     }
 })
 

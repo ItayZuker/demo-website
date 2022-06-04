@@ -19,7 +19,7 @@ const ImageList = (props) => {
     const [dragging, setDragging] = useState(false)
     const [imageMax] = useState(() => {
         const imageMaxData = globals.find(item => item.type === "images")
-        return imageMaxData.data.max
+        return imageMaxData.data.maxImages
     })
 
     /* Functions */

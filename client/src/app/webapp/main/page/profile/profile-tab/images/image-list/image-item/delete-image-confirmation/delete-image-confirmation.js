@@ -35,7 +35,6 @@ const DeleteImageConfirmation = (props) => {
                 images: data.images
             }
         })
-        props.setDeleteConfirmation(null)
     }
 
     const handleError = () => {
@@ -44,15 +43,15 @@ const DeleteImageConfirmation = (props) => {
 
     const deleteImage = async () => {
         try {
-            // props.setLoadingIndex(props.imageIndex)
             const token = window.localStorage.getItem("token")
-            const res = await fetch(`/profile-images/delete-image/${user.images[props.imageIndex].smallKey}`, {
+            const res = await fetch("/profile-images/delete-image", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    token
+                    token,
+                    image: user.images[props.imageIndex]
                 })
             })
             const data = await res.json()
