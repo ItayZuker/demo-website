@@ -3,13 +3,15 @@ import { GlobalContext } from "../../../../../../../../context/global-context"
 import InputString from "../../../../../../../../components/input-string/input-string"
 import Button from "../../../../../../../../components/button/button"
 import SuccessIndicator from "../../../../../../../../components/success-indicator/success-indicator"
+import CharactersCounter from "../../../../../../../../components/characters-counter/characters-counter"
 import "./edit-name.scss"
 
 const EditName = () => {
     /* Global Variables */
     const {
         user,
-        setUser
+        setUser,
+        globals
     } = useContext(GlobalContext)
 
     /* Locale Variables */
@@ -18,6 +20,11 @@ const EditName = () => {
     const [loading, setLoading] = useState(false)
     const [indicateSuccess, setIndicateSuccess] = useState(false)
     const [edit, setEdit] = useState(false)
+    const [stopTyping, setStopTyping] = useState(false)
+    const [typeLimit] = useState(() => {
+        const imageMaxData = globals.find(item => item.type === "details")
+        return imageMaxData.data.name.typeLimit || 0
+    })
 
     /* Triggers */
     useEffect(() => {
@@ -98,10 +105,18 @@ const EditName = () => {
             </div>
             <div className="input-container">
                 <InputString
+                    valueChanged={edit && !!name}
+                    stopTyping={stopTyping}
                     loading={loading}
                     value={user.name}
-                    typeLimit={15}
-                    valueCallback={setName}/>
+                    typeLimit={typeLimit}
+                    valueCallback={setName}
+                    submitCallback={setSave}/>
+                <CharactersCounter
+                    isActive={true}
+                    typeLimit={typeLimit}
+                    value={name.length}
+                    callBack={setStopTyping}/>
             </div>
             <div className="confirmation-container">
                 <Button

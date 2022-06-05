@@ -20,6 +20,23 @@
     &.active {
         background-color: $gray_color_02;
         pointer-events: unset;
+
+        /* Warning Button Start */
+
+        &.warning {
+            background-color: $warning_color_01;
+            > p {
+                color: $gray_color_08;
+            }
+            &:hover {
+                background-color: $warning_color_01_opacity;
+            }
+            &:active {
+                background-color: $warning_color_01;
+            }
+        }
+
+        /* Warning Button End */
     }
     &.loading {
         animation: loading 1s ease-in-out infinite;
@@ -39,22 +56,4 @@
     &:active {
         background-color: $gray_color_02;
     }
-
-    /* Warning Button Start */
-
-    &.warning {
-        background-color: $warning_color_01;
-        > p {
-            color: $gray_color_08;
-        }
-        &:hover {
-            background-color: $warning_color_01_opacity;
-        }
-        &:active {
-            background-color: $warning_color_01;
-        }
-    }
-
-    /* Warning Button End */
-
 }

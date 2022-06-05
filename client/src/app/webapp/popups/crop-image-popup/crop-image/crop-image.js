@@ -12,7 +12,8 @@ const CropImage = () => {
         setPopup,
         action,
         user,
-        setUser
+        setUser,
+        globals
     } = useContext(GlobalContext)
 
     /* Triggers */
@@ -21,14 +22,20 @@ const CropImage = () => {
     }, [])
 
     /* Locale Variables */
+    const [error, setError] = useState(false)
     const [imageSrc, setImageSrc] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [cropActive, setCropActive] = useState(false)
+    const [canvasSize] = useState(() => {
+        const imageMaxData = globals.find(item => item.type === "images")
+        return imageMaxData.data.sizes.medium
+    })
     const [crop, setCrop] = useState({
-        unit: "%", // Can be 'px' or '%'
+        unit: "px", // Can be 'px' or '%'
         x: 0,
         y: 0,
-        width: 50,
-        height: 50
+        width: 200,
+        height: 200
     })
 
     /* Functions */
@@ -42,6 +49,7 @@ const CropImage = () => {
     }
 
     const handleChange = (c, p) => {
+        setCropActive(true)
         setCrop(p)
     }
 
@@ -51,22 +59,25 @@ const CropImage = () => {
         const ctx = canvas.getContext("2d")
         const image = new Image()
         image.src = imageSrc
-        canvas.width = 300
-        canvas.height = 300
+        canvas.width = canvasSize.x
+        canvas.height = canvasSize.y
         image.onload = () => {
             const wCutOriginal = image.naturalWidth / 100 * crop.width
             const hCutOriginal = image.naturalHeight / 100 * crop.height
             const xStart = image.naturalWidth / 100 * crop.x
             const yStart = image.naturalHeight / 100 * crop.y
             ctx.drawImage(image, xStart, yStart, wCutOriginal, hCutOriginal, 0, 0, canvas.width, canvas.height)
-            // const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
             updateCropImage(canvas)
         }
     }
 
     const handleErr = () => {
         setLoading(false)
-        /* TODO: Something went wrong */
+        setError(true)
+    }
+
+    const closeError = () => {
+        setError(false)
     }
 
     const handleData = (data) => {
@@ -103,11 +114,16 @@ const CropImage = () => {
 
     /* JSX Output */
     if (loading) {
-        return <Loading loading={loading}/>
+        return (
+            <div className="crop-image-container">
+                <Loading loading={loading}/>
+            </div>
+        )
     } else {
         return (
             <div className="crop-image-container">
-                <div className="crop-container">
+                <div
+                    className="crop-container">
                     <div className="top-container">
                         <div
                             onClick={() => setPopup("")}
@@ -117,18 +133,32 @@ const CropImage = () => {
                             </svg>
                         </div>
                     </div>
+                    {error
+                        ? <div className="error-container">
+                            <p>Something went wrong</p>
+                            <Button
+                                loading={false}
+                                isActive={true}
+                                value={"try again"}
+                                callback={closeError}/>
+                        </div>
+                        : <></>}
                     <div className="inner-crop-container">
                         <ReactCrop
+                            minWidth={200}
+                            minHeigt={200}
                             aspect={1}
                             crop={crop}
                             onChange={(c, p) => handleChange(c, p)}>
-                            <img src={imageSrc} alt={"Preview crop image"}/>
+                            <img
+                                src={imageSrc}
+                                alt={"Preview crop image"}/>
                         </ReactCrop>
                     </div>
                     <div className="bottom-container">
                         <Button
                             loading={false}
-                            isActive={true}
+                            isActive={cropActive}
                             value={"Crop"}
                             callback={() => clickCrop()}/>
                     </div>

@@ -1,0 +1,453 @@
+{
+
+  "TK-Token": "Token validation",
+
+  "TK001": {
+    "description": "Token was not validated",
+    "message": "Request validator: Failed to validate Token",
+    "code": "TK001",
+    "statusCode": 400
+  },
+
+
+
+
+
+  "RequestValidation": "Request Validation",
+
+  "RV001": {
+    "description": "Missing field",
+    "message": "Request validator: Field not found",
+    "code": "RV001",
+    "statusCode": 400
+  },
+  "RV002": {
+    "description": "Invalid field",
+    "message": "Request validator: Failed validation",
+    "code": "RV002",
+    "statusCode": 400
+  },
+  "RV003": {
+    "description": "Invalid time",
+    "message": "Invalid time",
+    "code": "RV004",
+    "statusCode": 400
+  },
+  "RV004": {
+    "description": "Invalid access key",
+    "message": "Request validator: Failed to validate 'Access key'",
+    "code": "RV005",
+    "statusCode": 400
+  },
+  "RV005": {
+    "description": "Unauthorized",
+    "message": "Request validator: Partner is not authorized for the resource",
+    "code": "RV010",
+    "statusCode": 401
+  },
+  "RV006": {
+    "description": "The password should only contain alpha-numeric characters and with a size range of 6-12.",
+    "message": "Request validator: Invalid password",
+    "code": "RV011",
+    "statusCode": 400
+  },
+  "RV012": {
+    "description": "Unsupported compliance status",
+    "message": "Request validator: Unsupported compliance status in DB",
+    "code": "RV012",
+    "statusCode": 400
+  },
+  "RV013": {
+    "description": "Invalid state",
+    "message": "Request validator: State validation failed",
+    "code": "RV013",
+    "statusCode": 400
+  },
+
+  "Filter Validation": "Filter Validation",
+
+  "FV000": {
+    "description": "Unsupported filter type",
+    "message": "Filter validator: Unsupported filter",
+    "code": "FV000",
+    "statusCode": 400
+  },
+  "FV001": {
+    "description": "Unsupported filter for field",
+    "message": "Filter validator: Unsupported filed",
+    "code": "FV001",
+    "statusCode": 400
+  },
+  "FV002": {
+    "description": "Invalid filter type",
+    "message": "Filter validator: Invalid filter type",
+    "code": "FV002",
+    "statusCode": 400
+  },
+  "FV003": {
+    "description": "Invalid filter value",
+    "message": "Filter validator: Invalid filter value",
+    "code": "FV003",
+    "statusCode": 400
+  },
+  "FV004": {
+    "description": "Cant return fields that do not exists",
+    "message": "Filter validator: Unsupported field in schema",
+    "code": "FV004",
+    "statusCode": 400
+  },
+  "FV005": {
+    "description": "Invalid sort invocation",
+    "message": "Filter validator: Sort is not na object",
+    "code": "FV005",
+    "statusCode": 400
+  },
+  "FV006": {
+    "description": "Field does not exists",
+    "message": "Filter validator: Cant sort by none existing field",
+    "code": "FV006",
+    "statusCode": 400
+  },
+  "FV007": {
+    "description": "Filter key required",
+    "message": "Filter validator: Filter key required",
+    "code": "FV007",
+    "statusCode": 400
+  },
+  "FV008": {
+    "description": "Invalid group invocation",
+    "message": "Filter validator: Group is not an array",
+    "code": "FV008",
+    "statusCode": 400
+  },
+  "FV009": {
+    "description": "Field does not exists",
+    "message": "Filter validator: Cant group by none existing field",
+    "code": "FV009",
+    "statusCode": 400
+  },
+
+
+  "JT-JsonToken": "Json web tokens",
+
+  "JT000": {
+    "description": "Unauthorized token",
+    "message": "JWT middleware: Unauthorized",
+    "code": "JT000",
+    "statusCode": 403
+  },
+  "JT001": {
+    "description": "Token expired",
+    "message": "JWT middleware: Expired token",
+    "code": "JT001",
+    "statusCode": 403
+  },
+  "JT002": {
+    "description": "Auth failed",
+    "message": "JWT middleware: IP mismatch",
+    "code": "JT002",
+    "statusCode": 403
+  },
+  "JT003": {
+    "description": "IP Address not white listed",
+    "message": "JWT middleware: IP not allowed",
+    "code": "JT003",
+    "statusCode": 401
+  },
+  "JT004": {
+    "description": "Not allowed",
+    "message": "JWT middleware: No permission",
+    "code": "JT004",
+    "statusCode": 403
+  },
+  "JT005": {
+    "description": "Auth failed",
+    "message": "JWT middleware: Session header tempering",
+    "code": "JT005",
+    "statusCode": 403
+  },
+  "JT006": {
+    "description": "Unauthorized token",
+    "message": "JWT middleware: Session issuer mismatch",
+    "code": "JT006",
+    "statusCode": 403
+  },
+
+
+  "RL-RateLimit": "Json web tokens",
+
+  "RL000": {
+    "description": "Request limit is reached",
+    "message": "Rate limit: request limit block",
+    "code": "RL000",
+    "statusCode": 429
+  },
+
+
+  "AH-ActionHero": "Action Hero runtime action",
+
+  "AH000": {
+    "description": "Not allowed",
+    "message": "Action: Partner cant access request resource",
+    "code": "AH000",
+    "statusCode": 403
+  },
+  "AH001":{
+    "description": "Blocked country",
+    "message": "Action: Partner not allowed registration from country",
+    "code": "AH001",
+    "statusCode": 400
+  },
+  "AH002": {
+    "description": "Unsupported currency",
+    "message": "Action: Unsupported currency",
+    "code": "AH002",
+    "statusCode": 400
+  },
+  "AH003": {
+    "description": "No change",
+    "message": "Action: No fields to update",
+    "code": "AH003",
+    "statusCode": 400
+  },
+  "AH004": {
+    "description": "Unsupported compliance status",
+    "message": "Action: Unsupported compliance status",
+    "code": "AH004",
+    "statusCode": 400
+  },
+  "AH005": {
+    "description": "Not authorized",
+    "message": "Action: Comments methods are blocked by PandaTS",
+    "code": "AH005",
+    "statusCode": 403
+  },
+  "AH006": {
+    "description": "Due to regulatory reasons, we do not accept customers from your region",
+    "message": "Action: Due to regulatory reasons, we do not accept customers from your region",
+    "code": "AH006",
+    "statusCode": 400
+  },
+  "AH007": {
+    "description": "Unsupported language",
+    "message": "Action: Unsupported language",
+    "code": "AH007",
+    "statusCode": 400
+  },
+
+
+  "WR-WebRequest": "Web request failure",
+
+  "WR000": {
+    "description": "System error",
+    "message": "HTTP request: system error",
+    "code": "WR000",
+    "statusCode": 500
+  },
+  "WR001": {
+    "description": "Failed to connect to registration server",
+    "message": "HTTP request: Server connection failed",
+    "code": "WR001",
+    "statusCode": 500
+  },
+  "WR002": {
+    "description": "Failed to read message",
+    "message": "HTTP request: Failed to parse JSON on response",
+    "code": "WR002",
+    "statusCode": 500
+  },
+
+  "BL-BusinessLogic": "Business logic",
+
+  "BL000": {
+    "description": "Registration failed",
+    "message": "Business Logic: Failed to parse error code",
+    "code": "BL000",
+    "statusCode": 500
+  },
+  "BL001": {
+    "description": "Request failure",
+    "message": "Business Logic: BL miserably failed with exception",
+    "code": "BL001",
+    "statusCode": 500
+  },
+  "BL002": {
+    "description": "Customer already exists",
+    "message": "Business Logic: customer already exists",
+    "code": "BL002",
+    "statusCode": 400
+  },
+  "BL003": {
+    "description": "Failed to parse the request",
+    "message": "Business Logic: API send an Invalid Request to BL",
+    "code": "BL003",
+    "statusCode": 500
+  },
+  "BL004": {
+    "description": "Request failed",
+    "message": "Business Logic: Gateway got timeout",
+    "code": "BL004",
+    "statusCode": 500
+  },
+  "BL005": {
+    "description": "Request failed",
+    "message": "Business Logic: API send invalid parameters",
+    "code": "BL005",
+    "statusCode": 500
+  },
+  "BL006": {
+    "description": "Password must contain letters and numbers",
+    "message": "Business Logic: Rejected due to invalid password",
+    "code": "BL006",
+    "statusCode": 400
+  },
+  "BL007": {
+    "description": "Failed to create trading account",
+    "message": "Business Logic: General exception",
+    "code": "BL007",
+    "statusCode": 400
+  },
+  "BL010": {
+    "description": "Failed to create customer, language is not supported",
+    "message": "Business Logic: Language is not supported",
+    "code": "BL010",
+    "statusCode": 400
+  },
+  "BL033": {
+    "description": "Failed to create customer, currency is not supported",
+    "message": "Business Logic: Currency is not supported",
+    "code": "BL033",
+    "statusCode": 400
+  },
+  "BL403": {
+    "description": "Failed to create auto login token",
+    "message": "OTP enabled",
+    "code": "BL403",
+    "statusCode": 400
+  },
+  "CRM": "CRM ERRORS",
+
+  "CRM00": {
+    "description": "Update failed",
+    "message": "CRM: Failed on getchallenge",
+    "code": "CRM00",
+    "statusCode": 500
+  },
+  "CRM01": {
+    "description": "Update failed",
+    "message": "CRM: Failed on crm login",
+    "code": "CRM01",
+    "statusCode": 500
+  },
+  "CRM02": {
+    "description": "CRM: Customer already exists",
+    "message": "CRM: Lead exists",
+    "code": "CRM02",
+    "statusCode": 400
+  },
+  "CRM03": {
+    "description": "Update failed",
+    "message": "CRM: Failed on update",
+    "code": "CRM03",
+    "statusCode": 500
+  },
+  "CRM04": {
+    "description": "Lead convert failed",
+    "message": "CRM: Lead convert failed",
+    "code": "CRM04",
+    "statusCode": 500
+  },
+  "CRM05": {
+    "description": "Failed to create lead",
+    "message": "CRM: Failed to create lead",
+    "code": "CRM05",
+    "statusCode": 500
+  },
+  "CRM06": {
+    "description": "Lead exists",
+    "message": "CRM: Lead exists [LEAD_EXISTS]",
+    "code": "CRM05",
+    "statusCode": 400
+  },
+  "CRM07": {
+    "description": "Request failed",
+    "message": "CRM: Lead exists [ACCESS_DENIED]",
+    "code": "CRM07",
+    "statusCode": 500
+  },
+  "CRM08": {
+    "description": "affproxy failed",
+    "message": "CRM: Failed on affproxy",
+    "code": "CRM08",
+    "statusCode": 500
+  },
+
+  "BR-BROKER RESTRICTION": "Block action",
+  "BR000": {
+    "description": "Broker restriction: Restricted due to limit quantity",
+    "message": "Creation limit reached",
+    "code": "BA000",
+    "statusCode": 403
+  },
+  "BR001": {
+    "description": "Broker restriction: Restricted due to blocked time period",
+    "message": "Restricted by broker",
+    "code": "BA001",
+    "statusCode": 403
+  },
+
+
+  "SY-System": "System",
+
+  "SY000": {
+    "description": "System error",
+    "message": "System Failure",
+    "code": "SY000",
+    "statusCode": 500
+  },
+  "SY001": {
+    "description": "System error",
+    "message": "Encountered unhandled error",
+    "code": "SY001",
+    "statusCode": 500
+  },
+  "SY002": {
+    "description": "System error",
+    "message": "Encountered unknown error in validation",
+    "code": "SY002",
+    "statusCode": 500
+  },
+  "SY003": {
+    "description": "System error",
+    "message": "Cache error: cache key is not found",
+    "code": "SY003",
+    "statusCode": 500
+  },
+  "SY004": {
+    "description": "System error",
+    "message": "Failed to upload document",
+    "code": "SY004",
+    "statusCode": 500
+  },
+  "SY404": {
+    "description": "Resource not found",
+    "message": "Resource not found",
+    "code": "SY404",
+    "statusCode": 404
+  },
+  "SY405": {
+    "description": "Method is not supported",
+    "message": "Method is not supported",
+    "code": "SY405",
+    "statusCode": 405
+  },
+
+  "STU": "System task updater",
+
+  "STU00": {
+    "description": "Blocked",
+    "message": "[SPU00] Invalid request",
+    "code": "STU00",
+    "statusCode": 403
+  }
+}

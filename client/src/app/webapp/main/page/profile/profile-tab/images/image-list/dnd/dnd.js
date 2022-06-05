@@ -11,14 +11,17 @@ const Dnd = (props) => {
     } = useContext(GlobalContext)
 
     /* Locale Variables */
-    const [file, setFile] = useState(null)
-    const [fileTypes] = useState(["JPG", "PNG", "GIF"])
-    const [loading, setLoading] = useState(false)
-    const [generalErrorMessage] = useState("Something went wrong, please try again")
     const [maxImageSize] = useState(() => {
         const image = globals.find(item => item.type === "images")
         return image.data.maxImageSize / 100000
     })
+    const [fileTypes] = useState(() => {
+        const image = globals.find(item => item.type === "images")
+        return image.data.fileTypes
+    })
+    const [file, setFile] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [generalErrorMessage] = useState("Something went wrong, please try again")
     const [error, setError] = useState({
         active: false,
         message: ""
@@ -97,7 +100,7 @@ const Dnd = (props) => {
     const onSizeError = (message) => {
         setError({
             active: true,
-            message: message
+            message
         })
     }
 

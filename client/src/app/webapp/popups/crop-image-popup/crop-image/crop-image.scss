@@ -2,8 +2,8 @@
 
 html {
     body {
-        .loading-container {
-            background-color: transparent;
+        #canvas {
+            border: 1px solid red;
         }
         .crop-image-container {
             width: 100%;
@@ -12,6 +12,9 @@ html {
             display: flex;
             align-items: center;
             justify-content: center;
+            > .loading-container {
+                background-color: transparent;
+            }
             > .crop-container {
                 height: 550px;
                 min-width: 500px;
@@ -22,11 +25,14 @@ html {
                 align-items: center;
                 border-radius: 3px;
                 position: relative;
+                overflow: hidden;
                 > .top-container {
                     height: 3rem;
                     width: 100%;
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    z-index: 2;
                     > .close-icon-container {
                         margin-left: auto;
                         margin-right: 1rem;
@@ -55,6 +61,20 @@ html {
                         }
                     }
                 }
+                > .error-container {
+                    width: 100%;
+                    height: 100%;
+                    background-color: $gray_color_08;
+                    position: absolute;
+                    z-index: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    > p {
+                        color: $warning_color_01;
+                    }
+                }
                 > .inner-crop-container {
                     height: calc(550px - 9rem);
                     max-height: calc(550px - 9rem);
@@ -66,12 +86,24 @@ html {
                         max-height: inherit;
                         border: 4px solid $gray_color_02;
                         border-radius: 3px;
+                        box-sizing: border-box;
                         > .ReactCrop__child-wrapper {
                             width: fit-content;
                             height: fit-content;
                             max-height: inherit;
+                            pointer-events: none;
                             > img {
 
+                            }
+                        }
+                        > .ReactCrop__crop-selection {
+                            border: 2px dashed $gray_color_08;
+                            > .ReactCrop__drag-elements {
+                                > .ReactCrop__drag-handle {
+                                    &:after {
+                                        background-color: $gray_color_08;
+                                    }
+                                }
                             }
                         }
                     }

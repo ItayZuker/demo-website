@@ -15,18 +15,16 @@ const GlobalModel = require("../models/global.model")
 require("dotenv").config()
 
 /* Router functions */
-const verifyFormDataUserToken = (res, token) => new Promise((resolve) => {
+const verifyFormDataUserToken = (token) => new Promise((resolve, reject) => {
     if (token) {
         const secretKey = process.env.ACCESS_TOKEN_SECRET
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.status(400).send(err)
+                reject(err)
             } else if (decodedUser.email) {
                 resolve(decodedUser.email)
             } else {
-                res.status(405).json({
-                    message: "Token was not validated"
-                })
+                reject(new Error("Token was not validated"))
             }
         })
     } else {
@@ -43,21 +41,20 @@ const verifyToken = (req, res, next) => {
         const secretKey = process.env.ACCESS_TOKEN_SECRET
         jwt.verify(token, secretKey, {}, (err, decodedUser) => {
             if (err) {
-                res.status(400).send(err)
+                res.status(err.status).send(err.message)
             } else if (decodedUser.email) {
                 req.email = decodedUser.email
                 next()
             } else {
-                res.status(403).send({
-                    success: false,
-                    message: "Forbidden: Token was bad"
+                res.status(400).send({
+                    message: "Token was not validated"
                 })
             }
         })
     }
 }
 
-const getUser = (res, email) => new Promise((resolve) => {
+const getUser = (email) => new Promise((resolve, reject) => {
     UserModel
         .findOne(
             { email },
@@ -65,19 +62,17 @@ const getUser = (res, email) => new Promise((resolve) => {
             {},
             (err, user) => {
                 if (err) {
-                    res.status(400).send(err)
+                    reject(err)
                 } else if (user) {
                     resolve(user)
                 } else {
-                    res.status(404).json({
-                        message: "User was not found"
-                    })
+                    reject(new Error("User was not found"))
                 }
             }
         )
 })
 
-const updateUserImageCrop = (res, userEmail, keys) => new Promise((resolve, reject) => {
+const updateUserImageCrop = (userEmail, keys) => new Promise((resolve, reject) => {
     UserModel
         .findOneAndUpdate(
             {
@@ -96,7 +91,7 @@ const updateUserImageCrop = (res, userEmail, keys) => new Promise((resolve, reje
         )
 })
 
-const addUserImage = (res, userEmail, keys) => new Promise((resolve, reject) => {
+const addUserImage = (userEmail, keys) => new Promise((resolve, reject) => {
     UserModel
         .findOneAndUpdate(
             { email: userEmail },
@@ -122,13 +117,13 @@ const addUserImage = (res, userEmail, keys) => new Promise((resolve, reject) => 
         )
 })
 
-const getGlobalImages = (res) => new Promise((resolve) => {
+const getGlobalImages = () => new Promise((resolve, reject) => {
     GlobalModel
         .findOne(
             { type: "images" },
             (err, docs) => {
                 if (err) {
-                    res.status(400).send(err)
+                    reject(err)
                 } else {
                     resolve(docs.data)
                 }
@@ -170,47 +165,7 @@ const getDimensions = (file, size) => {
     return { width: Number(size.x), height: Number(size.y) }
 }
 
-const getSmall = (res, file, size) => new Promise((resolve, reject) => {
-    const name = `${uuidv4()}.webp`
-    const path = `images/${name}`
-    sharp(file.path)
-        .resize(Number(size.x), Number(size.y))
-        .toFile(
-            path,
-            (err) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve({
-                        name,
-                        path
-                    })
-                }
-            }
-        )
-})
-
-const getMedium = (res, file, size) => new Promise((resolve) => {
-    const name = `${uuidv4()}.webp`
-    const path = `images/${name}`
-    sharp(file.path)
-        .resize(Number(size.x), Number(size.y))
-        .toFile(
-            path,
-            (err) => {
-                if (err) {
-                    res.status(400).send(err)
-                } else {
-                    resolve({
-                        name,
-                        path
-                    })
-                }
-            }
-        )
-})
-
-const getLarge = (res, file, size) => new Promise((resolve) => {
+const getImageSize = (file, size) => new Promise((resolve, reject) => {
     const dimensions = getDimensions(file, size)
     const name = `${uuidv4()}.webp`
     const path = `images/${name}`
@@ -228,7 +183,7 @@ const getLarge = (res, file, size) => new Promise((resolve) => {
             path,
             (err) => {
                 if (err) {
-                    res.status(400).send(err)
+                    reject(err)
                 } else {
                     resolve({
                         name,
@@ -239,10 +194,10 @@ const getLarge = (res, file, size) => new Promise((resolve) => {
         )
 })
 
-const getImages = async (res, file, globalImages) => {
-    const small = await getSmall(res, file, globalImages.sizes.small)
-    const medium = await getMedium(res, file, globalImages.sizes.medium)
-    const large = await getLarge(res, file, globalImages.sizes.large)
+const getImages = async (file, globalImages) => {
+    const small = await getImageSize(file, globalImages.sizes.small)
+    const medium = await getImageSize(file, globalImages.sizes.medium)
+    const large = await getImageSize(file, globalImages.sizes.large)
     return {
         small,
         medium,
@@ -250,30 +205,26 @@ const getImages = async (res, file, globalImages) => {
     }
 }
 
-const getCropImages = async (res, file, globalImages) => {
-    const small = await getSmall(res, file, globalImages.sizes.small)
-    const medium = await getMedium(res, file, globalImages.sizes.medium)
+const getCropImages = async (file, globalImages) => {
+    const small = await getImageSize(file, globalImages.sizes.small)
+    const medium = await getImageSize(file, globalImages.sizes.medium)
     return {
         small,
         medium
     }
 }
 
-const imageMaxValidation = (res, user, imageMax) => new Promise((resolve) => {
+const imageMaxValidation = (user, imageMax) => new Promise((resolve, reject) => {
     if (user.images.length >= imageMax) {
-        res.status(405).json({
-            message: `Not Allowed: Max image quantity is ${imageMax}`
-        })
+        reject(new Error(`Not Allowed: Max image quantity is ${imageMax}`))
     } else {
         resolve()
     }
 })
 
-const imageSizeValidation = (res, imageSize, maxImageSize) => new Promise((resolve) => {
+const imageSizeValidation = (imageSize, maxImageSize) => new Promise((resolve, reject) => {
     if (imageSize > maxImageSize) {
-        res.status(405).json({
-            message: `Not Allowed: Image is bigger than ${maxImageSize}Bits`
-        })
+        reject(new Error(`Not Allowed: Image is bigger than ${maxImageSize}Bits`))
     } else {
         resolve()
     }
@@ -335,10 +286,10 @@ router.delete("/delete-image", verifyToken, async (req, res) => {
                     if (err) {
                         res.status(400).send(err)
                     } else {
-                        deleteFile(res, req.body.image.originalKey)
-                        deleteFile(res, req.body.image.smallKey)
-                        deleteFile(res, req.body.image.mediumKey)
-                        deleteFile(res, req.body.image.largeKey)
+                        deleteFile(req.body.image.originalKey)
+                        deleteFile(req.body.image.smallKey)
+                        deleteFile(req.body.image.mediumKey)
+                        deleteFile(req.body.image.largeKey)
                         res.status(200).json({
                             images: docs.images || []
                         })
@@ -375,16 +326,16 @@ router.put("/rearrange", verifyToken, async (req, res) => {
 router.put("/crop-image", upload.single("image"), async (req, res) => {
     try {
         const imageIndex = Number(req.body.imageIndex)
-        const userEmail = await verifyFormDataUserToken(res, req.body.token)
-        const user = await getUser(res, userEmail)
-        const globalImages = await getGlobalImages(res)
-        await imageSizeValidation(res, req.file.size, globalImages.maxImageSize)
-        const cropSizes = await getCropImages(res, req.file, globalImages)
-        await deleteFile(res, user.images[imageIndex].smallKey)
-        await deleteFile(res, user.images[imageIndex].mediumKey)
-        const smallKey = await uploadFile(res, cropSizes.small.path, cropSizes.small.name)
-        const mediumKey = await uploadFile(res, cropSizes.medium.path, cropSizes.medium.name)
-        const docs = await updateUserImageCrop(res, userEmail, {
+        const userEmail = await verifyFormDataUserToken(req.body.token)
+        const user = await getUser(userEmail)
+        const globalImages = await getGlobalImages()
+        await imageSizeValidation(req.file.size, globalImages.maxImageSize)
+        const cropSizes = await getCropImages(req.file, globalImages)
+        await deleteFile(user.images[imageIndex].smallKey)
+        await deleteFile(user.images[imageIndex].mediumKey)
+        const smallKey = await uploadFile(cropSizes.small.path, cropSizes.small.name)
+        const mediumKey = await uploadFile(cropSizes.medium.path, cropSizes.medium.name)
+        const docs = await updateUserImageCrop(userEmail, {
             smallKey, mediumKey, originalKey: user.images[imageIndex].originalKey
         })
         res.status(201).json({
@@ -398,17 +349,17 @@ router.put("/crop-image", upload.single("image"), async (req, res) => {
 
 router.post("/upload", upload.single("image"), async (req, res) => {
     try {
-        const userEmail = await verifyFormDataUserToken(res, req.body.token)
-        const user = await getUser(res, userEmail)
-        const globalImages = await getGlobalImages(res)
-        await imageMaxValidation(res, user, globalImages.maxImages)
-        await imageSizeValidation(res, req.file.size, globalImages.maxImageSize)
-        const sizes = await getImages(res, req.file, globalImages)
-        const originalKey = await uploadFile(res, req.file.path, req.file.filename)
-        const smallKey = await uploadFile(res, sizes.small.path, sizes.small.name)
-        const mediumKey = await uploadFile(res, sizes.medium.path, sizes.medium.name)
-        const largeKey = await uploadFile(res, sizes.large.path, sizes.large.name)
-        const docs = await addUserImage(res, userEmail, {
+        const userEmail = await verifyFormDataUserToken(req.body.token)
+        const user = await getUser(userEmail)
+        const globalImages = await getGlobalImages()
+        await imageMaxValidation(user, globalImages.maxImages)
+        await imageSizeValidation(req.file.size, globalImages.maxImageSize)
+        const sizes = await getImages(req.file, globalImages)
+        const originalKey = await uploadFile(req.file.path, req.file.filename)
+        const smallKey = await uploadFile(sizes.small.path, sizes.small.name)
+        const mediumKey = await uploadFile(sizes.medium.path, sizes.medium.name)
+        const largeKey = await uploadFile(sizes.large.path, sizes.large.name)
+        const docs = await addUserImage(userEmail, {
             originalKey, smallKey, mediumKey, largeKey
         })
         res.status(201).json({

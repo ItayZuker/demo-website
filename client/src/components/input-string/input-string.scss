@@ -10,7 +10,7 @@ html {
             position: relative;
             &.loading {
                 pointer-events: none;
-
+                opacity: 0.5;
             }
             > p.input-string {
                 border-radius: 3px;
@@ -27,7 +27,6 @@ html {
                     outline: none;
                     color: $gray_color_04;
                 }
-
             }
         }
     }

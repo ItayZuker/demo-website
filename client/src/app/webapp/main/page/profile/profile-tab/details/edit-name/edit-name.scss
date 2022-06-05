@@ -18,11 +18,14 @@ html {
             }
             > .input-container {
                 margin: 1rem 0;
-                > .input-string-container {
-                    > .character-counter-container {
-                        position: absolute;
-                        right: 1rem;
-                    }
+                position: relative;
+                > .character-counter-container {
+                    position: absolute;
+                    right: 1rem;
+                    top: 0;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
                 }
             }
         }

@@ -14,7 +14,7 @@ const s3 = new S3({
 })
 
 // eslint-disable-next-line
-const uploadFile = (res, filePath, fileName) => new Promise((resolve, reject) => {
+const uploadFile = (filePath, fileName) => new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(filePath)
 
     const params = {
@@ -43,7 +43,7 @@ const getFileStream = (key) => {
     return s3.getObject(params).createReadStream()
 }
 
-const deleteFile = (res, fileKey) => new Promise((resolve, reject) => {
+const deleteFile = (fileKey) => new Promise((resolve, reject) => {
     const params = {
         Bucket: bucketName,
         Key: fileKey
