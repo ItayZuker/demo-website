@@ -80,6 +80,7 @@ const Dnd = (props) => {
     const uploadFile = async (file) => {
         try {
             if (file) {
+                console.log(file)
                 setLoading(true)
                 const token = window.localStorage.getItem("token")
                 const formData = new FormData()
