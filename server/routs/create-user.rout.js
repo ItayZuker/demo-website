@@ -77,7 +77,7 @@ const validateEmail = (res, emailString) => new Promise((resolve) => {
     }
 })
 
-const sendPassword = (email, password) => new Promise((resolve) => {
+const sendPassword = (email, password) => new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport({
         service: process.env.NODE_MAILER_SERVICE,
         auth: {
@@ -93,7 +93,7 @@ const sendPassword = (email, password) => new Promise((resolve) => {
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            resolve({ status: false, err })
+            reject(err)
         } else {
             // eslint-disable-next-line no-console
             console.log(`Email sent: ${info.response}`)

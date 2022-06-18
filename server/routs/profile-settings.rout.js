@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken")
 // const validator = require("email-validator")
 // const nodemailer = require("nodemailer")
 const UserModel = require("../models/user.model")
+const InvitationModel = require("../models/invitation.model")
+const { deleteFile } = require("../s3")
 require("dotenv").config()
 
 /* Router Functions */
@@ -30,8 +32,21 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-/* Profile Settings Routs */
+const deleteAllUserInvitations = (userEmail) => {
+    InvitationModel
+        .deleteMany({ email: userEmail }).exec()
+}
 
+const deleteAllUserImages = (userImages) => {
+    userImages.forEach((image) => {
+        deleteFile(image.originalKey)
+        deleteFile(image.smallKey)
+        deleteFile(image.mediumKey)
+        deleteFile(image.largeKey)
+    })
+}
+
+/* Profile Settings Routs */
 router.delete("/delete-account", verifyToken, async (req, res) => {
     try {
         /* Find user in DB, and delete */
@@ -39,10 +54,12 @@ router.delete("/delete-account", verifyToken, async (req, res) => {
             .findOneAndDelete(
                 { email: req.email },
                 {},
-                async (err, user) => {
+                async (err, docs) => {
                     if (err) {
-                        res.send(err)
-                    } else if (user) {
+                        res.status(400).send(err.message)
+                    } else if (docs) {
+                        deleteAllUserInvitations(docs.email)
+                        deleteAllUserImages(docs.images)
                         res.status(200).json({
                             deleted: true,
                             message: "User deleted"
@@ -56,7 +73,7 @@ router.delete("/delete-account", verifyToken, async (req, res) => {
                 }
             )
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err.message)
     }
 })
 
@@ -70,7 +87,7 @@ router.put("/logout", verifyToken, async (req, res) => {
                 {},
                 async (err, docs) => {
                     if (err) {
-                        res.send(err)
+                        res.status(400).send(err.message)
                     } else if (docs) {
                         res.status(200).json({
                             user: true,
@@ -87,7 +104,7 @@ router.put("/logout", verifyToken, async (req, res) => {
                 }
             )
     } catch (err) {
-        res.send(err)
+        res.status(400).send(err.message)
     }
 })
 

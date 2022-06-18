@@ -65,6 +65,7 @@ const validateEmail = (res, emailString) => new Promise((resolve) => {
 const sendPassword = (email, password) => new Promise((resolve) => {
     const transporter = nodemailer.createTransport({
         service: process.env.NODE_MAILER_SERVICE,
+        secure: true,
         auth: {
             user: process.env.NODE_MAILER_USER,
             pass: process.env.NODE_MAILER_PASS
